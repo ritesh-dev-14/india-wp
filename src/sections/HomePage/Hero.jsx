@@ -27,11 +27,11 @@ const rowOnePartners = [
 ];
 
 const rowTwoPartners = [
-  { name: "Jaquar", path: "/partnerships/jaquar.jpg" },
+  { name: "Jaquar", path: "/partnerships/jaquar.png" },
   { name: "Hettich", path: "/partnerships/hettich.webp" },
   { name: "Voltas", path: "/partnerships/voltas.webp" },
   { name: "Clarins", path: "/partnerships/clarins.svg" },
-  { name: "Grohe", path: "/partnerships/grohe.webp" },
+  // { name: "Grohe", path: "/partnerships/grohe.webp" },
   { name: "Lapinoz", path: "/partnerships/lapinoz.webp" },
 ];
 
@@ -48,7 +48,7 @@ const PartnerLogo = ({ id, partner, hoveredId, onHover, onLeave }) => {
       onMouseLeave={onLeave}
       className={`group relative flex h-28 w-56 shrink-0 items-center justify-center border px-8 transition-all duration-500 ease-out ${
         isActive
-          ? "z-10 scale-105 border-[#CCFF00] bg-white/[0.06] shadow-[0_0_30px_rgba(204,255,0,0.15)]"
+          ? "z-10 scale-105 border-white bg-white/[0.06] shadow-[0_0_30px_rgba(255,255,255,0.15)]"
           : isDimmed
           ? "scale-95 border-white/5 bg-white/[0.01] opacity-30"
           : "border-white/10 bg-white/[0.02] opacity-100"
@@ -57,18 +57,18 @@ const PartnerLogo = ({ id, partner, hoveredId, onHover, onLeave }) => {
       <img
         src={partner.path}
         alt={partner.name}
-        className={`max-h-8 w-auto object-contain transition-all duration-500 ease-out ${
+        className={`max-h-18 w-auto object-contain transition-all duration-500 ease-out ${
           isActive ? "scale-110 opacity-100 grayscale-0" : "opacity-100  contrast-200"
         }`}
       />
       <div
         className={`absolute top-0 right-0 w-2 h-2 border-t border-r transition-colors duration-500 ${
-          isActive ? "border-[#CCFF00]" : "border-white/30"
+          isActive ? "border-white" : "border-white/30"
         }`}
       />
       <div
         className={`absolute bottom-0 left-0 w-2 h-2 border-b border-l transition-colors duration-500 ${
-          isActive ? "border-[#CCFF00]" : "border-white/30"
+          isActive ? "border-white" : "border-white/30"
         }`}
       />
     </div>
@@ -140,14 +140,14 @@ const Hero = () => {
   return (
     <div
       onMouseMove={handleMouseMove}
-      className={`relative w-full bg-[#000000] selection:bg-[#CCFF00] selection:text-black overflow-x-hidden font-sans text-white ${
+      className={`relative w-full bg-[#000000] selection:bg-white selection:text-black overflow-x-hidden font-sans text-white ${
         !isTouch ? "lg:cursor-none" : ""
       }`}
     >
       {/* ================= SCROLL PROGRESS ================= */}
       <motion.div
         style={{ scaleX: progressBar }}
-        className="fixed left-0 top-0 z-[60] h-[2px] w-full origin-left bg-[#CCFF00]"
+        className="fixed left-0 top-0 z-[60] h-[2px] w-full origin-left bg-white"
       />
 
       {/* ================= CUSTOM CURSOR (desktop only) ================= */}
@@ -157,7 +157,7 @@ const Hero = () => {
           style={{ x: cursorXSpring, y: cursorYSpring }}
           animate={{
             scale: cursorHover ? 2.4 : 1,
-            backgroundColor: cursorHover ? "#CCFF00" : "#ffffff",
+            backgroundColor: cursorHover ? "#ffffff" : "#ffffff",
           }}
           transition={{ duration: 0.25, ease: customEase }}
           className="pointer-events-none fixed left-0 top-0 z-[70] hidden h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full mix-blend-difference lg:block"
@@ -225,7 +225,7 @@ const Hero = () => {
                     initial={{ scaleX: 0 }}
                     animate={{ scaleX: 1 }}
                     transition={{ duration: 1, delay: 0.6, ease: customEase }}
-                    className="h-[3px] w-12 bg-[#CCFF00] sm:w-24 origin-left"
+                    className="h-[3px] w-12 bg-white sm:w-24 origin-left"
                   />
                   <motion.h1
                     initial={{ y: "120%", opacity: 0 }}
@@ -240,7 +240,7 @@ const Hero = () => {
                     initial={{ scaleX: 0 }}
                     animate={{ scaleX: 1 }}
                     transition={{ duration: 1, delay: 0.6, ease: customEase }}
-                    className="h-[3px] w-12 bg-[#CCFF00] sm:w-24 origin-right"
+                    className="h-[3px] w-12 bg-white sm:w-24 origin-right"
                   />
                 </motion.div>
               </div>
@@ -278,7 +278,7 @@ const Hero = () => {
         >
           <button
             {...magnetic}
-            className="group relative flex w-fit items-center gap-4 overflow-hidden bg-white px-8 py-5 text-xs font-bold uppercase tracking-[0.3em] text-black transition-all duration-500 hover:bg-[#CCFF00] hover:shadow-[0_0_40px_rgba(204,255,0,0.4)]"
+            className="group relative flex w-fit items-center gap-4 overflow-hidden bg-white px-8 py-5 text-xs font-bold uppercase tracking-[0.3em] text-black transition-all duration-500 hover:bg-white hover:shadow-[0_0_40px_rgba(255,255,255,0.4)]"
           >
             <span className="relative z-10 flex items-center gap-3">
               Start Project
@@ -293,7 +293,7 @@ const Hero = () => {
             {...magnetic}
             className="group flex w-fit items-center gap-4 pl-2 text-xs font-semibold uppercase tracking-[0.3em] text-white/60 transition-all duration-500 hover:text-white"
           >
-            <div className="relative flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-black/50 backdrop-blur-md transition-all duration-500 group-hover:border-[#CCFF00] group-hover:scale-110">
+            <div className="relative flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-black/50 backdrop-blur-md transition-all duration-500 group-hover:border-white group-hover:scale-110">
               <Play size={14} className="ml-0.5 text-white transition-transform duration-500 group-hover:scale-110" />
             </div>
             Showreel '26
@@ -308,7 +308,7 @@ const Hero = () => {
           className="absolute bottom-10 left-8 z-30 lg:left-16"
         >
           <div className="flex items-center gap-3">
-            <div className="h-2 w-2 rounded-full bg-[#CCFF00] animate-pulse" />
+            <div className="h-2 w-2 rounded-full bg-white animate-pulse" />
             <p className="text-[10px] uppercase tracking-[0.4em] text-white/50 font-mono">
               AWWWARDS SOTD CONTENDER // 2026 EDITION
             </p>
@@ -327,14 +327,14 @@ const Hero = () => {
             <motion.div
               animate={prefersReducedMotion ? {} : { y: ["-100%", "200%"] }}
               transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-              className="absolute inset-0 w-full bg-[#CCFF00]"
+              className="absolute inset-0 w-full bg-white"
             />
           </div>
         </motion.div>
       </section>
 
       {/* ================= CONTRAST MANIFESTO BAND ================= */}
-      <section className="relative z-20 border-y border-black bg-[#CCFF00] py-6 overflow-hidden">
+      <section className="relative z-20 border-y border-black bg-white/5 backdrop-blur-md py-6 overflow-hidden">
         <div className="flex w-full overflow-hidden">
           <motion.div
             className="flex shrink-0 items-center whitespace-nowrap"
@@ -344,7 +344,7 @@ const Hero = () => {
             {[0, 1].map((rep) => (
               <p
                 key={rep}
-                className="pr-0 text-3xl font-medium italic text-black sm:text-5xl"
+                className="pr-0 text-3xl font-medium italic text-white sm:text-5xl"
                 style={{ fontFamily: SERIF }}
               >
                 {manifestoLine.repeat(2)}
@@ -357,16 +357,16 @@ const Hero = () => {
       {/* ================= HIGH-CONTRAST DUAL MARQUEE SECTION ================= */}
       <section ref={nextSectionRef} className="relative z-20 py-32 border-t border-white/10 bg-[#000000] overflow-hidden">
         {/* Acid Green Ambient Mesh Glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[250px] bg-[#CCFF00]/5 blur-[150px] pointer-events-none rounded-full" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[250px] bg-white/5 blur-[150px] pointer-events-none rounded-full" />
 
         <div className="max-w-7xl mx-auto px-8 lg:px-16 mb-20 flex flex-col md:flex-row md:items-end justify-between gap-8">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded border border-[#CCFF00]/30 bg-[#CCFF00]/5 mb-6 font-mono text-[10px] uppercase tracking-[0.3em] text-[#CCFF00]">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded border border-white/30 bg-white/5 mb-6 font-mono text-[10px] uppercase tracking-[0.3em] text-white">
               [ CLIENT ROSTER — 12 ACTIVE ]
             </div>
             <h2 className="text-4xl sm:text-7xl font-light tracking-tighter text-white uppercase leading-none">
               SELECTED <br />
-              <span className="font-black text-[#CCFF00]">PARTNERSHIPS.</span>
+              <span className="font-black text-white">PARTNERSHIPS.</span>
             </h2>
           </div>
           <div className="border-l border-white/20 pl-6 max-w-xs">
