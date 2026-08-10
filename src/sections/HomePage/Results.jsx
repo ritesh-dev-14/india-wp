@@ -1,314 +1,234 @@
 "use client";
 
-/**
- * Results.jsx
- * ---------------------------------------------------------------
- * Awwwards-level minimal editorial section for We Promote India.
- *
- * DESIGN CONCEPT
- * Follows "The We Promote Difference" to provide simple, credible proof.
- * Uses a Swiss editorial layout with massive typography, thin horizontal 
- * rules, staggered GSAP ScrollTrigger number/counter reveals, and subtle hover interactions.
- *
- * Stack: React + Tailwind CSS + GSAP (core + ScrollTrigger)
- * Install: npm i gsap
- * ---------------------------------------------------------------
- */
+import { useEffect, useRef, useState } from "react";
+import { ArrowUpRight } from "lucide-react";
+import {
+  AnimatePresence,
+  motion,
+  useReducedMotion,
+  useInView,
+} from "framer-motion";
 
-import React, { useLayoutEffect, useRef, useState } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
-
-/* ============================================================
-   RESULTS DATA
-============================================================ */
+const SERIF = "'Instrument Serif', 'Times New Roman', ui-serif, Georgia, serif";
+const EASE = [0.76, 0, 0.24, 1];
+const SPRING = { type: "spring", stiffness: 380, damping: 32 };
 
 const RESULTS = [
   {
-    number: "50+",
-    numericValue: 50,
+    number: 50,
     suffix: "+",
     label: "BRANDS",
     description: "Partners and companies elevated through strategic design and execution.",
   },
   {
-    number: "100+",
-    numericValue: 100,
+    number: 100,
     suffix: "+",
     label: "PROJECTS",
     description: "Digital platforms, campaigns, and experiences shipped globally.",
   },
   {
-    number: "12+",
-    numericValue: 12,
+    number: 12,
     suffix: "+",
     label: "INDUSTRIES",
     description: "From luxury e-commerce and fintech to deep tech and hospitality.",
   },
   {
-    number: "3+",
-    numericValue: 3,
+    number: 3,
     suffix: "+",
     label: "YEARS",
     description: "Of relentless pursuit of digital excellence and craft.",
   },
   {
-    number: "∞",
-    numericValue: null,
+    number: null,
     suffix: "",
+    displayValue: "∞",
     label: "IDEAS",
     description: "Uncompromised imagination built to move businesses forward.",
   },
 ];
 
-/* ============================================================
-   ROOT COMPONENT
-============================================================ */
+function AnimatedCounter({ value, suffix, prefersReducedMotion }) {
+  const [displayValue, setDisplayValue] = useState(0);
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
 
-export default function Results() {
-  const sectionRef = useRef(null);
-  const introRef = useRef(null);
-  const itemsRef = useRef([]);
-  const reduceMotionRef = useRef(false);
+  useEffect(() => {
+    if (value === null || prefersReducedMotion || !isInView) {
+      if (value === null) setDisplayValue("∞");
+      return;
+    }
 
-  useLayoutEffect(() => {
-    reduceMotionRef.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduceMotionRef.current) return;
+    let start = 0;
+    const duration = 1200;
+    const startTime = performance.now();
 
-    const ctx = gsap.context(() => {
-      const section = sectionRef.current;
-      const intro = introRef.current;
+    const update = (now) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(1, elapsed / duration);
+      // Ease out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = Math.floor(eased * value);
 
-      // Intro animation
-      gsap.fromTo(
-        intro.querySelectorAll("[data-intro-animate]"),
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          stagger: 0.12,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: intro,
-            start: "top 80%",
-            toggleActions: "play none none none",
-          },
-        }
-      );
+      setDisplayValue(current);
 
-      // Result items sequence animation
-      itemsRef.current.forEach((el) => {
-        if (!el) return;
-        const numberEl = el.querySelector("[data-result-number]");
-        const numericVal = el.getAttribute("data-numeric-value");
-        const suffix = el.getAttribute("data-suffix") || "";
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      }
+    };
 
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: el,
-            start: "top 85%",
-            toggleActions: "play none none none",
-          },
-        });
-
-        // Entrance animation for the entire item block
-        tl.fromTo(
-          el,
-          { opacity: 0, y: 40 },
-          { opacity: 1, y: 0, duration: 1, ease: "power3.out" }
-        );
-
-        // Counter animation if numeric
-        if (numericVal !== "null" && numberEl) {
-          const targetNum = parseInt(numericVal, 10);
-          const obj = { val: 0 };
-
-          tl.to(
-            obj,
-            {
-              val: targetNum,
-              duration: 1.5,
-              ease: "power3.out",
-              onUpdate: () => {
-                numberEl.textContent = Math.floor(obj.val) + suffix;
-              },
-            },
-            0
-          );
-        }
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
+    requestAnimationFrame(update);
+  }, [value, prefersReducedMotion, isInView]);
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative bg-[#080808] text-[#F5F5F5] py-[140px] md:py-[180px] px-[6vw] overflow-hidden selection:bg-white/20"
+    <span ref={ref}>
+      {value === null ? "∞" : displayValue}
+      {suffix}
+    </span>
+  );
+}
+
+function ResultItem({ item, index, isHovered, onHover, prefersReducedMotion }) {
+  const isEven = index % 2 === 0;
+
+  return (
+    <motion.div
+      layout
+      onMouseEnter={() => onHover(index)}
+      onMouseLeave={() => onHover(null)}
+      className="group relative border-t border-border/80 py-8 md:py-12 cursor-pointer transition-colors duration-300"
     >
-      <div className="mx-auto max-w-[1400px] w-full">
-        
-        {/* ============================================================
-           RESULTS INTRO (Desktop: Left-aligned split / Mobile: Stacked)
-        ============================================================ */}
-        <div ref={introRef} className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 mb-24 md:mb-32 items-end">
+      {isHovered && (
+        <motion.span
+          layoutId="result-active-bg"
+          className="absolute inset-0 bg-ink/[0.03]"
+          transition={SPRING}
+        />
+      )}
+      
+      <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+        <div className={`lg:col-span-7 flex items-baseline gap-4 md:gap-8 ${isEven ? "" : "lg:order-2 lg:justify-end"}`}>
+          <span className="font-mono text-[10px] tracking-[0.2em] text-ink-secondary">
+            0{index + 1}
+          </span>
           
-          <div className="lg:col-span-7">
-            {/* Eyebrow */}
-            <span
-              data-intro-animate
-              className="inline-flex items-center gap-3 text-[11px] font-mono tracking-[0.32em] uppercase text-[#8A8A8A] mb-6"
+          <motion.div
+            animate={{ y: isHovered ? -4 : 0 }}
+            transition={SPRING}
+          >
+            <span className="font-bold tracking-[-0.05em] text-[clamp(4.5rem,9vw,9rem)] leading-none text-ink block select-none">
+              <AnimatedCounter
+                value={item.number}
+                suffix={item.suffix}
+                prefersReducedMotion={prefersReducedMotion}
+              />
+            </span>
+          </motion.div>
+        </div>
+
+        <div className={`lg:col-span-5 flex flex-col justify-center ${isEven ? "" : "lg:order-1"}`}>
+          <div className="flex items-center justify-between mb-2">
+            <motion.span
+              animate={{ color: isHovered ? "#1C1917" : "#A8A29E" }}
+              className="font-mono text-[10px] md:text-[11px] tracking-[0.2em] uppercase"
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-white/60"></span>
+              {item.label}
+            </motion.span>
+
+            <motion.span
+              animate={{
+                opacity: isHovered ? 1 : 0,
+                x: isHovered ? 0 : -6,
+              }}
+              className="font-mono text-xs text-ink"
+            >
+              <ArrowUpRight size={13} />
+            </motion.span>
+          </div>
+
+          <p className="text-[13px] md:text-[14px] font-light leading-relaxed text-ink-secondary max-w-[34ch]">
+            {item.description}
+          </p>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+export default function Results() {
+  const prefersReducedMotion = useReducedMotion();
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+
+  return (
+    <section className="relative bg-white text-ink py-16 md:py-20 px-[6vw] overflow-hidden selection:bg-indigo-100/20">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_50%_35%_at_15%_80%,rgba(38,58,120,0.1),transparent_70%)]" />
+
+      <div className="mx-auto max-w-[1400px] w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 mb-10 md:mb-14 items-end">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-5% 0px" }}
+            transition={{ duration: 0.75, ease: EASE }}
+            className="lg:col-span-7"
+          >
+            <span className="inline-flex items-center gap-2.5 font-mono text-[10px] tracking-[0.3em] uppercase text-ink-secondary mb-3">
+              <span className="w-1.5 h-1.5 rounded-full bg-ink/70"></span>
               06 / RESULTS
             </span>
 
-            {/* Main Heading */}
-            <h2
-              data-intro-animate
-              className="font-semibold leading-[0.94] tracking-tight text-[clamp(48px,7vw,100px)] text-[#F5F5F5]"
-            >
+            <h2 className="font-semibold leading-[0.94] tracking-tight text-[clamp(2.4rem,5vw,4.5rem)] text-ink">
               Results,
               <br />
-              not just
-              <br />
-              deliverables.
+              <span
+                className="text-ink/80 font-normal"
+                style={{ fontFamily: SERIF, fontStyle: "italic" }}
+              >
+                not just deliverables.
+              </span>
             </h2>
-          </div>
+          </motion.div>
 
-          <div className="lg:col-span-5 pb-2">
-            <p
-              data-intro-animate
-              className="text-[18px] md:text-[20px] font-light leading-relaxed text-[#8A8A8A] max-w-[36ch]"
-            >
+          <motion.div
+            initial={{ opacity: 0, x: 16 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.65, delay: 0.1, ease: EASE }}
+            className="lg:col-span-5 pb-1"
+          >
+            <p className="text-[14px] md:text-[15px] font-light leading-relaxed text-ink-secondary max-w-[36ch]">
               &ldquo;We measure success by what happens after the work goes live.&rdquo;
             </p>
-          </div>
-
+          </motion.div>
         </div>
 
-        {/* ============================================================
-           RESULTS EDITORIAL GRID
-        ============================================================ */}
         <div className="flex flex-col">
           {RESULTS.map((item, index) => (
             <ResultItem
               key={item.label}
               item={item}
               index={index}
-              ref={(el) => (itemsRef.current[index] = el)}
+              isHovered={hoveredIndex === index}
+              onHover={setHoveredIndex}
+              prefersReducedMotion={prefersReducedMotion}
             />
           ))}
         </div>
 
-        {/* ============================================================
-           CLOSING SUBTLE STATEMENT
-        ============================================================ */}
-        <div className="mt-28 md:mt-36 pt-12 border-t border-white/[0.08] flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-          <span className="font-mono text-[11px] tracking-[0.25em] text-[#666] uppercase">
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, ease: EASE }}
+          className="mt-14 md:mt-18 pt-8 border-t border-border/80 flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
+        >
+          <span className="font-mono text-[10px] tracking-[0.22em] text-ink-secondary uppercase">
             WE PROMOTE INDIA — PROOF OF IMPACT
           </span>
-          <p className="text-[15px] font-light text-[#8A8A8A]">
+          <p className="text-[13px] md:text-[14px] font-light text-ink-secondary">
             Numbers tell part of the story. The work tells the rest.
           </p>
-        </div>
-
+        </motion.div>
       </div>
     </section>
   );
 }
-
-/* ============================================================
-   INDIVIDUAL RESULT ITEM COMPONENT
-============================================================ */
-
-const ResultItem = React.forwardRef(({ item, index }, ref) => {
-  const [isHovered, setIsHovered] = useState(false);
-
-  // Alternate layout alignment for Awwwards editorial rhythm
-  // Even items push label/description to the right side on desktop
-  const isEven = index % 2 === 0;
-
-  return (
-    <div
-      ref={ref}
-      data-numeric-value={item.numericValue !== null ? item.numericValue : "null"}
-      data-suffix={item.suffix}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      className="group relative border-t border-white/[0.12] py-12 md:py-16 transition-colors duration-300"
-    >
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-        
-        {/* NUMBER COLUMN */}
-        <div className={`lg:col-span-7 flex items-baseline gap-6 md:gap-12 ${isEven ? "" : "lg:order-2 lg:justify-end"}`}>
-          <span className="font-mono text-[13px] tracking-[0.2em] text-[#666]">
-            0{index + 1}
-          </span>
-          
-          <div
-            className="transition-transform duration-500 ease-out"
-            style={{
-              transform: isHovered ? "translateY(-6px)" : "translateY(0px)",
-            }}
-          >
-            <span
-              data-result-number
-              className="font-bold tracking-[-0.06em] text-[clamp(64px,11vw,160px)] leading-none text-[#F5F5F5] block select-none transition-colors duration-300 group-hover:text-white"
-            >
-              {item.number}
-            </span>
-          </div>
-        </div>
-
-        {/* LABEL & DESCRIPTION COLUMN */}
-        <div className={`lg:col-span-5 flex flex-col justify-center ${isEven ? "" : "lg:order-1"}`}>
-          <div className="flex items-center justify-between mb-3">
-            <span
-              className="font-mono text-[12px] md:text-[13px] tracking-[0.2em] uppercase transition-colors duration-300"
-              style={{
-                color: isHovered ? "#F5F5F5" : "#8A8A8A",
-              }}
-            >
-              {item.label}
-            </span>
-
-            {/* Hover arrow indicator */}
-            <span
-              className="font-mono text-sm text-white transition-all duration-300"
-              style={{
-                opacity: isHovered ? 1 : 0,
-                transform: isHovered ? "translateX(0px)" : "translateX(-10px)",
-              }}
-            >
-              →
-            </span>
-          </div>
-
-          <p className="text-[14px] md:text-[15px] font-light leading-relaxed text-[#737373] max-w-[34ch] transition-colors duration-300 group-hover:text-[#999]">
-            {item.description}
-          </p>
-        </div>
-
-      </div>
-
-      {/* Bottom subtle baseline highlight on hover */}
-      <div
-        className="absolute bottom-0 left-0 h-[1px] bg-white/20 transition-all duration-500 w-full"
-        style={{
-          opacity: isHovered ? 1 : 0.2,
-          transform: isHovered ? "scaleX(1)" : "scaleX(0.98)",
-          transformOrigin: "left",
-        }}
-      />
-    </div>
-  );
-});
-
-ResultItem.displayName = "ResultItem";

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ArrowRight } from "lucide-react";
-import logo from "../assets/logo.webp";
+import logo from "../assets/logo.png";
 
 const NAV_LINKS = [
   { label: "Work", path: "/work" },
@@ -58,7 +58,7 @@ export default function Navbar() {
             menuOpen
               ? "bg-transparent border-transparent" // Blends with mobile menu when open
               : scrolled
-              ? "bg-[#070707]/95 backdrop-blur-xl border-b border-white/[0.08]"
+              ? "bg-[#FAF8F5]/95 backdrop-blur-xl border-b border-[#E8E2D9]"
               : "bg-transparent" // Allows hero to show underneath
           }
         `}
@@ -66,7 +66,7 @@ export default function Navbar() {
         <div
           className={`
             mx-auto
-            max-w-[1600px]
+            max-w-[1400px]
             h-[76px]
             flex items-center justify-between
             transition-all duration-500
@@ -76,12 +76,12 @@ export default function Navbar() {
           {/* LOGO */}
           <Link
             to="/"
-            aria-label="We Promote — Home"
+            aria-label="SiteSparkOne — Home"
             className="relative z-[110] flex items-center shrink-0"
           >
             <img
               src={logo}
-              alt="We Promote"
+              alt="SiteSparkOne"
               className="h-8 md:h-9 w-auto object-contain"
             />
           </Link>
@@ -107,7 +107,7 @@ export default function Navbar() {
                     tracking-[0.16em]
                     uppercase
                     transition-colors duration-300
-                    ${active ? "text-white" : "text-white/50 hover:text-white"}
+                    ${active ? "text-[#1E1B18] font-bold" : "text-[#5C5346] hover:text-[#1E1B18]"}
                   `}
                 >
                   {item.label}
@@ -120,7 +120,7 @@ export default function Navbar() {
                       right-0
                       -bottom-1
                       h-px
-                      bg-white
+                      bg-[#E05A47]
                       transition-transform duration-300 origin-left
                       ${active ? "scale-x-100" : "scale-x-0"}
                     `}
@@ -140,20 +140,23 @@ export default function Navbar() {
                 items-center
                 gap-3
                 border
-                border-white/20
-                bg-white
+                border-[#E05A47]
+                bg-[#E05A47]
                 px-5
                 py-3
-                text-black
+                text-white
                 font-mono
                 text-[11px]
                 tracking-[0.14em]
                 uppercase
+                font-bold
                 transition-all
                 duration-300
                 hover:bg-transparent
-                hover:text-white
-                hover:border-white/40
+                hover:text-[#1E1B18]
+                hover:border-[#1E1B18]/40
+                shadow-md
+                shadow-[#E05A47]/15
               "
             >
               <span>Let's Talk</span>
@@ -182,7 +185,7 @@ export default function Navbar() {
               justify-center
               w-10
               h-10
-              text-white
+              text-[#1E1B18]
               focus:outline-none
             "
             aria-label={menuOpen ? "Close navigation" : "Open navigation"}
@@ -205,7 +208,7 @@ export default function Navbar() {
           fixed
           inset-0
           z-[90]
-          bg-[#070707]
+          bg-[#FAF8F5]
           lg:hidden
           transition-all
           duration-500
@@ -226,7 +229,8 @@ export default function Navbar() {
               text-[10px]
               tracking-[0.2em]
               uppercase
-              text-white/35
+              text-[#E05A47]
+              font-semibold
               transition-all
               duration-500
               ${
@@ -236,7 +240,7 @@ export default function Navbar() {
               }
             `}
           >
-            Navigation
+            Navigation // SiteSparkOne
           </div>
 
           {/* Links */}
@@ -251,9 +255,9 @@ export default function Navbar() {
                   items-center
                   justify-between
                   border-b
-                  border-white/[0.08]
+                  border-[#E8E2D9]
                   py-5
-                  text-white
+                  text-[#1E1B18]
                   transition-all
                   duration-500
                   ${
@@ -266,7 +270,7 @@ export default function Navbar() {
                   transitionDelay: menuOpen ? `${index * 60 + 100}ms` : "0ms",
                 }}
               >
-                <span className="text-[clamp(30px,8vw,48px)] font-medium tracking-[-0.04em]">
+                <span className="text-[clamp(30px,8vw,48px)] font-extrabold tracking-tight">
                   {item.label}
                 </span>
 
@@ -274,10 +278,10 @@ export default function Navbar() {
                   className="
                     w-5
                     h-5
-                    text-white/30
+                    text-[#8C8375]
                     transition-all
                     duration-300
-                    group-hover:text-white
+                    group-hover:text-[#E05A47]
                     group-hover:translate-x-1
                   "
                 />
@@ -307,14 +311,17 @@ export default function Navbar() {
                 items-center
                 justify-between
                 w-full
-                bg-white
+                bg-[#E05A47]
                 px-6
                 py-5
-                text-black
+                text-white
                 font-mono
                 text-[11px]
                 tracking-[0.16em]
                 uppercase
+                font-bold
+                shadow-lg
+                shadow-[#E05A47]/20
               "
             >
               <span>Start a Project</span>
@@ -330,9 +337,9 @@ export default function Navbar() {
               />
             </Link>
 
-            <div className="mt-6 flex items-center justify-between font-mono text-[9px] tracking-[0.12em] uppercase text-white/30">
-              <span>hello@wepromote.us</span>
-              <span>India</span>
+            <div className="mt-6 flex items-center justify-between font-mono text-[9px] tracking-[0.12em] uppercase text-[#8C8375]">
+              <span>hello@sitesparkone.com</span>
+              <span>Global</span>
             </div>
           </div>
         </div>

@@ -1,32 +1,15 @@
 "use client";
 
-/**
- * HowWeWork.jsx
- * ---------------------------------------------------------------
- * Awwwards-level editorial sequential section for We Promote India.
- *
- * DESIGN CONCEPT
- * Staggered vertical editorial progression where each stage (01 to 05) 
- * expands sequentially. Features high-impact typography, alternating 
- * layout rows, and dynamic image containers per phase with smooth 
- * scroll-triggered entrance animations. (Standard React + Vite/CRA setup).
- *
- * Stack: React + Tailwind CSS + GSAP (core + ScrollTrigger)
- * Install: npm i gsap
- * ---------------------------------------------------------------
- */
+import React, { useState } from "react";
+import { ArrowRight, ArrowLeft } from "lucide-react";
+import {
+  motion,
+  AnimatePresence,
+  useReducedMotion,
+} from "framer-motion";
 
-import React, { useLayoutEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
-
-/* ============================================================
-   PROCESS DATA WITH IMAGE ASSETS
-============================================================ */
+const SERIF = "'Instrument Serif', 'Times New Roman', ui-serif, Georgia, serif";
+const EASE = [0.76, 0, 0.24, 1];
 
 const PROCESS = [
   {
@@ -76,230 +59,180 @@ const PROCESS = [
   },
 ];
 
-/* ============================================================
-   ROOT COMPONENT
-============================================================ */
-
-export default function HowWeWork() {
-  const sectionRef = useRef(null);
-  const introRef = useRef(null);
-  const itemsRef = useRef([]);
-  const reduceMotionRef = useRef(false);
-
-  useLayoutEffect(() => {
-    reduceMotionRef.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    if (reduceMotionRef.current) return;
-
-    const ctx = gsap.context(() => {
-      const section = sectionRef.current;
-      const intro = introRef.current;
-
-      // Intro reveal animation
-      gsap.fromTo(
-        intro.querySelectorAll("[data-intro-animate]"),
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          stagger: 0.12,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: intro,
-            start: "top 80%",
-            toggleActions: "play none none none",
-          },
-        }
-      );
-
-      // Sequential item reveal animations down the page
-      itemsRef.current.forEach((el) => {
-        if (!el) return;
-
-        gsap.fromTo(
-          el,
-          { opacity: 0, y: 50 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 1.1,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: el,
-              start: "top 85%",
-              toggleActions: "play none none none",
-            },
-          }
-        );
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
-
-  return (
-    <section
-      ref={sectionRef}
-      className="relative bg-[#000000] text-[#F5F5F5] py-[140px] md:py-[180px] px-[6vw] overflow-hidden selection:bg-white/20"
-    >
-      <div className="mx-auto max-w-[1400px] w-full">
-        
-        {/* ============================================================
-           SECTION INTRO (Editorial Split)
-        ============================================================ */}
-        <div ref={introRef} className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 mb-28 md:mb-36 items-end">
-          
-          <div className="lg:col-span-7">
-            {/* Eyebrow */}
-            <span
-              data-intro-animate
-              className="inline-flex items-center gap-3 text-[11px] font-mono tracking-[0.32em] uppercase text-[#8A8A8A] mb-6"
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-white/60"></span>
-              07 / HOW WE WORK
-            </span>
-
-            {/* Main Headline */}
-            <h2
-              data-intro-animate
-              className="font-semibold leading-[0.94] tracking-tight text-[clamp(48px,7vw,100px)] text-[#F5F5F5]"
-            >
-              From idea
-              <br />
-              to impact.
-            </h2>
-          </div>
-
-          <div className="lg:col-span-5 pb-2">
-            <p
-              data-intro-animate
-              className="text-[18px] md:text-[20px] font-light leading-relaxed text-[#8A8A8A] max-w-[38ch]"
-            >
-              &ldquo;Every project starts with understanding. Then we turn direction into something people can see, experience and remember.&rdquo;
-            </p>
-          </div>
-
-        </div>
-
-        {/* ============================================================
-           SEQUENTIAL EDITORIAL STAGES CONTAINER
-        ============================================================ */}
-        <div className="flex flex-col gap-24 md:gap-32">
-          {PROCESS.map((stage, index) => (
-            <ProcessStageItem
-              key={stage.number}
-              stage={stage}
-              index={index}
-              ref={(el) => (itemsRef.current[index] = el)}
-            />
-          ))}
-        </div>
-
-        {/* ============================================================
-           CLOSING STATEMENT
-        ============================================================ */}
-        <div className="mt-32 md:mt-40 pt-12 border-t border-white/[0.08] flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-          <span className="font-mono text-[11px] tracking-[0.25em] text-[#666] uppercase">
-            WE PROMOTE INDIA — THE PROCESS
-          </span>
-          <p className="text-[15px] font-light text-[#8A8A8A]">
-            The launch is only the beginning. Built to keep moving.
-          </p>
-        </div>
-
-      </div>
-    </section>
-  );
-}
-
-/* ============================================================
-   INDIVIDUAL PROCESS STAGE ROW COMPONENT
-============================================================ */
-
-const ProcessStageItem = React.forwardRef(({ stage, index }, ref) => {
-  const isEven = index % 2 === 0;
-
-  return (
-    <div
-      ref={ref}
-      className="border-t border-white/[0.12] pt-12 md:pt-16 group"
-    >
-      <div className={`grid grid-cols-1 lg:grid-cols-12 gap-12 items-center ${isEven ? "" : "lg:grid-flow-dense"}`}>
-        
-        {/* TEXT COLUMN */}
-        <div className={`lg:col-span-6 flex flex-col justify-center ${isEven ? "" : "lg:col-start-7"}`}>
-          
-          <div className="flex items-center gap-4 mb-6">
-            <span className="font-mono text-[13px] tracking-[0.2em] text-[#8A8A8A]">
-              {stage.number}
-            </span>
-            <span className="w-8 h-[1px] bg-white/20" />
-            <span className="font-mono text-[11px] tracking-[0.25em] uppercase text-[#666]">
-              {stage.subtitle}
-            </span>
-          </div>
-
-          <h3 className="font-semibold tracking-tight text-[clamp(40px,5vw,72px)] leading-[1.05] text-[#F5F5F5] mb-6 group-hover:text-white transition-colors duration-300">
-            {stage.title}
-          </h3>
-
-          <p className="text-[16px] md:text-[18px] font-light leading-relaxed text-[#8A8A8A] max-w-[42ch]">
-            {stage.description}
-          </p>
-
-        </div>
-
-        {/* IMAGE CONTAINER COLUMN */}
-        <div className={`lg:col-span-6 flex items-center justify-center relative min-h-[340px] lg:min-h-[420px] bg-[#050505] border border-white/[0.08] rounded-[6px] overflow-hidden ${isEven ? "" : "lg:col-start-1"}`}>
-          
-          {/* Corner framing brackets */}
-          <Corner className="left-3 top-3 z-20" />
-          <Corner className="right-3 top-3 rotate-90 z-20" />
-          <Corner className="bottom-3 left-3 -rotate-90 z-20" />
-          <Corner className="bottom-3 right-3 rotate-180 z-20" />
-
-          {/* Phase Image with smooth hover scaling using standard HTML img tag */}
-          <div className="relative w-full h-full min-h-[340px] lg:min-h-[420px] overflow-hidden">
-            <img
-              src={stage.image}
-              alt={stage.imageAlt}
-              className="absolute inset-0 w-full h-full object-cover object-center grayscale contrast-125 group-hover:scale-105 group-hover:grayscale-0 transition-all duration-700 ease-out"
-            />
-            {/* Cinematic dark overlay gradient for mood matching */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
-          </div>
-
-          {/* Stage identifier badge */}
-          <div className="absolute bottom-6 left-6 font-mono text-[10px] uppercase tracking-[0.25em] text-[#8A8A8A] bg-[#000000]/70 px-3 py-1.5 backdrop-blur-md rounded-sm border border-white/10 z-20">
-            {stage.tag}
-          </div>
-
-          <div className="absolute top-6 right-6 font-mono text-[10px] uppercase tracking-[0.25em] text-white/70 bg-[#000000]/60 px-2.5 py-1 backdrop-blur-md rounded-sm border border-white/10 z-20">
-            STAGE 0{index + 1}
-          </div>
-
-        </div>
-
-      </div>
-    </div>
-  );
-});
-
-ProcessStageItem.displayName = "ProcessStageItem";
-
-/* ============================================================
-   CORNER ACCENT HELPER
-============================================================ */
-
 function Corner({ className = "" }) {
   return (
     <svg
       viewBox="0 0 16 16"
-      className={`absolute h-4 w-4 text-white/40 pointer-events-none ${className}`}
+      className={`absolute h-3 w-3 text-ink/25 pointer-events-none ${className}`}
       aria-hidden="true"
     >
       <path d="M1 1 H8 M1 1 V8" stroke="currentColor" strokeWidth="1" fill="none" />
     </svg>
+  );
+}
+
+export default function HowWeWork() {
+  const prefersReducedMotion = useReducedMotion();
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const activeStage = PROCESS[activeIndex];
+
+  const handleNext = () => {
+    setActiveIndex((prev) => (prev + 1) % PROCESS.length);
+  };
+
+  const handlePrev = () => {
+    setActiveIndex((prev) => (prev - 1 + PROCESS.length) % PROCESS.length);
+  };
+
+  return (
+    <section className="relative bg-[#FAF8F5] text-ink py-16 md:py-20 px-[5vw] overflow-hidden selection:bg-indigo-100/25 border-b border-border">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_10%,rgba(224,90,71,0.03),transparent_70%)]" />
+
+      <div className="mx-auto max-w-[1400px] w-full">
+        {/* Compact Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 pb-6 border-b border-border/80">
+          <div>
+            <span className="inline-flex items-center gap-2 font-mono text-[10px] tracking-[0.3em] uppercase text-ink-secondary mb-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#E05A47]"></span>
+              07 / HOW WE WORK
+            </span>
+
+            <h2 className="font-extrabold leading-[0.94] tracking-tight text-[clamp(2.2rem,4.5vw,4rem)] text-ink">
+              From idea to{" "}
+              <span
+                className="text-ink-secondary font-normal"
+                style={{ fontFamily: SERIF, fontStyle: "italic" }}
+              >
+                profound impact.
+              </span>
+            </h2>
+          </div>
+
+          <p className="text-[13px] md:text-[14px] font-light leading-relaxed text-ink-secondary max-w-[34ch]">
+            &ldquo;Every project starts with understanding. Then we turn direction into something memorable.&rdquo;
+          </p>
+        </div>
+
+        {/* Compact Horizontal Cards Grid System */}
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-3 mb-10">
+          {PROCESS.map((stage, index) => {
+            const isActive = index === activeIndex;
+            return (
+              <button
+                key={stage.number}
+                onClick={() => setActiveIndex(index)}
+                className={`group relative text-left p-5 rounded-xl border transition-all duration-300 flex flex-col justify-between h-[150px] overflow-hidden ${
+                  isActive
+                    ? "bg-white border-[#E05A47]/40 shadow-[0_12px_30px_rgba(224,90,71,0.08)] ring-1 ring-[#E05A47]/20"
+                    : "bg-white/60 border-border hover:bg-white hover:border-border/80"
+                }`}
+              >
+                {isActive && (
+                  <div className="absolute top-0 left-0 right-0 h-[3px] bg-[#E05A47]" />
+                )}
+
+                <div className="flex items-center justify-between w-full">
+                  <span className={`font-mono text-xs tracking-[0.2em] font-bold ${isActive ? "text-[#E05A47]" : "text-ink-secondary"}`}>
+                    {stage.number}
+                  </span>
+                  <span className={`w-2 h-2 rounded-full transition-all duration-300 ${isActive ? "bg-[#E05A47] scale-125" : "bg-border"}`} />
+                </div>
+
+                <div>
+                  <h3 className={`text-xl font-bold tracking-tight transition-colors ${isActive ? "text-ink" : "text-ink-secondary group-hover:text-ink"}`}>
+                    {stage.title}
+                  </h3>
+                  <p className="text-[11px] font-mono uppercase tracking-[0.15em] text-ink-secondary mt-1 truncate">
+                    {stage.subtitle}
+                  </p>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Active Stage Expanded Detail Card */}
+        <div className="relative bg-white border border-border rounded-xl p-6 md:p-8 shadow-sm overflow-hidden">
+          <Corner className="left-4 top-4 z-20" />
+          <Corner className="right-4 top-4 rotate-90 z-20" />
+          <Corner className="bottom-4 left-4 -rotate-90 z-20" />
+          <Corner className="bottom-4 right-4 rotate-180 z-20" />
+
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            
+            <div className="lg:col-span-7 flex flex-col justify-center">
+              <div className="flex items-center gap-3 mb-3">
+                <span className="font-mono text-[10px] tracking-[0.2em] text-[#E05A47] font-bold uppercase bg-[#E05A47]/10 px-2.5 py-0.5 rounded-xs">
+                  {activeStage.tag}
+                </span>
+                <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-ink-secondary">
+                  STAGE {activeStage.number} / 05
+                </span>
+              </div>
+
+              <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-ink-secondary block mb-1">
+                {activeStage.subtitle}
+              </span>
+
+              <h3 className="font-bold tracking-tight text-3xl md:text-4xl text-ink mb-3">
+                {activeStage.title}
+              </h3>
+
+              <p className="text-[14px] md:text-[15px] font-light leading-relaxed text-ink-secondary max-w-[50ch] mb-6">
+                {activeStage.description}
+              </p>
+
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={handlePrev}
+                  aria-label="Previous stage"
+                  className="p-2.5 rounded-full border border-border bg-[#FAF8F5] hover:bg-ink hover:text-white transition-all duration-300 text-ink"
+                >
+                  <ArrowLeft size={15} />
+                </button>
+                <button
+                  onClick={handleNext}
+                  aria-label="Next stage"
+                  className="p-2.5 rounded-full border border-border bg-[#FAF8F5] hover:bg-ink hover:text-white transition-all duration-300 text-ink"
+                >
+                  <ArrowRight size={15} />
+                </button>
+                <span className="ml-2 font-mono text-[10px] uppercase tracking-[0.2em] text-ink-secondary">
+                  Use arrows to navigate
+                </span>
+              </div>
+            </div>
+
+            <div className="lg:col-span-5 relative w-full h-[220px] md:h-[260px] rounded-lg overflow-hidden border border-border/80 shadow-inner">
+              <AnimatePresence mode="wait">
+                <motion.img
+                  key={activeStage.number}
+                  src={activeStage.image}
+                  alt={activeStage.imageAlt}
+                  initial={{ opacity: 0, scale: 1.05 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.4, ease: EASE }}
+                  className="absolute inset-0 w-full h-full object-cover object-center filter brightness-95"
+                />
+              </AnimatePresence>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+            </div>
+
+          </div>
+        </div>
+
+        {/* Compact Footer Note */}
+        <div className="mt-8 pt-6 border-t border-border flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <span className="font-mono text-[10px] tracking-[0.22em] text-ink-secondary uppercase">
+            WE PROMOTE INDIA — THE PROCESS
+          </span>
+          <p className="text-[12px] md:text-[13px] font-light text-ink-secondary">
+            The launch is only the beginning. Built to keep moving.
+          </p>
+        </div>
+      </div>
+    </section>
   );
 }

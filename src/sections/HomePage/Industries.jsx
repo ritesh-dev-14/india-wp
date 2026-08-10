@@ -1,32 +1,17 @@
 "use client";
 
-/**
- * Industries.jsx
- * ---------------------------------------------------------------
- * Awwwards-level cinematic "Industry Index" section for We Promote India.
- *
- * DESIGN CONCEPT
- * Replaces standard grid cards with an editorial, high-end typography 
- * index. Features sticky left-column metadata and a fluid, butter-smooth 
- * GSAP quickTo-powered floating cursor preview image system.
- *
- * Stack: React + Tailwind CSS + GSAP (core + ScrollTrigger)
- * Install: npm i gsap
- * ---------------------------------------------------------------
- */
+import React, { useState, useEffect } from "react";
+import { ArrowUpRight } from "lucide-react";
+import {
+  motion,
+  AnimatePresence,
+  useReducedMotion,
+  useMotionValue,
+  useSpring,
+} from "framer-motion";
 
-import React, { useLayoutEffect, useRef, useState, useEffect } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
-
-/* ============================================================
-   INDUSTRY DATA 
-   (Centralized dataset - easily maintainable and replaceable)
-============================================================ */
+const SERIF = "'Instrument Serif', 'Times New Roman', ui-serif, Georgia, serif";
+const EASE = [0.76, 0, 0.24, 1];
 
 const INDUSTRIES = [
   {
@@ -87,241 +72,176 @@ const INDUSTRIES = [
   },
 ];
 
-/* ============================================================
-   ROOT COMPONENT
-============================================================ */
-
 export default function Industries() {
-  const sectionRef = useRef(null);
-  const listRef = useRef(null);
-  const floatingImageRef = useRef(null);
-  
+  const prefersReducedMotion = useReducedMotion();
   const [activeHoverIndex, setActiveHoverIndex] = useState(null);
-  const [isImageVisible, setIsImageVisible] = useState(false);
-  const reduceMotionRef = useRef(false);
 
-  // GSAP quickTo setters for high-performance fluid mouse tracking
-  const xSetter = useRef(null);
-  const ySetter = useRef(null);
+  // Smooth spring-physics coordinates for floating cursor image
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
 
-  useLayoutEffect(() => {
-    reduceMotionRef.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const springConfig = { damping: 25, stiffness: 300, mass: 0.1 };
+  const cursorX = useSpring(mouseX, springConfig);
+  const cursorY = useSpring(mouseY, springConfig);
 
-    if (!reduceMotionRef.current && floatingImageRef.current) {
-      // Initialize zero-lag buttery smooth quickTo animation controllers
-      xSetter.current = gsap.quickTo(floatingImageRef.current, "x", { duration: 0.4, ease: "power3.out" });
-      ySetter.current = gsap.quickTo(floatingImageRef.current, "y", { duration: 0.4, ease: "power3.out" });
-    }
-
-    if (reduceMotionRef.current) return;
-
-    const ctx = gsap.context(() => {
-      // Entry animation for section header elements
-      gsap.fromTo(
-        sectionRef.current.querySelectorAll(".animate-header"),
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          stagger: 0.1,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 75%",
-            toggleActions: "play none none none",
-          },
-        }
-      );
-
-      // Staggered entry for industry list items
-      gsap.fromTo(
-        listRef.current.querySelectorAll(".industry-item-row"),
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.7,
-          stagger: 0.08,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: listRef.current,
-            start: "top 80%",
-            toggleActions: "play none none none",
-          },
-        }
-      );
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
-
-  // Window mousemove handler using window-relative client coordinates for perfect cursor synchronization
   useEffect(() => {
-    if (reduceMotionRef.current) return;
+    if (prefersReducedMotion) return;
 
     const handleMouseMove = (e) => {
-      if (!isImageVisible || !xSetter.current || !ySetter.current) return;
-      // Offset slightly to the bottom-right of the cursor pointer
-      xSetter.current(e.clientX + 24);
-      ySetter.current(e.clientY - 90);
+      mouseX.set(e.clientX + 20);
+      mouseY.set(e.clientY - 75);
     };
 
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [isImageVisible]);
-
-  const handleMouseEnter = (index) => {
-    if (reduceMotionRef.current) return;
-    setActiveHoverIndex(index);
-    setIsImageVisible(true);
-
-    if (floatingImageRef.current) {
-      gsap.to(floatingImageRef.current, {
-        opacity: 1,
-        scale: 1,
-        duration: 0.3,
-        ease: "power2.out",
-      });
-    }
-  };
-
-  const handleMouseLeave = () => {
-    if (reduceMotionRef.current) return;
-    setActiveHoverIndex(null);
-    setIsImageVisible(false);
-
-    if (floatingImageRef.current) {
-      gsap.to(floatingImageRef.current, {
-        opacity: 0,
-        scale: 0.95,
-        duration: 0.25,
-        ease: "power2.in",
-      });
-    }
-  };
+  }, [mouseX, mouseY, prefersReducedMotion]);
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative bg-[#070707] text-[#FAFAFA] py-[140px] md:py-[180px] px-[6vw] overflow-hidden selection:bg-white selection:text-black"
-    >
+    <section className="relative bg-white text-ink py-12 md:py-16 px-[6vw] overflow-hidden selection:bg-indigo-100/20">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_50%_35%_at_20%_60%,rgba(38,58,120,0.1),transparent_70%)]" />
+
       <div className="mx-auto max-w-[1400px] w-full">
-        
-        {/* ============================================================
-           DESKTOP TWO-COLUMN EDITORIAL LAYOUT & MOBILE STACK
-        ============================================================ */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-20 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-start">
           
           {/* LEFT COLUMN: Sticky Editorial Section Intro */}
-          <div className="lg:col-span-5 lg:sticky lg:top-[140px]">
-            <div className="animate-header">
-              <span className="inline-flex items-center gap-3 text-[11px] font-mono tracking-[0.2em] uppercase text-[#888888] mb-6">
-                <span className="w-1.5 h-1.5 rounded-full bg-white"></span>
+          <div className="lg:col-span-5 lg:sticky lg:top-[120px]">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-5% 0px" }}
+              transition={{ duration: 0.7, ease: EASE }}
+            >
+              <span className="inline-flex items-center gap-2.5 font-mono text-[10px] tracking-[0.3em] uppercase text-ink-secondary mb-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-ink/70"></span>
                 09 / INDUSTRIES
               </span>
-            </div>
+            </motion.div>
 
-            <div className="animate-header">
-              <h2 className="font-semibold leading-[0.96] tracking-tight text-[clamp(40px,5vw,72px)] text-[#FAFAFA] mb-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-5% 0px" }}
+              transition={{ duration: 0.7, delay: 0.08, ease: EASE }}
+            >
+              <h2 className="font-semibold leading-[0.96] tracking-tight text-[clamp(2.4rem,5vw,4.5rem)] text-ink mb-5">
                 Different industries.
                 <br />
-                One way
-                <br />
-                of thinking.
+                <span
+                  className="text-ink/80 font-normal"
+                  style={{ fontFamily: SERIF, fontStyle: "italic" }}
+                >
+                  One way of thinking.
+                </span>
               </h2>
-            </div>
+            </motion.div>
 
-            <div className="animate-header">
-              <p className="text-[15px] md:text-[16px] font-light leading-relaxed text-[#999999] max-w-[34ch]">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-5% 0px" }}
+              transition={{ duration: 0.7, delay: 0.16, ease: EASE }}
+            >
+              <p className="text-[14px] md:text-[15px] font-light leading-relaxed text-ink-secondary max-w-[34ch]">
                 We bring creative, digital and growth thinking to businesses across industries.
               </p>
-            </div>
+            </motion.div>
           </div>
 
           {/* RIGHT COLUMN: Editorial Industry Index List */}
-          <div ref={listRef} className="lg:col-span-7 flex flex-col">
+          <div className="lg:col-span-7 flex flex-col">
             {INDUSTRIES.map((item, index) => {
               const isActive = activeHoverIndex === index;
               const isAnyHovered = activeHoverIndex !== null;
 
-              // Calculate dimming state for non-hovered items
-              let opacityClass = "opacity-80";
+              let opacityClass = "opacity-85";
               if (isAnyHovered) {
                 opacityClass = isActive ? "opacity-100" : "opacity-35";
               }
 
               return (
-                <div
+                <motion.div
                   key={item.number}
-                  className={`industry-item-row group relative border-t border-white/[0.08] transition-opacity duration-300 ${opacityClass}`}
-                  onMouseEnter={() => handleMouseEnter(index)}
-                  onMouseLeave={handleMouseLeave}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-5% 0px" }}
+                  transition={{ duration: 0.5, delay: index * 0.04, ease: EASE }}
+                  className={`group relative border-t border-border/80 transition-opacity duration-300 ${opacityClass}`}
+                  onMouseEnter={() => setActiveHoverIndex(index)}
+                  onMouseLeave={() => setActiveHoverIndex(null)}
                 >
-                  <div className="py-7 md:py-9 flex flex-col justify-between cursor-pointer">
+                  <div className="py-4 md:py-6 flex flex-col justify-between cursor-pointer">
                     
                     {/* Top Row: Number, Title, and Arrow */}
                     <div className="flex items-center justify-between gap-4">
-                      
-                      <div className="flex items-baseline gap-6 md:gap-12">
-                        <span className="font-mono text-[11px] md:text-[12px] tracking-[0.2em] uppercase text-[#737373] group-hover:text-white transition-colors duration-300">
+                      <div className="flex items-baseline gap-4 md:gap-8">
+                        <span className="font-mono text-[10px] md:text-[11px] tracking-[0.2em] uppercase text-ink-secondary group-hover:text-ink transition-colors duration-300">
                           {item.number}
                         </span>
 
-                        <h3 className="font-normal tracking-[-0.045em] text-[clamp(32px,4.2vw,64px)] text-[#FAFAFA] group-hover:translate-x-2 transition-transform duration-300 ease-out">
+                        <h3 className="font-normal tracking-[-0.04em] text-[clamp(1.7rem,3.1vw,3rem)] text-ink group-hover:translate-x-1.5 transition-transform duration-300 ease-out">
                           {item.title}
                         </h3>
                       </div>
 
                       {/* Interactive Reveal Arrow */}
-                      <span className="text-[20px] md:text-[24px] font-light text-white/0 group-hover:text-white group-hover:translate-x-0 -translate-x-3 transition-all duration-300 ease-out">
-                        →
+                      <span className="text-ink opacity-0 group-hover:opacity-100 group-hover:translate-x-0 -translate-x-2 transition-all duration-300 ease-out">
+                        <ArrowUpRight size={18} />
                       </span>
-
                     </div>
 
-                    {/* Bottom Row / Accordion Description: Visible on hover (desktop) or standard block (mobile) */}
+                    {/* Bottom Row / Accordion Description */}
                     <div 
                       className={`grid transition-all duration-300 ease-out overflow-hidden ${
-                        isActive ? "grid-rows-[1fr] opacity-100 mt-3 md:mt-4" : "grid-rows-[0fr] opacity-0 mt-0"
-                      } lg:grid-rows-[1fr] lg:opacity-100 lg:mt-3`}
+                        isActive ? "grid-rows-[1fr] opacity-100 mt-2" : "grid-rows-[0fr] opacity-0 mt-0"
+                      } lg:grid-rows-[1fr] lg:opacity-100 lg:mt-2`}
                     >
                       <div className="overflow-hidden">
-                        <p className="text-[14px] md:text-[15px] font-light text-[#999999] pl-[calc(11px+1.5rem)] md:pl-[calc(12px+3rem)] max-w-[46ch]">
+                        <p className="text-[13px] md:text-[14px] font-light text-ink-secondary pl-[calc(10px+2rem)] md:pl-[calc(11px+2.8rem)] max-w-[44ch]">
                           {item.description}
                         </p>
                       </div>
                     </div>
 
                   </div>
-                </div>
+                </motion.div>
               );
             })}
             
-            {/* Bottom border cap for final item */}
-            <div className="border-t border-white/[0.08]" />
+            <div className="border-t border-border/80" />
           </div>
 
         </div>
-
       </div>
 
-      {/* ============================================================
-         FLOATING CURSOR IMAGE PREVIEW (Desktop Only)
-      ============================================================ */}
-      <div
-        ref={floatingImageRef}
-        className="hidden lg:block pointer-events-none fixed top-0 left-0 z-50 w-[240px] h-[160px] rounded-[6px] overflow-hidden border border-white/20 shadow-2xl bg-[#111111] opacity-0 scale-95 will-change-transform"
-      >
-        {activeHoverIndex !== null && (
-          <img
-            src={INDUSTRIES[activeHoverIndex].image}
-            alt={INDUSTRIES[activeHoverIndex].imageAlt}
-            className="w-full h-full object-cover object-center grayscale contrast-110"
-            loading="lazy"
-          />
-        )}
-      </div>
+      {/* FLOATING CURSOR IMAGE PREVIEW (Desktop Only) */}
+      {!prefersReducedMotion && (
+        <motion.div
+          style={{ x: cursorX, y: cursorY }}
+          className="hidden lg:block pointer-events-none fixed top-0 left-0 z-50 w-[210px] h-[140px] rounded-xs overflow-hidden border border-border shadow-2xl bg-surface-muted p-1.5"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{
+            opacity: activeHoverIndex !== null ? 1 : 0,
+            scale: activeHoverIndex !== null ? 1 : 0.95,
+          }}
+          transition={{ duration: 0.2, ease: EASE }}
+        >
+          <AnimatePresence mode="wait">
+            {activeHoverIndex !== null && (
+              <motion.img
+                key={activeHoverIndex}
+                src={INDUSTRIES[activeHoverIndex].image}
+                alt={INDUSTRIES[activeHoverIndex].imageAlt}
+                initial={{ opacity: 0, scale: 1.04 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.98 }}
+                transition={{ duration: 0.3, ease: EASE }}
+                className="absolute inset-1.5 w-[calc(100%-12px)] h-[calc(100%-12px)] object-cover object-center filter brightness-90 rounded-xs"
+                loading="lazy"
+              />
+            )}
+          </AnimatePresence>
+        </motion.div>
+      )}
     </section>
   );
 }

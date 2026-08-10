@@ -1,5 +1,3 @@
-import Navbar  from "../layout/Navbar";
-
 import Hero from "../sections/HomePage/Hero";
 import WhatWeCreate from "../sections/HomePage/WhatWeCreate";
 import SelectedWork from "../sections/HomePage/SelectedWork";
@@ -15,13 +13,8 @@ export default function HomePage() {
     <main className="relative w-full overflow-hidden">
       {/* Cinematic Hero */}
       <Hero />
-
-      {/* Navigation starts AFTER hero */}
-      <Navbar />
-
-      {/* Homepage content */}
       <WhatWeCreate />
-      <SelectedWork />
+      {/* <SelectedWork /> */}
       <TheDifference />
       <Results />
       <HowWeWork />

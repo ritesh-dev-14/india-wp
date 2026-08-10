@@ -1,10 +1,12 @@
 import Navbar from "./layout/Navbar";
 import MainContent from "./layout/MainContent";
 import Footer from "./layout/Footer";
+import ScrollToTop from "./components/ScrollToTop";
 
 const App = () => {
   return (
-    <div className="min-h-screen w-full flex flex-col bg-[#050505] text-white antialiased overflow-x-hidden">
+    <div className="min-h-screen w-full flex flex-col bg-page text-ink antialiased overflow-x-hidden">
+      <ScrollToTop />
       {/* Navbar */}
       <Navbar />
 
