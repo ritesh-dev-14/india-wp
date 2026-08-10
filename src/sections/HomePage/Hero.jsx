@@ -136,7 +136,7 @@ export default function Hero() {
               >
                 <span className="inline-flex items-center justify-center w-2.5 h-2.5 rounded-full bg-[#FF6B57] animate-pulse shadow-[0_0_12px_rgba(255,107,87,0.8)]" />
                 <span className="font-mono text-[11px] sm:text-[12px] tracking-[0.25em] uppercase text-[#FF6B57] font-bold">
-                  SiteSparkOne // Digital Agency
+                  We Promote // Digital Agency
                 </span>
               </motion.div>
 
