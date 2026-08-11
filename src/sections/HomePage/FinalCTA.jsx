@@ -99,7 +99,7 @@ export default function FinalCTA() {
         className="relative z-10 mx-auto max-w-[1400px] w-full pt-10 flex flex-col md:flex-row items-center justify-between gap-4 border-t border-border/80"
       >
         <span className="font-mono text-[10px] tracking-[0.22em] text-ink-secondary uppercase">
-          WE PROMOTE INDIA — 2026
+          WE PROMOTE  — 2026
         </span>
         <span className="font-mono text-[10px] tracking-[0.22em] text-ink-secondary uppercase">
           ALL RIGHTS RESERVED

@@ -137,7 +137,7 @@ const Footer = () => {
                 href="mailto:hello@wepromote.us"
                 className="block text-sm text-ink-secondary transition-colors hover:text-ink mb-4"
               >
-                hello@wepromote.us
+                hello@wepromoteindia.com
               </a>
 
               <div className="flex flex-col gap-2">

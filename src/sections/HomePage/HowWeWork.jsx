@@ -226,7 +226,7 @@ export default function HowWeWork() {
         {/* Compact Footer Note */}
         <div className="mt-8 pt-6 border-t border-border flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <span className="font-mono text-[10px] tracking-[0.22em] text-ink-secondary uppercase">
-            WE PROMOTE INDIA — THE PROCESS
+            WE PROMOTE  — THE PROCESS
           </span>
           <p className="text-[12px] md:text-[13px] font-light text-ink-secondary">
             The launch is only the beginning. Built to keep moving.

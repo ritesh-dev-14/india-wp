@@ -1,55 +1,61 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, ArrowDown, CheckCircle2 } from "lucide-react";
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { ArrowRight, ArrowDown, Building2, Cpu, ShoppingBag, Landmark, HeartPulse, GraduationCap } from "lucide-react";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 // ==========================================
-// DATA STRUCTURES
+// INDUSTRIES DATA
 // ==========================================
-const FAQS = [
+const INDUSTRIES = [
   {
-    category: "PROJECTS & SCOPE",
-    q: "What types of projects do you typically take on?",
-    a: "We partner with ambitious startups, scale-ups, and established enterprises on comprehensive brand transformations, high-performance web applications (MERN stack, modern UI/UX), bespoke e-commerce platforms, and ongoing digital growth strategies."
+    num: "01",
+    tag: "FinTech & Web3",
+    title: "Financial Technology & Banking",
+    desc: "Engineering high-security, ultra-low latency digital platforms, AI-powered financial dashboards, and seamless banking portals that command institutional trust.",
+    metric: "99.99% Uptime",
+    icon: <Landmark className="w-5 h-5 text-[#E05A47]" />,
   },
   {
-    category: "PROJECTS & SCOPE",
-    q: "Can you help define our strategy if we only have a rough idea?",
-    a: "Absolutely. Most of our partnerships begin right at the conceptual phase. We specialize in mapping raw ideas into concrete product scopes, technical architectures, and high-conversion positioning models before writing a single line of code."
+    num: "02",
+    tag: "E-Commerce & D2C",
+    title: "Luxury Retail & Commerce",
+    desc: "Building bespoke, high-conversion e-commerce ecosystems with lightning-fast load times, immersive product storytelling, and frictionless checkout flows.",
+    metric: "+42% Avg Conversion",
+    icon: <ShoppingBag className="w-5 h-5 text-[#E05A47]" />,
   },
   {
-    category: "PROCESS & TIMELINE",
-    q: "How long does a typical project take from start to launch?",
-    a: "Timelines vary based on scope. A focused brand identity or landing page system typically takes 3 to 4 weeks, while full-scale custom web platforms, e-commerce stores, or multi-page corporate systems range from 6 to 12 weeks."
+    num: "03",
+    tag: "SaaS & Enterprise",
+    title: "B2B SaaS & Cloud Software",
+    desc: "Transforming complex software architectures into intuitive, high-retention user experiences with robust MERN stack backends and pristine UI/UX design systems.",
+    metric: "3.5x User Retention",
+    icon: <Cpu className="w-5 h-5 text-[#E05A47]" />,
   },
   {
-    category: "PROCESS & TIMELINE",
-    q: "What does your collaboration and communication process look like?",
-    a: "We maintain absolute transparency through dedicated project boards, asynchronous update channels, and milestone reviews. You work directly with the creators and engineers building your product—no layers of account managers."
+    num: "04",
+    tag: "Real Estate & Hospitality",
+    title: "Hospitality & Real Estate",
+    desc: "Crafting immersive digital brand experiences, dynamic booking engines, and luxury property portfolios that convert digital lookers into high-value buyers.",
+    metric: "2.8x Direct Bookings",
+    icon: <Building2 className="w-5 h-5 text-[#E05A47]" />,
   },
   {
-    category: "TECHNOLOGY & DESIGN",
-    q: "What technologies and design stacks do you use?",
-    a: "We build modern, lightning-fast digital products using React, Node.js, Tailwind CSS v4, Framer Motion, and robust headless architectures. Our design ecosystem is powered by Figma, focusing on pixel-perfect UI/UX design systems."
+    num: "05",
+    tag: "HealthTech & Wellness",
+    title: "Healthcare & Digital Wellness",
+    desc: "Developing HIPAA-compliant web applications, patient management portals, and modern wellness brand presences built with absolute reliability and empathy.",
+    metric: "Zero-Latency Flows",
+    icon: <HeartPulse className="w-5 h-5 text-[#E05A47]" />,
   },
   {
-    category: "TECHNOLOGY & DESIGN",
-    q: "Will our website be fully responsive and optimized for search engines?",
-    a: "Yes. Every digital experience we build is engineered for flawless responsiveness across all devices, strict accessibility standards, and clean, search-engine-optimized codebases."
+    num: "06",
+    tag: "EdTech & Academics",
+    title: "Education & EdTech Platforms",
+    desc: "Designing interactive learning management systems, student dashboards, and community-driven knowledge platforms engineered for scale and engagement.",
+    metric: "100k+ Active Users",
+    icon: <GraduationCap className="w-5 h-5 text-[#E05A47]" />,
   },
-  {
-    category: "PARTNERSHIP & SUPPORT",
-    q: "Do you offer ongoing support after the project launches?",
-    a: "Yes. We view launch as day one. We offer retainer and maintenance partnerships focused on continuous feature iteration, performance optimization, and scaling your digital presence alongside your business growth."
-  },
-  {
-    category: "PARTNERSHIP & SUPPORT",
-    q: "How do we get started and what is the first step?",
-    a: "Simply reach out through our contact form with a brief overview of what you are working on. We’ll schedule an introductory discovery call to discuss your goals, explore alignment, and outline a tailored roadmap."
-  }
 ];
-
-const CATEGORIES = ["ALL QUESTIONS", "PROJECTS & SCOPE", "PROCESS & TIMELINE", "TECHNOLOGY & DESIGN", "PARTNERSHIP & SUPPORT"];
 
 // ==========================================
 // ANIMATION UTILITIES
@@ -58,249 +64,268 @@ const staggerContainer = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    transition: { staggerChildren: 0.1, delayChildren: 0.1 }
-  }
+    transition: { staggerChildren: 0.1, delayChildren: 0.1 },
+  },
 };
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+  },
 };
 
-export default function FAQPage() {
-  const [activeCategory, setActiveCategory] = useState("ALL QUESTIONS");
-  const [openIndex, setOpenIndex] = useState(0);
-
-  // Filter FAQs based on category
-  const filteredFaqs = activeCategory === "ALL QUESTIONS" 
-    ? FAQS 
-    : FAQS.filter(f => f.category === activeCategory);
-
-  // Scroll statement animation
+export default function IndustriesPage() {
   const statementRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: statementRef,
-    offset: ["start end", "end start"]
+    offset: ["start end", "end start"],
   });
 
-  const statementScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.85, 1, 1.05]);
-  const statementOpacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.85, 1, 1.05]);
+  const opacity = useTransform(scrollYProgress, [0, 0.4, 0.6, 1], [0, 1, 1, 0]);
 
   return (
     <div className="bg-[#FAF8F5] text-[#1E1B18] min-h-screen selection:bg-[#E05A47] selection:text-white font-sans overflow-x-hidden">
       
       {/* =========================================
-          01 / HERO
+          01 / HERO SECTION
       ========================================= */}
-      <section className="relative min-h-[85vh] flex flex-col justify-end px-[5vw] pb-[10vh] pt-32 overflow-hidden border-b border-[#E8E2D9]">
-        {/* Subtle background grid lines */}
-        <div className="absolute inset-0 pointer-events-none opacity-[0.4]" style={{ backgroundImage: "linear-gradient(to right, #EFECE6 1px, transparent 1px), linear-gradient(to bottom, #EFECE6 1px, transparent 1px)", backgroundSize: "6rem 6rem" }} />
+      <section className="relative min-h-[90vh] flex flex-col justify-between px-[5vw] pt-32 pb-16 overflow-hidden bg-[#FAF8F5] border-b border-[#E8E2D9]">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_20%_20%,rgba(224,90,71,0.05),transparent_70%)]" />
+        <div
+          className="absolute inset-0 pointer-events-none opacity-[0.3]"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, #EFECE6 1px, transparent 1px), linear-gradient(to bottom, #EFECE6 1px, transparent 1px)",
+            backgroundSize: "5rem 5rem",
+          }}
+        />
 
+        {/* Top Micro-Header */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="max-w-[1400px] w-full mx-auto flex justify-between items-center border-b border-[#E8E2D9] pb-6 relative z-10"
+        >
+          <div className="flex items-center gap-2.5">
+            <span className="inline-flex items-center justify-center w-2 h-2 rounded-full bg-[#E05A47] animate-pulse" />
+            <span className="font-mono text-[10px] sm:text-[11px] tracking-[0.25em] uppercase text-[#E05A47] font-bold">
+              We Promote // Industries & Verticals
+            </span>
+          </div>
+          <span className="font-mono text-[10px] sm:text-[11px] tracking-[0.2em] uppercase text-[#8C8375] hidden sm:inline-block font-semibold">
+            Specialized Digital Architecture
+          </span>
+        </motion.div>
+
+        {/* Hero Title & Intro */}
         <motion.div
           variants={staggerContainer}
           initial="hidden"
           animate="show"
-          className="max-w-[1400px] w-full mx-auto relative z-10"
+          className="max-w-[1400px] w-full mx-auto my-auto py-16 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-end"
         >
-          <motion.div variants={fadeUp} className="mb-8 flex items-center gap-2.5">
-            <span className="inline-flex items-center justify-center w-2 h-2 rounded-full bg-[#E05A47] animate-pulse" />
-            <span className="font-mono text-[10px] sm:text-[11px] tracking-[0.2em] uppercase text-[#E05A47] font-semibold">
-              Frequently Asked Questions // SiteSparkOne
-            </span>
-          </motion.div>
+          <div className="lg:col-span-8">
+            <motion.div variants={fadeUp}>
+              <span className="inline-block px-3.5 py-1 rounded-full bg-[#E05A47]/10 text-[#E05A47] font-mono text-xs tracking-widest uppercase font-bold mb-6">
+                Sectors We Transform
+              </span>
+            </motion.div>
+            <motion.h1
+              variants={fadeUp}
+              className="text-[clamp(44px,8vw,120px)] leading-[0.98] tracking-[-0.03em] font-extrabold text-[#1E1B18]"
+            >
+              Tailored solutions for <br />
+              <span
+                className="text-[#E05A47] italic font-serif font-normal"
+                style={{ fontFamily: "'Instrument Serif', serif" }}
+              >
+                ambitious markets.
+              </span>
+            </motion.h1>
+          </div>
 
-          <motion.h1 
-            variants={fadeUp}
-            className="text-[clamp(42px,8vw,120px)] leading-[1.05] tracking-[-0.03em] font-extrabold mb-12 max-w-[1200px]"
-          >
-            Everything you need to know <br />
-            about working with us. <br />
-            <span className="text-[#E05A47] italic font-serif font-normal" style={{ fontFamily: "'Instrument Serif', serif" }}>No guesswork.</span>
-          </motion.h1>
-
-          <motion.div variants={fadeUp} className="flex flex-col md:flex-row md:items-end justify-between gap-10 border-t border-[#E8E2D9] pt-10">
-            <p className="text-[#5C5346] text-lg md:text-xl max-w-md font-light leading-relaxed">
-              Clear answers regarding our process, timelines, technology stack, and collaborative engagement model.
+          <motion.div variants={fadeUp} className="lg:col-span-4 pb-2">
+            <p className="text-[#5C5346] text-lg md:text-xl font-light leading-relaxed">
+              We partner with category leaders across diverse industries, combining deep technical engineering with high-impact digital branding.
             </p>
-            
-            <div className="flex items-center gap-3 text-[#8C8375] font-mono text-[10px] tracking-[0.2em] uppercase animate-pulse font-semibold">
-              Explore FAQs <ArrowDown className="w-3 h-3 text-[#E05A47]" />
-            </div>
           </motion.div>
+        </motion.div>
+
+        {/* Bottom Ticker */}
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          animate="show"
+          className="max-w-[1400px] w-full mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-[#E8E2D9] pt-6 relative z-10"
+        >
+          <div className="font-mono text-[11px] tracking-[0.2em] text-[#5C5346] uppercase font-semibold">
+            FinTech • E-Commerce • SaaS • Real Estate • HealthTech • EdTech
+          </div>
+          <div className="font-mono text-[10px] tracking-[0.2em] text-[#8C8375] uppercase font-semibold flex items-center gap-2">
+            Scroll to explore verticals <ArrowDown className="w-3 h-3 text-[#E05A47]" />
+          </div>
         </motion.div>
       </section>
 
       {/* =========================================
-          02 / CATEGORY FILTER & ACCORDION LIST
+          02 / INDUSTRIES GRID SECTION
       ========================================= */}
-      <section className="px-[5vw] py-32 bg-[#F3EFEA] border-t border-[#E8E2D9]">
+      <section className="px-[5vw] py-32 md:py-40 bg-[#F3EFEA] border-b border-[#E8E2D9]">
         <div className="max-w-[1400px] mx-auto">
-          
-          {/* Category Tabs */}
-          <motion.div 
+          <motion.div
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-100px" }}
             variants={staggerContainer}
-            className="flex flex-wrap gap-3 mb-20 border-b border-[#E8E2D9] pb-8"
+            className="mb-20 max-w-2xl"
           >
-            {CATEGORIES.map(cat => (
-              <motion.button
-                key={cat}
-                variants={fadeUp}
-                onClick={() => {
-                  setActiveCategory(cat);
-                  setOpenIndex(0);
-                }}
-                className={`font-mono text-[11px] tracking-[0.15em] uppercase px-5 py-3 rounded-lg transition-all duration-300 border font-semibold ${
-                  activeCategory === cat
-                    ? "bg-[#1E1B18] text-white border-[#1E1B18] shadow-md"
-                    : "bg-white text-[#5C5346] border-[#E8E2D9] hover:border-[#3B6A62]/40 hover:text-[#1E1B18]"
-                }`}
-              >
-                {cat}
-              </motion.button>
-            ))}
+            <motion.span
+              variants={fadeUp}
+              className="font-mono text-[11px] tracking-[0.2em] uppercase text-[#E05A47] font-bold block mb-4"
+            >
+              01 / Core Verticals
+            </motion.span>
+            <motion.h2
+              variants={fadeUp}
+              className="text-[clamp(32px,4.5vw,56px)] leading-[1.1] font-extrabold tracking-tight text-[#1E1B18]"
+            >
+              Engineered for industry-specific dominance.
+            </motion.h2>
           </motion.div>
 
-          {/* FAQ List */}
-          <div className="flex flex-col border-t border-[#E8E2D9]">
-            {filteredFaqs.map((faq, index) => {
-              const isOpen = openIndex === index;
-              return (
-                <motion.div 
-                  key={faq.q}
-                  initial="hidden"
-                  whileInView="show"
-                  viewport={{ once: true }}
-                  variants={fadeUp}
-                  className="border-b border-[#E8E2D9] group bg-white rounded-xl mb-4 px-8 md:px-12 shadow-sm transition-all hover:border-[#3B6A62]/30"
-                >
-                  <div 
-                    onClick={() => setOpenIndex(isOpen ? null : index)}
-                    className="py-8 md:py-10 flex items-center justify-between gap-8 cursor-pointer select-none"
-                  >
-                    <div className="flex items-baseline gap-6 md:gap-12">
-                      <span className="font-mono text-xs text-[#8C8375] group-hover:text-[#3B6A62] transition-colors font-bold">
-                        0{index + 1}
-                      </span>
-                      <h3 className="text-[clamp(18px,2.5vw,30px)] font-extrabold tracking-tight text-[#1E1B18] group-hover:text-[#E05A47] transition-colors">
-                        {faq.q}
-                      </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {INDUSTRIES.map((item, index) => (
+              <motion.div
+                key={item.num}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, margin: "-50px" }}
+                variants={fadeUp}
+                className="bg-white rounded-2xl p-10 border border-[#E8E2D9] shadow-sm hover:border-[#E05A47]/40 transition-all duration-300 flex flex-col justify-between group"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-8">
+                    <div className="p-3 rounded-xl bg-[#FAF8F5] border border-[#E8E2D9] group-hover:border-[#E05A47]/40 transition-colors">
+                      {item.icon}
                     </div>
-
-                    <div className={`w-10 h-10 rounded-full border border-[#E8E2D9] flex items-center justify-center shrink-0 transition-colors ${isOpen ? "bg-[#1E1B18] text-white border-[#1E1B18]" : "group-hover:border-[#E05A47] text-[#1E1B18]"}`}>
-                      <span className="font-mono text-lg font-bold">{isOpen ? "—" : "+"}</span>
-                    </div>
+                    <span className="font-mono text-2xl font-black text-[#1E1B18]/15 group-hover:text-[#E05A47] transition-colors">
+                      {item.num}
+                    </span>
                   </div>
 
-                  <AnimatePresence>
-                    {isOpen && (
-                      <motion.div 
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                        className="overflow-hidden pb-10 pl-12 md:pl-20 pr-6"
-                      >
-                        <div className="max-w-3xl border-l-2 border-[#E05A47] pl-6 py-2">
-                          <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-[#E05A47] block mb-3 font-bold">
-                            {faq.category}
-                          </span>
-                          <p className="text-[#5C5346] text-lg md:text-xl font-light leading-relaxed">
-                            {faq.a}
-                          </p>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </motion.div>
-              );
-            })}
-          </div>
+                  <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-[#E05A47] font-bold block mb-3">
+                    {item.tag}
+                  </span>
 
+                  <h3 className="text-2xl font-bold tracking-tight text-[#1E1B18] mb-4 group-hover:text-[#E05A47] transition-colors">
+                    {item.title}
+                  </h3>
+
+                  <p className="text-[#5C5346] text-base font-light leading-relaxed">
+                    {item.desc}
+                  </p>
+                </div>
+
+                <div className="mt-12 pt-6 border-t border-[#FAF8F5] flex items-center justify-between">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#8C8375]">
+                    Impact Metric
+                  </span>
+                  <span className="font-mono text-xs font-bold text-[#1E1B18] bg-[#FAF8F5] px-3 py-1 rounded-full border border-[#E8E2D9]">
+                    {item.metric}
+                  </span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* =========================================
-          03 / STILL HAVE QUESTIONS SECTION
+          03 / IMMERSIVE SCROLL STATEMENT
       ========================================= */}
-      <section className="px-[5vw] py-32 bg-white">
-        <motion.div 
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={staggerContainer}
-          className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 items-center bg-[#FAF8F5] p-12 md:p-24 border border-[#E8E2D9] rounded-2xl shadow-xl shadow-[#1E1B18]/[0.02]"
-        >
-          <div className="md:col-span-8 flex flex-col gap-6">
-            <motion.span variants={fadeUp} className="font-mono text-[11px] tracking-[0.2em] uppercase text-[#E05A47] font-semibold">
-              Need Direct Assistance?
-            </motion.span>
-            <motion.h2 variants={fadeUp} className="text-[clamp(32px,4vw,56px)] leading-[1.1] font-extrabold tracking-tight text-[#1E1B18]">
-              Have a specific question we didn't cover here?
-            </motion.h2>
-            <motion.p variants={fadeUp} className="text-[#5C5346] text-lg font-light max-w-xl">
-              Drop us a message directly. We are always happy to discuss your goals, technical requirements, and how we can help.
-            </motion.p>
-          </div>
-
-          <motion.div variants={fadeUp} className="md:col-span-4 flex justify-start md:justify-end">
-            <Link 
-              to="/contact" 
-              className="group relative inline-flex items-center justify-center bg-[#1E1B18] text-white px-10 py-5 rounded-xl font-mono text-[12px] tracking-[0.15em] uppercase overflow-hidden shadow-xl font-bold"
+      <section
+        ref={statementRef}
+        className="h-[130vh] relative bg-[#FAF8F5] border-b border-[#E8E2D9]"
+      >
+        <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden px-[5vw]">
+          <motion.h2
+            style={{ scale, opacity }}
+            className="text-[clamp(50px,9vw,160px)] leading-[0.95] font-extrabold text-center uppercase whitespace-nowrap text-[#1E1B18]"
+          >
+            Every sector requires <br />
+            <span
+              className="text-[#E05A47] italic font-serif lowercase font-normal"
+              style={{ fontFamily: "'Instrument Serif', serif" }}
             >
-              <span className="relative z-10 flex items-center gap-3">
-                Get in Touch <ArrowRight className="w-4 h-4 text-[#E05A47] group-hover:translate-x-1 transition-transform" />
-              </span>
-              <div className="absolute inset-0 bg-[#332F2A] translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300 ease-out" />
-            </Link>
-          </motion.div>
-        </motion.div>
+              absolute precision.
+            </span>
+          </motion.h2>
+        </div>
       </section>
 
-   
-
       {/* =========================================
-          05 / CTA
+          04 / CTA SECTION
       ========================================= */}
-      <section className="px-[5vw] py-40 pb-60 bg-white text-center flex flex-col items-center justify-center border-t border-[#E8E2D9] relative z-10">
+      <section className="px-[5vw] py-36 bg-white text-center flex flex-col items-center justify-center border-t border-[#E8E2D9] relative overflow-hidden">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_50%_50%,rgba(224,90,71,0.04),transparent_70%)]" />
+
         <motion.div
-           initial="hidden"
-           whileInView="show"
-           viewport={{ once: true }}
-           variants={staggerContainer}
-           className="flex flex-col items-center max-w-[1000px]"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          variants={staggerContainer}
+          className="flex flex-col items-center max-w-[900px] relative z-10"
         >
-          <motion.span variants={fadeUp} className="font-mono text-[11px] tracking-[0.2em] uppercase text-[#E05A47] mb-8 font-semibold">
-            Ready when you are
+          <motion.span
+            variants={fadeUp}
+            className="font-mono text-[11px] tracking-[0.2em] uppercase text-[#E05A47] mb-6 font-bold"
+          >
+            Ready to scale your vertical?
           </motion.span>
-          
-          <motion.h2 variants={fadeUp} className="text-[clamp(40px,7vw,110px)] leading-[1.05] font-extrabold tracking-tight mb-8 text-[#1E1B18]">
-            Let's build something <br />
-            <span className="text-[#E05A47] italic font-serif font-normal" style={{ fontFamily: "'Instrument Serif', serif" }}>exceptional</span> together.
+
+          <motion.h2
+            variants={fadeUp}
+            className="text-[clamp(36px,6.5vw,96px)] leading-[1.05] font-extrabold tracking-tight mb-6 text-[#1E1B18]"
+          >
+            Let's build your industry <br />
+            <span
+              className="text-[#E05A47] italic font-serif font-normal"
+              style={{ fontFamily: "'Instrument Serif', serif" }}
+            >
+              benchmark.
+            </span>
           </motion.h2>
 
-          <motion.p variants={fadeUp} className="text-[#5C5346] text-xl font-light mb-16">
-            Tell us about your next project and let's get started.
+          <motion.p
+            variants={fadeUp}
+            className="text-[#5C5346] text-lg md:text-xl font-light mb-12 max-w-xl"
+          >
+            Schedule a discovery call to discuss your industry-specific requirements and growth roadmap.
           </motion.p>
 
-          <motion.div variants={fadeUp} className="flex flex-col sm:flex-row items-center gap-6">
-            <Link 
-              to="/contact" 
-              className="group relative inline-flex items-center justify-center bg-[#E05A47] text-white px-10 py-5 rounded-xl font-mono text-[12px] tracking-[0.15em] uppercase overflow-hidden shadow-xl shadow-[#E05A47]/20 font-bold"
+          <motion.div
+            variants={fadeUp}
+            className="flex flex-col sm:flex-row items-center gap-4"
+          >
+            <Link
+              to="/contact"
+              className="group relative inline-flex items-center justify-center bg-[#E05A47] text-white px-9 py-4 rounded-xl font-mono text-[12px] tracking-[0.15em] uppercase overflow-hidden shadow-lg shadow-[#E05A47]/20 font-bold transition-all hover:bg-[#C94735]"
             >
               <span className="relative z-10 flex items-center gap-3">
                 Start a Project <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </span>
-              <div className="absolute inset-0 bg-[#C94735] translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300 ease-out" />
             </Link>
 
-            <Link 
-              to="/services" 
-              className="group inline-flex items-center gap-3 font-mono text-[12px] tracking-[0.15em] uppercase text-[#5C5346] hover:text-[#1E1B18] transition-colors py-5 px-6 font-semibold"
+            <Link
+              to="/services"
+              className="group inline-flex items-center gap-2 font-mono text-[12px] tracking-[0.15em] uppercase text-[#5C5346] hover:text-[#1E1B18] transition-colors py-4 px-6 font-semibold"
             >
-              View our Services
+              Explore All Services
             </Link>
           </motion.div>
         </motion.div>

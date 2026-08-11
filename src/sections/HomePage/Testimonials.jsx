@@ -270,7 +270,7 @@ export default function Testimonials() {
           className="mt-10 md:mt-14 pt-6 border-t border-border/80 flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
         >
           <span className="font-mono text-[10px] tracking-[0.22em] text-ink-secondary uppercase">
-            WE PROMOTE INDIA — CLIENT STORIES
+            WE PROMOTE  — CLIENT STORIES
           </span>
           <p className="text-[13px] md:text-[14px] font-light text-ink-secondary">
             Built together. Remembered together.

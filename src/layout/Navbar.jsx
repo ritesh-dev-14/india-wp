@@ -58,8 +58,8 @@ export default function Navbar() {
             menuOpen
               ? "bg-transparent border-transparent" // Blends with mobile menu when open
               : scrolled
-              ? "bg-[#FAF8F5]/95 backdrop-blur-xl border-b border-[#E8E2D9]"
-              : "bg-transparent" // Allows hero to show underneath
+                ? "bg-[#FAF8F5]/95 backdrop-blur-xl border-b border-[#E8E2D9]"
+                : "bg-transparent" // Allows hero to show underneath
           }
         `}
       >
@@ -76,12 +76,12 @@ export default function Navbar() {
           {/* LOGO */}
           <Link
             to="/"
-            aria-label="SiteSparkOne — Home"
+            aria-label="We Promote — Home"
             className="relative z-[110] flex items-center shrink-0"
           >
             <img
               src={logo}
-              alt="SiteSparkOne"
+              alt="We Promote"
               className="h-8 md:h-9 w-auto object-contain"
             />
           </Link>
@@ -240,7 +240,7 @@ export default function Navbar() {
               }
             `}
           >
-            Navigation // SiteSparkOne
+            Navigation // We Promote
           </div>
 
           {/* Links */}
@@ -338,7 +338,7 @@ export default function Navbar() {
             </Link>
 
             <div className="mt-6 flex items-center justify-between font-mono text-[9px] tracking-[0.12em] uppercase text-[#8C8375]">
-              <span>hello@sitesparkone.com</span>
+              <span>hello@wepromoteindia.com</span>
               <span>Global</span>
             </div>
           </div>
