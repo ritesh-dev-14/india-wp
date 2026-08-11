@@ -4,8 +4,8 @@ import HomePage from "../pages/HomePage";
 import WorkPage from "../pages/WorkPage";
 import ServicesPage from "../pages/ServicesPage";
 import AboutPage from "../pages/AboutPage";
-import InDustries from "../pages/IndustriesPage";
-import InsightsPage from "../pages/InsightsPage";
+import InDustries from "../pages/InDustries";
+import Process from "../pages/Process";
 import ContactPage from "../pages/ContactPage";
 
 const MainContent = () => {
@@ -16,7 +16,7 @@ const MainContent = () => {
       <Route path="/services" element={<ServicesPage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/industries" element={<InDustries />} />
-      <Route path="/insights" element={<InsightsPage />} />
+      <Route path="/process" element={<Process />} />
       <Route path="/contact" element={<ContactPage />} />
     </Routes>
   );

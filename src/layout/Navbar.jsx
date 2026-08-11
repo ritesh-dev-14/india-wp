@@ -8,7 +8,7 @@ const NAV_LINKS = [
   { label: "Services", path: "/services" },
   { label: "About", path: "/about" },
   { label: "Industries", path: "/industries" },
-  { label: "Insights", path: "/insights" },
+  { label: "Process", path: "/process" },
   { label: "Contact", path: "/contact" },
 ];
 

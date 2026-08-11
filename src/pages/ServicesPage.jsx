@@ -214,18 +214,18 @@ export default function ServicesPage() {
                 variants={fadeUp}
                 onMouseEnter={() => setHoveredCapability(i)}
                 onMouseLeave={() => setHoveredCapability(null)}
-                className="group relative flex flex-col md:flex-row md:items-center justify-between border-b border-[#E8E2D9] py-8 md:py-10 cursor-pointer transition-colors duration-500 hover:bg-white"
+                className="group relative flex flex-col lg:flex-row lg:items-center justify-between border-b border-[#E8E2D9] py-8 lg:py-10 cursor-pointer transition-colors duration-500 hover:bg-white gap-6 lg:gap-0"
               >
-                <div className="flex items-baseline gap-6 md:gap-12 md:w-1/3 z-10 px-4 md:px-0">
-                  <span className="font-mono text-sm text-[#3B6A62] group-hover:text-[#E05A47] transition-colors font-bold">
+                <div className="flex items-baseline gap-6 lg:gap-12 lg:w-1/3 z-10 px-4 lg:px-0">
+                  <span className="font-mono text-sm text-[#3B6A62] group-hover:text-[#E05A47] transition-colors font-bold shrink-0">
                     {cap.num}
                   </span>
-                  <h3 className="text-[clamp(32px,5vw,72px)] font-extrabold tracking-tight group-hover:translate-x-4 transition-transform duration-500 ease-out text-[#1E1B18]">
+                  <h3 className="text-[clamp(28px,4vw,56px)] font-extrabold tracking-tight group-hover:translate-x-2 transition-transform duration-500 ease-out text-[#1E1B18] leading-none">
                     {cap.title}
                   </h3>
                 </div>
 
-                <div className="hidden md:flex flex-col gap-2 w-1/3 z-10 opacity-60 group-hover:opacity-100 transition-opacity duration-500">
+                <div className="flex flex-col gap-1.5 lg:w-1/3 z-10 px-4 lg:px-0 opacity-80 lg:opacity-60 group-hover:opacity-100 transition-opacity duration-500">
                   {cap.services.map((service) => (
                     <span
                       key={service}
@@ -236,7 +236,7 @@ export default function ServicesPage() {
                   ))}
                 </div>
 
-                <div className="hidden md:flex items-center justify-end w-1/4 z-10 pr-8">
+                <div className="hidden lg:flex items-center justify-end w-1/4 z-10 pr-8">
                   <ArrowRight
                     className="w-8 h-8 text-transparent -translate-x-8 group-hover:text-[#E05A47] group-hover:translate-x-0 transition-all duration-500 ease-out"
                     strokeWidth={1.5}

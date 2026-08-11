@@ -187,7 +187,7 @@ const fadeUp = {
   show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 80, damping: 20 } }
 };
 
-export default function Approach() {
+export default function Process() {
   const [activeCategory, setActiveCategory] = useState("ALL PHASES");
   const [selectedArticle, setSelectedArticle] = useState(null);
 
