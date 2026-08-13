@@ -116,9 +116,9 @@ function CharteredSeal({ prefersReducedMotion }) {
         </defs>
         <circle cx="100" cy="100" r="95" fill="none" stroke="#8C6A1E" strokeWidth="1" strokeOpacity="0.3" />
         <circle cx="100" cy="100" r="78" fill="none" stroke="#8C6A1E" strokeWidth="1.5" />
-        <text fill="#6B1D1D" fontSize="9.2" letterSpacing="3.2" fontFamily="ui-monospace, monospace" fontWeight="600">
+        <text fill="#6B1D1D" fontSize="13.2" letterSpacing="3.2" fontFamily="ui-monospace, monospace" fontWeight="600">
           <textPath href="#sealCirclePath" startOffset="0%">
-            WE PROMOTE INDIA • CHARTERED GROWTH ADVISORY •
+                WE PROMOTE INDIA • BRAND • DIGITAL • PR • GROWTH •
           </textPath>
         </text>
       </motion.svg>

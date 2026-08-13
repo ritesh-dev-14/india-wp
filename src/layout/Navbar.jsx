@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ArrowRight } from "lucide-react";
@@ -58,7 +60,7 @@ export default function Navbar() {
             menuOpen
               ? "bg-transparent border-transparent" // Blends with mobile menu when open
               : scrolled
-                ? "bg-[#FAF8F5]/95 backdrop-blur-xl border-b border-[#E8E2D9]"
+                ? "bg-[#FAF8F5]/95 backdrop-blur-xl border-b border-[#8C6A1E]/20"
                 : "bg-transparent" // Allows hero to show underneath
           }
         `}
@@ -76,13 +78,13 @@ export default function Navbar() {
           {/* LOGO */}
           <Link
             to="/"
-            aria-label="We Promote — Home"
+            aria-label="We Promote India — Home"
             className="relative z-[110] flex items-center shrink-0"
           >
             <img
               src={logo}
-              alt="We Promote"
-              className="h-8 md:h-9 w-auto object-contain"
+              alt="We Promote India"
+              className="h-8 md:h-9 w-auto object-contain filter contrast-105"
             />
           </Link>
 
@@ -107,7 +109,7 @@ export default function Navbar() {
                     tracking-[0.16em]
                     uppercase
                     transition-colors duration-300
-                    ${active ? "text-[#1E1B18] font-bold" : "text-[#5C5346] hover:text-[#1E1B18]"}
+                    ${active ? "text-[#1A1714] font-bold" : "text-[#78716C] hover:text-[#1A1714]"}
                   `}
                 >
                   {item.label}
@@ -120,7 +122,7 @@ export default function Navbar() {
                       right-0
                       -bottom-1
                       h-px
-                      bg-[#E05A47]
+                      bg-[#8C6A1E]
                       transition-transform duration-300 origin-left
                       ${active ? "scale-x-100" : "scale-x-0"}
                     `}
@@ -140,26 +142,24 @@ export default function Navbar() {
                 items-center
                 gap-3
                 border
-                border-[#E05A47]
-                bg-[#E05A47]
-                px-5
+                border-[#8C6A1E]/30
+                bg-[#1A1714]
+                px-6
                 py-3
-                text-white
+                text-[#FAF8F5]
                 font-mono
                 text-[11px]
-                tracking-[0.14em]
+                tracking-[0.18em]
                 uppercase
-                font-bold
+                font-medium
                 transition-all
                 duration-300
-                hover:bg-transparent
-                hover:text-[#1E1B18]
-                hover:border-[#1E1B18]/40
-                shadow-md
-                shadow-[#E05A47]/15
+                hover:border-[#8C6A1E]
+                hover:bg-[#8C6A1E]
+                shadow-[0_4px_16px_rgba(26,23,20,0.08)]
               "
             >
-              <span>Let's Talk</span>
+              <span>Let&apos;s Talk</span>
               <ArrowRight
                 className="
                   w-3.5
@@ -185,7 +185,7 @@ export default function Navbar() {
               justify-center
               w-10
               h-10
-              text-[#1E1B18]
+              text-[#1A1714]
               focus:outline-none
             "
             aria-label={menuOpen ? "Close navigation" : "Open navigation"}
@@ -227,10 +227,10 @@ export default function Navbar() {
               mb-10
               font-mono
               text-[10px]
-              tracking-[0.2em]
+              tracking-[0.25em]
               uppercase
-              text-[#E05A47]
-              font-semibold
+              text-[#8C6A1E]
+              font-bold
               transition-all
               duration-500
               ${
@@ -240,7 +240,7 @@ export default function Navbar() {
               }
             `}
           >
-            Navigation // We Promote
+            Navigation // We Promote India
           </div>
 
           {/* Links */}
@@ -255,9 +255,9 @@ export default function Navbar() {
                   items-center
                   justify-between
                   border-b
-                  border-[#E8E2D9]
+                  border-[#8C6A1E]/20
                   py-5
-                  text-[#1E1B18]
+                  text-[#1A1714]
                   transition-all
                   duration-500
                   ${
@@ -270,7 +270,7 @@ export default function Navbar() {
                   transitionDelay: menuOpen ? `${index * 60 + 100}ms` : "0ms",
                 }}
               >
-                <span className="text-[clamp(30px,8vw,48px)] font-extrabold tracking-tight">
+                <span className="text-[clamp(30px,8vw,48px)] font-light tracking-tight">
                   {item.label}
                 </span>
 
@@ -278,10 +278,10 @@ export default function Navbar() {
                   className="
                     w-5
                     h-5
-                    text-[#8C8375]
+                    text-[#78716C]
                     transition-all
                     duration-300
-                    group-hover:text-[#E05A47]
+                    group-hover:text-[#8C6A1E]
                     group-hover:translate-x-1
                   "
                 />
@@ -311,17 +311,21 @@ export default function Navbar() {
                 items-center
                 justify-between
                 w-full
-                bg-[#E05A47]
+                border
+                border-[#8C6A1E]/30
+                bg-[#1A1714]
                 px-6
                 py-5
-                text-white
+                text-[#FAF8F5]
                 font-mono
                 text-[11px]
-                tracking-[0.16em]
+                tracking-[0.2em]
                 uppercase
-                font-bold
-                shadow-lg
-                shadow-[#E05A47]/20
+                font-medium
+                shadow-[0_4px_20px_rgba(26,23,20,0.12)]
+                hover:bg-[#8C6A1E]
+                transition-all
+                duration-300
               "
             >
               <span>Start a Project</span>
@@ -337,9 +341,9 @@ export default function Navbar() {
               />
             </Link>
 
-            <div className="mt-6 flex items-center justify-between font-mono text-[9px] tracking-[0.12em] uppercase text-[#8C8375]">
+            <div className="mt-6 flex items-center justify-between font-mono text-[10px] tracking-[0.15em] uppercase text-[#78716C]">
               <span>hello@wepromoteindia.com</span>
-              <span>Global</span>
+              <span>Global Mandates</span>
             </div>
           </div>
         </div>
