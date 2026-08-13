@@ -12,9 +12,9 @@ const TESTIMONIALS = [
     id: "01",
     quote:
       "WePromote transformed our entire digital presence. From comprehensive website engineering to high-impact branding, they redefined how our luxury line is perceived in the market.",
-    name: "RAJESH TRIVENI",
+    name: "TRIVENI - The Granite Studio",
     role: "Managing Director",
-    company: "Triveni Group",
+    company: "Triveni Granite Studio",
     project: "Full-Stack Website & Global Branding",
     image:
       "https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=1600&auto=format&fit=crop",
@@ -24,9 +24,9 @@ const TESTIMONIALS = [
     id: "02",
     quote:
       "Absolute mastery in execution. They took over our complete digital ecosystem, delivering a seamless blend of elite architecture and visual storytelling that sets us apart from competitors.",
-    name: "VIKRAM INNE",
+    name: "INNE Lifts",
     role: "Chief Executive Officer",
-    company: "Inne Enterprises",
+    company: "Inne Lifts",
     project: "End-to-End Digital Ecosystem & Strategy",
     image:
       "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1600&auto=format&fit=crop",
@@ -36,7 +36,7 @@ const TESTIMONIALS = [
     id: "03",
     quote:
       "When we launched our flagship showroom in a brand-new city, WePromote engineered a grand launch hype that drove immense footfall and immediate market dominance from day one.",
-    name: "ANITA HANDA",
+    name: "HANDA BANGLES",
     role: "Founder & Director",
     company: "Handa Bangles",
     project: "Grand Launch Hype & City Expansion Campaign",
@@ -48,9 +48,9 @@ const TESTIMONIALS = [
     id: "04",
     quote:
       "As an aesthetic manufacturer, finding quality pan-India distributors used to be a challenge. Their strategic positioning and outreach built us a robust network across the entire country.",
-    name: "DR. SAMEER MEHRA",
+    name: "Aesthetic Homes",
     role: "Managing Director",
-    company: "Aesthetic Manufacturing Co.",
+    company: "Aesthetic Homes",
     project: "Pan-India Distributor Acquisition & Growth",
     image:
       "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1600&auto=format&fit=crop",
@@ -60,7 +60,7 @@ const TESTIMONIALS = [
     id: "05",
     quote:
       "In the B2B metallurgy space, credibility is everything. Their high-end website overhaul and targeted social media campaigns established total market authority and unmatched brand respect.",
-    name: "RAGHAV SHARMA",
+    name: "Precision Metallurgy",
     role: "Director of Operations",
     company: "Precision Metallurgy",
     project: "Pan-India B2B Branding & Digital Flagship",
@@ -72,7 +72,7 @@ const TESTIMONIALS = [
     id: "06",
     quote:
       "Managing high-profile architect meets and digital brand presence requires absolute precision. They manage our elite architect engagements flawlessly, cementing our leadership position.",
-    name: "KAVITA GUPTA",
+    name: "HCS Homes",
     role: "Head of Marketing",
     company: "HCS Homes",
     project: "Architect Meet Management & Brand Presence",
