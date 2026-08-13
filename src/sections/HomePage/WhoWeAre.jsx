@@ -65,7 +65,7 @@ export default function WhoWeAre() {
               Yet, in today&apos;s digital-first landscape, modern consumers judge authority by what they see on screen. If your online presence doesn&apos;t mirror your real-world stature, you risk losing market share to younger, louder competitors who lack your heritage.
             </p>
             <p className="text-[15px] md:text-[16px] font-light leading-relaxed text-[#57534E]">
-              <strong className="font-medium text-[#1A1714]">We Promote India</strong> bridges this gap. We translate decades of offline dominance into unassailable online authority—building digital ecosystems that your legacy always deserved.
+              <strong className="font-medium text-[#1A1714]">We Promote</strong> bridges this gap. We translate decades of offline dominance into unassailable online authority—building digital ecosystems that your legacy always deserved.
             </p>
 
             <div className="pt-4">
