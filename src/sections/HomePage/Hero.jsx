@@ -1,96 +1,138 @@
 "use client";
 
-import React from "react";
-import { ArrowUpRight } from "lucide-react";
-import { motion, useReducedMotion } from "framer-motion";
+import React, { useState, useEffect } from "react";
+import { ArrowUpRight, ShieldCheck, Sparkles, TrendingUp } from "lucide-react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 
 /**
- * DESIGN NOTES
- * ------------
- * Palette (antique brass / ink / oxblood — deliberately NOT the default
- * "near-black + neon accent" AI hero look):
- *   --ink        #0C0A08  base background, warm near-black
- *   --parchment  #EDE3CF  primary text on dark
- *   --brass      #A9822F  primary accent (muted, aged metal — not neon gold)
- *   --brass-lt   #D9BE84  brass highlight / hover state
- *   --oxblood    #5C1A1A  secondary accent, used sparingly in the seal
- *   --stone      #8A8578  secondary/muted text, warm grey (not cool zinc)
- *
- * Type:
- *   Display  — Fraunces (high-contrast serif, engraved/plaque character)
- *   Body     — Inter
- *   Utility  — ui-monospace, for registry-style labels
- *
- *   Add to your root layout (next/font recommended):
- *     import { Fraunces, Inter } from "next/font/google";
- *     const fraunces = Fraunces({ subsets: ["latin"], weight: ["400","600"], style: ["normal","italic"], variable: "--font-display" });
- *     const inter = Inter({ subsets: ["latin"], variable: "--font-body" });
- *   ...and apply the variables to <html className={`${fraunces.variable} ${inter.variable}`}>
- *   The constants below fall back gracefully to system serif/sans if omitted.
- *
- * Signature element: a hand-drawn SVG chartered seal (concentric rings +
- * circular motto + center mark) standing in for the "pill badge" every
- * other dark hero uses — it's the one thing this page should be remembered by.
- * Corner brackets echo a certificate/document frame rather than decorative
- * grid lines, reinforcing "this is a chartered, official mandate."
+ * DESIGN NOTES & AWWWARDS-GRADE ENTRANCE (ENHANCED EDITION)
+ * -----------------------------------------------------------------
+ * Tailored for an elite, museum-quality gallery/award submission presentation:
+ *   - Immersive cinematic curtain reveal with luxury emblem scale
+ *   - Staggered line-by-line typographic clip reveal for maximum visual impact
+ *   - Advanced floating depth layers, interactive brand tooltips, and magnetic micro-interactions
  */
 
 const DISPLAY = "var(--font-display, 'Fraunces'), 'Times New Roman', ui-serif, Georgia, serif";
 const BODY = "var(--font-body, 'Inter'), ui-sans-serif, system-ui, sans-serif";
 const EASE = [0.76, 0, 0.24, 1];
 
+const BRANDS = [
+  "ALTEZZA", "ARTIZE", "AESTHETIC HOMEZ", "BACHAN INDUSTRIES", "DAZZLE",
+  "EXPERT", "GOYAL", "HALDIRAM", "HANDA", "HCS", "JAQUAR", "KANAK", "LG",
+  "MANSAROVER", "NICO", "PRECISION", "RAJ JEWELS", "SAI JEWELLERS",
+  "SOMANY", "SPENZA", "SWASTIK HOME DECOR", "TOTOO", "TRIVENI", "VARMORA", "VOLTAS",
+];
+
+const GHOST_WORDS = ["AUTHORITY", "VISIBILITY", "INFLUENCE", "LEGACY"];
+
 function CornerMark({ className }) {
   return (
-    <svg
-      viewBox="0 0 40 40"
-      className={className}
-      aria-hidden="true"
-    >
-      <path
-        d="M1 20V1H20"
-        fill="none"
-        stroke="#A9822F"
-        strokeWidth="1"
-        strokeOpacity="0.55"
-      />
+    <svg viewBox="0 0 40 40" className={className} aria-hidden="true">
+      <path d="M1 20V1H20" fill="none" stroke="#8C6A1E" strokeWidth="1.25" strokeOpacity="0.6" />
     </svg>
+  );
+}
+
+function MarqueeRow({ items, direction, duration, size, opacity }) {
+  const doubled = [...items, ...items];
+  return (
+    <div className="overflow-hidden whitespace-nowrap">
+      <div
+        className="inline-flex gap-16"
+        style={{
+          animation: duration ? `marquee${direction === "left" ? "Left" : "Right"} ${duration}s linear infinite` : "none",
+        }}
+      >
+        {doubled.map((b, i) => (
+          <span
+            key={b + i}
+            className="font-black uppercase tracking-tight"
+            style={{ fontSize: size, color: "#1A1714", opacity }}
+          >
+            {b}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function BrandMark({ name }) {
+  const [hover, setHover] = useState(false);
+  return (
+    <div
+      className="relative cursor-pointer select-none"
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+    >
+      <motion.span
+        animate={{ color: hover ? "#8C6A1E" : "#78716C" }}
+        transition={{ duration: 0.2 }}
+        className="text-xs md:text-sm font-bold tracking-wide uppercase"
+      >
+        {name}
+      </motion.span>
+      <AnimatePresence>
+        {hover && (
+          <motion.div
+            initial={{ opacity: 0, y: 6, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 4, scale: 0.95 }}
+            transition={{ duration: 0.2, ease: EASE }}
+            className="absolute left-0 top-full mt-2 px-3 py-1.5 rounded-xs text-[10px] font-semibold tracking-wide uppercase whitespace-nowrap flex items-center gap-1.5 z-30 shadow-[0_10px_25px_rgba(26,23,20,0.15)] bg-[#1A1714] text-[#FAF8F5] border border-[#8C6A1E]/30 backdrop-blur-md"
+          >
+            <Sparkles size={10} className="text-[#8C6A1E]" />
+            Brand / Digital Mandate <ArrowUpRight size={10} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }
 
 function CharteredSeal({ prefersReducedMotion }) {
   return (
     <motion.div
-      initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.9, ease: EASE }}
-      className="relative mx-auto mb-7 h-[108px] w-[108px] md:h-[124px] md:w-[124px]"
+      initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.8, rotate: -20 }}
+      animate={{ opacity: 1, scale: 1, rotate: 0 }}
+      transition={{ duration: 1.2, delay: 0.5, ease: EASE }}
+      className="relative mx-auto mb-7 h-[120px] w-[120px] md:h-[140px] md:w-[140px]"
     >
+      {/* Outer pulsing ring aura */}
+      <motion.div
+        animate={prefersReducedMotion ? {} : { scale: [1, 1.08, 1], opacity: [0.3, 0.6, 0.3] }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute inset-0 rounded-full border border-[#8C6A1E]/40 bg-[#8C6A1E]/5"
+      />
       <motion.svg
         viewBox="0 0 200 200"
-        className="h-full w-full"
+        className="relative h-full w-full drop-shadow-lg"
         animate={prefersReducedMotion ? {} : { rotate: 360 }}
-        transition={{ duration: 90, ease: "linear", repeat: Infinity }}
+        transition={{ duration: 120, ease: "linear", repeat: Infinity }}
       >
         <defs>
-          <path
-            id="sealCirclePath"
-            d="M 100,100 m -78,0 a 78,78 0 1,1 156,0 a 78,78 0 1,1 -156,0"
-          />
+          <path id="sealCirclePath" d="M 100,100 m -78,0 a 78,78 0 1,1 156,0 a 78,78 0 1,1 -156,0" />
         </defs>
-        <circle cx="100" cy="100" r="95" fill="none" stroke="#A9822F" strokeWidth="0.75" strokeOpacity="0.5" />
-        <circle cx="100" cy="100" r="78" fill="none" stroke="#A9822F" strokeWidth="1" />
-        <text fill="#D9BE84" fontSize="9.2" letterSpacing="3.2" fontFamily="ui-monospace, monospace">
+        <circle cx="100" cy="100" r="95" fill="none" stroke="#8C6A1E" strokeWidth="1" strokeOpacity="0.3" />
+        <circle cx="100" cy="100" r="78" fill="none" stroke="#8C6A1E" strokeWidth="1.5" />
+        <text fill="#6B1D1D" fontSize="9.2" letterSpacing="3.2" fontFamily="ui-monospace, monospace" fontWeight="600">
           <textPath href="#sealCirclePath" startOffset="0%">
             WE PROMOTE INDIA • CHARTERED GROWTH ADVISORY •
           </textPath>
         </text>
       </motion.svg>
-      {/* static center mark, counter-rotates visually by not being inside the spinning svg */}
+      {/* Static center emblem with interactive pulse */}
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-        <svg viewBox="0 0 40 40" className="h-9 w-9">
-          <path d="M20 4 L23 17 L36 20 L23 23 L20 36 L17 23 L4 20 L17 17 Z" fill="#5C1A1A" stroke="#D9BE84" strokeWidth="0.75" />
-          <circle cx="20" cy="20" r="2.2" fill="#EDE3CF" />
-        </svg>
+        <motion.div
+          whileHover={{ scale: 1.1 }}
+          transition={{ duration: 0.3 }}
+        >
+          <svg viewBox="0 0 40 40" className="h-10 w-10">
+            <path d="M20 4 L23 17 L36 20 L23 23 L20 36 L17 23 L4 20 L17 17 Z" fill="#6B1D1D" stroke="#8C6A1E" strokeWidth="1" />
+            <circle cx="20" cy="20" r="2.2" fill="#FAF8F5" />
+          </svg>
+        </motion.div>
       </div>
     </motion.div>
   );
@@ -98,127 +140,210 @@ function CharteredSeal({ prefersReducedMotion }) {
 
 export default function Hero() {
   const prefersReducedMotion = useReducedMotion();
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [ghostIdx, setGhostIdx] = useState(0);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoaded(true), 120);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Cycling background ghost word — AUTHORITY / VISIBILITY / INFLUENCE / LEGACY
+  useEffect(() => {
+    if (prefersReducedMotion) return;
+    const id = setInterval(() => setGhostIdx((i) => (i + 1) % GHOST_WORDS.length), 3000);
+    return () => clearInterval(id);
+  }, [prefersReducedMotion]);
 
   return (
     <section
       style={{ fontFamily: BODY }}
-      className="relative flex min-h-[100svh] w-full flex-col justify-between overflow-hidden bg-[#0C0A08] py-10 px-5 md:px-[6vw] selection:bg-[#A9822F]/25 selection:text-[#EDE3CF]"
+      className="relative flex min-h-[100svh] w-full flex-col justify-between overflow-hidden bg-transparent py-12 px-5 md:px-[6vw] selection:bg-[#8C6A1E]/20 selection:text-[#1A1714]"
     >
-      {/* Ambient background: warm ink vignette with a faint oxblood glow, not a blue tech glow */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(92,26,26,0.22),transparent_65%)]" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_100%,rgba(169,130,47,0.10),transparent_60%)]" />
+      {/* Cinematic Curtain Entrance Overlay */}
+      {!prefersReducedMotion && (
+        <AnimatePresence>
+          {!isLoaded && (
+            <motion.div
+              initial={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.9, ease: EASE }}
+              className="absolute inset-0 z-50 bg-[#FAF8F5]"
+            />
+          )}
+        </AnimatePresence>
+      )}
 
-      {/* Certificate-frame corner marks instead of a decorative grid */}
-      <CornerMark className="pointer-events-none absolute left-4 top-4 h-8 w-8 md:left-6 md:top-6" />
-      <CornerMark className="pointer-events-none absolute right-4 top-4 h-8 w-8 rotate-90 md:right-6 md:top-6" />
-      <CornerMark className="pointer-events-none absolute bottom-4 left-4 h-8 w-8 -rotate-90 md:bottom-6 md:left-6" />
-      <CornerMark className="pointer-events-none absolute bottom-4 right-4 h-8 w-8 rotate-180 md:bottom-6 md:right-6" />
-
-      {/* TOP NAV BAR */}
+      {/* Certificate-frame corner marks with subtle scale entrance */}
       <motion.div
-        initial={prefersReducedMotion ? false : { opacity: 0, y: -16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: EASE }}
-        className="relative z-10 mx-auto flex w-full max-w-[1400px] items-center justify-between border-b border-[#A9822F]/20 pb-7 pt-3"
+        initial={{ opacity: 0, scale: 0.4 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1.1, delay: 0.3, ease: EASE }}
+        className="contents"
       >
-        <div className="flex items-center gap-2.5">
-          <span className="h-[7px] w-[7px] rounded-full bg-[#A9822F] shadow-[0_0_8px_rgba(169,130,47,0.7)]" />
-          <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.25em] text-[#EDE3CF]">
-            We Promote India
-          </span>
-        </div>
-        <div className="hidden font-mono text-[10px] uppercase tracking-[0.22em] text-[#8A8578] sm:flex items-center gap-6">
-          <span>Est. 2026</span>
-          <span className="text-[#A9822F]/50">—</span>
-          <span>Chartered Growth Advisory</span>
-        </div>
-        <a
-          href="/contact"
-          className="group flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-[#EDE3CF] transition-colors duration-300 hover:text-[#D9BE84]"
-        >
-          <span>Request Consultation</span>
-          <span className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">↗</span>
-        </a>
+        <CornerMark className="pointer-events-none absolute left-4 top-4 h-8 w-8 md:left-6 md:top-6 z-20" />
+        <CornerMark className="pointer-events-none absolute right-4 top-4 h-8 w-8 rotate-90 md:right-6 md:top-6 z-20" />
+        <CornerMark className="pointer-events-none absolute bottom-4 left-4 h-8 w-8 -rotate-90 md:bottom-6 md:left-6 z-20" />
+        <CornerMark className="pointer-events-none absolute bottom-4 right-4 h-8 w-8 rotate-180 md:bottom-6 md:right-6 z-20" />
       </motion.div>
 
+      {/* ── Giant cycling ghost word in background ──────────────────── */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0">
+        <AnimatePresence mode="wait">
+          <motion.span
+            key={GHOST_WORDS[ghostIdx]}
+            initial={{ opacity: 0, filter: "blur(10px)", scale: 0.94 }}
+            animate={{ opacity: 1, filter: "blur(0px)", scale: 1 }}
+            exit={{ opacity: 0, filter: "blur(10px)", scale: 1.05 }}
+            transition={{ duration: 1.2, ease: EASE }}
+            style={{
+              fontSize: "clamp(6rem, 22vw, 22rem)",
+              fontWeight: 900,
+              letterSpacing: "-0.03em",
+              color: "rgba(140, 106, 30, 0.045)",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {GHOST_WORDS[ghostIdx]}
+          </motion.span>
+        </AnimatePresence>
+      </div>
+
+      {/* ── Moving brand wall — two rows, opposite speeds ─────────────── */}
+      <div aria-hidden className="absolute inset-x-0 top-[18%] flex flex-col gap-10 pointer-events-none opacity-60 z-0">
+        <MarqueeRow items={BRANDS} direction="left" duration={prefersReducedMotion ? 0 : 48} size="clamp(1.4rem,3.4vw,3rem)" opacity={0.06} />
+        <MarqueeRow items={[...BRANDS].reverse()} direction="right" duration={prefersReducedMotion ? 0 : 62} size="clamp(1rem,2.2vw,1.9rem)" opacity={0.09} />
+      </div>
+
       {/* MAIN CONTENT */}
-      <div className="relative z-10 mx-auto my-auto flex w-full max-w-[1000px] flex-col items-center py-12 text-center">
+      <div className="relative z-10 mx-auto my-auto flex w-full max-w-[1050px] flex-col items-center py-12 text-center">
         <CharteredSeal prefersReducedMotion={prefersReducedMotion} />
 
-        <motion.span
-          initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1, ease: EASE }}
-          className="mb-7 font-mono text-[10.5px] font-semibold uppercase tracking-[0.32em] text-[#A9822F]"
-        >
-          Advisors to India&rsquo;s Market Leaders
-        </motion.span>
-
-        <div className="mb-8 overflow-hidden md:mb-9">
-          <motion.h1
-            initial={prefersReducedMotion ? false : { opacity: 0, y: 36 }}
+        {/* Subtitle Badge with Micro-Motion & Glow */}
+        <div className="overflow-hidden mb-6">
+          <motion.div
+            initial={prefersReducedMotion ? false : { opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.18, ease: EASE }}
-            style={{ fontFamily: DISPLAY }}
-            className="text-[clamp(2.6rem,6.4vw,6rem)] font-semibold leading-[0.98] tracking-[-0.02em] text-[#EDE3CF]"
+            transition={{ duration: 0.8, delay: 0.65, ease: EASE }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#8C6A1E]/30 bg-[#8C6A1E]/5 shadow-[0_2px_12px_rgba(140,106,30,0.06)] backdrop-blur-sm"
           >
-            <span className="block">Offline Legacy.</span>
-            <span className="block font-normal italic text-[#D9BE84]">Online Authority.</span>
-          </motion.h1>
+            <ShieldCheck size={13} className="text-[#8C6A1E]" />
+            <span className="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-[#8C6A1E]">
+              Advisors to India&rsquo;s Market Leaders
+            </span>
+          </motion.div>
         </div>
 
+        {/* Massive Headline with Line-by-Line Clip Animation */}
+        <div className="mb-8 flex flex-col items-center overflow-hidden md:mb-10">
+          <h1
+            style={{ fontFamily: DISPLAY }}
+            className="text-[clamp(2.8rem,7vw,6.5rem)] font-semibold leading-[0.96] tracking-[-0.02em] text-[#1A1714]"
+          >
+            <div className="overflow-hidden py-1">
+              <motion.span
+                initial={prefersReducedMotion ? false : { y: "110%" }}
+                animate={{ y: 0 }}
+                transition={{ duration: 0.9, delay: 0.8, ease: EASE }}
+                className="block drop-shadow-sm"
+              >
+                Offline Legacy.
+              </motion.span>
+            </div>
+            <div className="overflow-hidden py-1">
+              <motion.span
+                initial={prefersReducedMotion ? false : { y: "110%" }}
+                animate={{ y: 0 }}
+                transition={{ duration: 0.9, delay: 0.95, ease: EASE }}
+                className="block font-normal italic text-[#8C6A1E] drop-shadow-sm"
+              >
+                Online Authority.
+              </motion.span>
+            </div>
+          </h1>
+        </div>
+
+        {/* Paragraph & Action Core */}
         <motion.div
-          initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.28, ease: EASE }}
-          className="flex w-full max-w-[540px] flex-col items-center gap-7"
+          transition={{ duration: 0.9, delay: 1.1, ease: EASE }}
+          className="flex w-full max-w-[580px] flex-col items-center gap-7"
         >
-          <p className="text-[15px] font-light leading-relaxed text-[#B9B2A0] md:text-[16.5px]">
+          <p className="text-[15.5px] font-normal leading-relaxed text-[#57534E] md:text-[17px]">
             For enterprises that have already earned trust in the real world, we
             architect a digital presence to match — considered, credible, and
             built to be inherited, not refreshed each season.
           </p>
 
-          <div className="flex w-full flex-col items-center justify-center gap-3 pt-1 sm:flex-row">
-            <a
+          <div className="flex w-full flex-col items-center justify-center gap-3.5 pt-2 sm:flex-row">
+            <motion.a
               href="/contact"
-              className="group inline-flex w-full items-center justify-between gap-6 rounded-[2px] border border-[#A9822F] bg-[#A9822F] px-7 py-3.5 text-[#0C0A08] shadow-[0_1px_0_rgba(217,190,132,0.4)_inset] transition-all duration-300 ease-out hover:bg-[#D9BE84] hover:border-[#D9BE84] sm:w-auto sm:justify-center"
+              whileHover={{ scale: 1.02, y: -2 }}
+              whileTap={{ scale: 0.98 }}
+              className="group inline-flex w-full items-center justify-between gap-6 rounded-[2px] border border-[#8C6A1E] bg-[#8C6A1E] px-8 py-4 text-white shadow-[0_6px_22px_rgba(140,106,30,0.35)] transition-colors duration-300 ease-out hover:bg-[#1A1714] hover:border-[#1A1714] sm:w-auto sm:justify-center cursor-pointer"
             >
-              <span className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.22em]">
+              <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em]">
                 Request a Consultation
               </span>
-              <ArrowUpRight size={15} className="transition-transform duration-300 ease-out group-hover:translate-x-1" />
-            </a>
+              <ArrowUpRight size={16} className="transition-transform duration-300 ease-out group-hover:translate-x-1 group-hover:-translate-y-1" />
+            </motion.a>
 
-            <a
+            <motion.a
               href="/work"
-              className="group inline-flex items-center justify-center gap-2 px-4 py-3 font-mono text-[11.5px] uppercase tracking-[0.16em] text-[#8A8578] transition-colors duration-300 hover:text-[#EDE3CF]"
+              whileHover={{ x: 3 }}
+              className="group inline-flex items-center justify-center gap-2 px-5 py-3.5 font-mono text-[12px] uppercase tracking-[0.16em] text-[#78716C] transition-colors duration-300 hover:text-[#1A1714] cursor-pointer"
             >
               View Client Mandates
-              <span className="transition-transform duration-300 group-hover:translate-x-0.5">→</span>
-            </a>
+              <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+            </motion.a>
           </div>
         </motion.div>
       </div>
 
-      {/* FOOTER — registry line + credibility markers, replacing generic "01 / SCROLL" pattern */}
+      {/* ── Brand proof strip ──────────────────────────────────────────── */}
       <motion.div
-        initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
+        initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, delay: 0.4, ease: EASE }}
-        className="relative z-10 mx-auto flex w-full max-w-[1400px] flex-col items-center justify-between gap-4 border-t border-[#A9822F]/20 pt-7 pb-2 md:flex-row"
+        transition={{ duration: 0.8, delay: 1.2, ease: EASE }}
+        className="relative z-10 border-t border-[#8C6A1E]/20 px-4 md:px-10 py-6 max-w-[1400px] mx-auto w-full"
       >
-        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#8A8578]">
-          Reg. No. WPI / 2026 — Chartered Growth Advisory
-        </span>
-        <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 font-mono text-[10px] uppercase tracking-[0.2em] text-[#B9B2A0]">
-          <span>50+ Enterprise Mandates</span>
-          <span className="text-[#A9822F]/50">•</span>
-          <span>₹100Cr+ Media Stewarded</span>
-          <span className="text-[#A9822F]/50">•</span>
-          <span>Pan-India Presence</span>
+        <div className="flex items-center gap-2 mb-4">
+          <TrendingUp size={13} className="text-[#8C6A1E]" />
+          <span className="text-[10px] md:text-[11px] font-bold tracking-[0.28em] uppercase text-[#78716C]">
+            Brands we&apos;ve helped move forward
+          </span>
+        </div>
+        <div className="flex flex-wrap gap-x-8 gap-y-3">
+          {BRANDS.slice(0, 10).map((b) => (
+            <BrandMark key={b} name={b} />
+          ))}
         </div>
       </motion.div>
+
+      {/* FOOTER TICKER / STATS */}
+      <motion.div
+        initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 1.3, ease: EASE }}
+        className="relative z-10 mx-auto flex w-full max-w-[1400px] flex-col items-center justify-between gap-4 border-t border-[#8C6A1E]/25 pt-7 pb-3 md:flex-row"
+      >
+        <span className="font-mono text-[10.5px] uppercase tracking-[0.2em] text-[#78716C]">
+          Reg. No. WPI / 2026 — Chartered Growth Advisory
+        </span>
+        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-mono text-[10.5px] uppercase tracking-[0.2em] text-[#57534E]">
+          <span className="hover:text-[#8C6A1E] transition-colors cursor-default">50+ Enterprise Mandates</span>
+          <span className="text-[#8C6A1E]/50">•</span>
+          <span className="hover:text-[#8C6A1E] transition-colors cursor-default">₹100Cr+ Media Stewarded</span>
+          <span className="text-[#8C6A1E]/50">•</span>
+          <span className="hover:text-[#8C6A1E] transition-colors cursor-default">Pan-India Presence</span>
+        </div>
+      </motion.div>
+
+      <style>{`
+        @keyframes marqueeLeft { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        @keyframes marqueeRight { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+      `}</style>
     </section>
   );
 }

@@ -14,35 +14,35 @@ const EASE = [0.76, 0, 0.24, 1];
 
 const RESULTS = [
   {
+    number: 165,
+    suffix: "+",
+    label: "ACTIVE CLIENTS",
+    description: "Ongoing mandates scaling aggressively across top-tier PR, authority building, and high-end digital growth.",
+  },
+  {
+    number: 4500,
+    suffix: "+",
+    label: "PROJECTS DELIVERED",
+    description: "Digital systems, elite media features, and platforms successfully deployed across diverse global markets.",
+  },
+  {
     number: 50,
     suffix: "+",
-    label: "BRANDS",
-    description: "Partners and companies elevated through strategic design and execution.",
+    label: "BRANDS & FOUNDERS",
+    description: "Elevated into household names through dominant market visibility and institutional prestige.",
   },
   {
-    number: 100,
+    number: 5,
     suffix: "+",
-    label: "PROJECTS",
-    description: "Digital platforms, campaigns, and experiences shipped globally.",
-  },
-  {
-    number: 12,
-    suffix: "+",
-    label: "INDUSTRIES",
-    description: "From luxury e-commerce and fintech to deep tech and hospitality.",
-  },
-  {
-    number: 3,
-    suffix: "+",
-    label: "YEARS",
-    description: "Of relentless pursuit of digital excellence and craft.",
+    label: "YEARS OF DOMINANCE",
+    description: "Of relentless execution, category creation, and building unshakeable market trust.",
   },
   {
     number: null,
     suffix: "",
     displayValue: "∞",
-    label: "IDEAS",
-    description: "Uncompromised imagination built to move businesses forward.",
+    label: "IMPACT",
+    description: "Uncompromised market authority built to leave competitors behind.",
   },
 ];
 
@@ -92,16 +92,16 @@ function ResultItem({ item, index, prefersReducedMotion }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-10%" }}
       transition={{ duration: 0.6, delay: index * 0.1, ease: EASE }}
-      className="group relative border-t border-white/10 py-8 transition-colors duration-500 hover:bg-white/[0.03] md:py-12"
+      className="group relative border-t border-[#8C6A1E]/20 py-8 transition-colors duration-500 hover:bg-[#8C6A1E]/[0.03] md:py-12"
     >
       <div className="grid grid-cols-1 items-center gap-6 px-4 md:grid-cols-12 md:gap-12 md:px-8">
         {/* Large Number Section */}
         <div className="flex items-baseline gap-6 md:col-span-7 lg:col-span-8">
-          <span className="font-mono text-[10px] font-bold tracking-[0.2em] text-[#71717A] transition-colors duration-300 group-hover:text-[#EAB308]">
+          <span className="font-mono text-[10px] font-bold tracking-[0.2em] text-[#78716C] transition-colors duration-300 group-hover:text-[#8C6A1E]">
             0{index + 1}
           </span>
 
-          <span className="block select-none text-[clamp(4rem,7vw,7.5rem)] font-light leading-none tracking-tight text-white transition-colors duration-500 group-hover:text-[#EAB308]">
+          <span className="block select-none text-[clamp(4rem,7vw,7.5rem)] font-light leading-none tracking-tight text-[#1A1714] transition-colors duration-500 group-hover:text-[#8C6A1E]">
             <AnimatedCounter
               value={item.number}
               suffix={item.suffix}
@@ -113,16 +113,16 @@ function ResultItem({ item, index, prefersReducedMotion }) {
         {/* Info Section */}
         <div className="flex flex-col justify-center md:col-span-5 lg:col-span-4">
           <div className="mb-4 flex items-center justify-between">
-            <span className="font-mono text-[11px] font-bold uppercase tracking-[0.25em] text-[#A1A1AA] transition-colors duration-300 group-hover:text-white">
+            <span className="font-mono text-[11px] font-bold uppercase tracking-[0.25em] text-[#57534E] transition-colors duration-300 group-hover:text-[#1A1714]">
               {item.label}
             </span>
 
-            <span className="font-mono text-xs text-[#EAB308] opacity-0 transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:opacity-100">
+            <span className="font-mono text-xs text-[#8C6A1E] opacity-0 transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:opacity-100">
               <ArrowUpRight size={18} />
             </span>
           </div>
 
-          <p className="max-w-[34ch] text-[14px] font-light leading-relaxed text-[#71717A] transition-colors duration-300 group-hover:text-[#D4D4D8]">
+          <p className="max-w-[34ch] text-[14px] font-light leading-relaxed text-[#78716C] transition-colors duration-300 group-hover:text-[#57534E]">
             {item.description}
           </p>
         </div>
@@ -135,18 +135,7 @@ export default function Results() {
   const prefersReducedMotion = useReducedMotion();
 
   return (
-    <section className="relative flex min-h-[100svh] w-full flex-col items-center justify-center overflow-hidden bg-[#020202] py-24 font-sans selection:bg-[#EAB308]/20 selection:text-white md:py-32">
-      {/* Background ambient lighting */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_80%_50%,rgba(20,60,170,0.15),transparent_65%)]" />
-
-      {/* Vertical background grid lines (matching the layout) */}
-      <div className="pointer-events-none absolute inset-0 flex justify-evenly opacity-30">
-        <div className="h-full w-px bg-white/10" />
-        <div className="h-full w-px bg-white/10" />
-        <div className="h-full w-px bg-white/10" />
-        <div className="h-full w-px bg-white/10" />
-      </div>
-
+    <section className="relative flex min-h-[100svh] w-full flex-col items-center justify-center overflow-hidden bg-transparent py-24 font-sans selection:bg-[#8C6A1E]/20 selection:text-[#1A1714] md:py-32">
       <div className="relative z-10 mx-auto w-full max-w-[1400px] px-[5vw]">
         
         {/* Centered Header Layout */}
@@ -159,31 +148,31 @@ export default function Results() {
             className="flex flex-col items-center"
           >
             {/* Pill Badge */}
-            <div className="mb-8 inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/5 px-5 py-2 backdrop-blur-md">
-              <span className="h-2 w-2 rounded-full bg-[#10B981] shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
-              <span className="font-mono text-[11px] font-bold uppercase tracking-[0.25em] text-[#EAB308]">
-                06 / RESULTS
+            <div className="mb-8 inline-flex items-center gap-2.5 rounded-full border border-[#8C6A1E]/30 bg-[#8C6A1E]/5 px-5 py-2 backdrop-blur-md">
+              <span className="h-2 w-2 rounded-full bg-[#8C6A1E] shadow-[0_0_10px_rgba(140,106,30,0.8)]" />
+              <span className="font-mono text-[11px] font-bold uppercase tracking-[0.25em] text-[#8C6A1E]">
+                06 / PROOF OF DOMINANCE
               </span>
             </div>
 
-            <h2 className="mb-6 text-[clamp(2.5rem,5vw,4.5rem)] font-light leading-[1.05] tracking-tight text-white drop-shadow-md">
-              Results,{" "}
+            <h2 className="mb-6 text-[clamp(2.5rem,5vw,4.5rem)] font-light leading-[1.05] tracking-tight text-[#1A1714] drop-shadow-sm">
+              Unrivaled scale.{" "}
               <span
-                className="block md:inline font-normal text-[#A1A1AA]"
+                className="block md:inline font-normal text-[#8C6A1E]"
                 style={{ fontFamily: SERIF, fontStyle: "italic" }}
               >
-                not just deliverables.
+                Undisputed market authority.
               </span>
             </h2>
 
-            <p className="max-w-2xl text-[15px] font-light leading-relaxed text-[#D4D4D8] sm:text-lg">
-              “We measure success by what happens after the work goes live. Numbers tell part of the story. The work tells the rest.”
+            <p className="max-w-2xl text-[15px] font-light leading-relaxed text-[#57534E] sm:text-lg">
+              “We measure success by category domination. With hundreds of active mandates and thousands of tier-1 projects delivered, our track record speaks louder than promises.”
             </p>
           </motion.div>
         </div>
 
-        {/* Stricty Aligned List */}
-        <div className="flex flex-col border-b border-white/10 bg-[#020202]/40 backdrop-blur-sm">
+        {/* Strictly Aligned List */}
+        <div className="flex flex-col border-b border-[#8C6A1E]/20 bg-[#FAF8F5]/40 backdrop-blur-sm">
           {RESULTS.map((item, index) => (
             <ResultItem
               key={item.label}
@@ -202,11 +191,11 @@ export default function Results() {
           transition={{ duration: 0.5, ease: EASE }}
           className="mt-12 flex flex-col items-start justify-between gap-4 py-8 md:flex-row md:items-center"
         >
-          <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#71717A]">
-            WE PROMOTE INDIA — PROOF OF IMPACT
+          <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#78716C]">
+            TRUSTED BY 165+ ONGOING CLIENTS GLOBALLY
           </span>
-          <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white">
-            End-To-End Systems That Scale
+          <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-[#1A1714]">
+            Engineering Total Market Leadership
           </span>
         </motion.div>
       </div>

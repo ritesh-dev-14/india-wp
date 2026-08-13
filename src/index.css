@@ -1,20 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap");
 @import "tailwindcss";
 
 @theme {
-  --color-page: #FAFAF9;
-  --color-surface: #FFFFFF;
-  --color-surface-muted: #F5F5F4;
-  --color-surface-accent: #F5F3FF;
-  --color-ink: #1C1917;
-  --color-ink-secondary: #57534E;
-  --color-ink-muted: #A8A29E;
-  --color-accent: #6366F1;
-  --color-accent-deep: #4F46E5;
-  --color-accent-soft: #A5B4FC;
-  --color-border: #E7E5E4;
-  --color-border-subtle: #F5F5F4;
+  --color-page: #fafaf9;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f5f5f4;
+  --color-surface-accent: #f5f3ff;
+  --color-ink: #1c1917;
+  --color-ink-secondary: #57534e;
+  --color-ink-muted: #a8a29e;
+  --color-accent: #6366f1;
+  --color-accent-deep: #4f46e5;
+  --color-accent-soft: #a5b4fc;
+  --color-border: #e7e5e4;
+  --color-border-subtle: #f5f5f4;
 }
 
 html,
@@ -27,14 +27,14 @@ body,
 }
 
 html {
-  background: var(--color-page);
+  background: transparent;
   color: var(--color-ink);
 }
 
 body {
-  background: var(--color-page);
+  background: transparent;
   color: var(--color-ink);
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -66,28 +66,46 @@ body {
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-image: linear-gradient(135deg, #4F46E5 0%, #6366F1 45%, #818CF8 100%);
+  background-image: linear-gradient(
+    135deg,
+    #4f46e5 0%,
+    #6366f1 45%,
+    #818cf8 100%
+  );
 }
 
 .card-surface {
-  background: #FFFFFF;
-  border: 1px solid #E2E8F0;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04), 0 8px 24px rgba(15, 23, 42, 0.03);
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow:
+    0 1px 3px rgba(15, 23, 42, 0.04),
+    0 8px 24px rgba(15, 23, 42, 0.03);
 }
 
 .section-surface {
   background: rgba(255, 255, 255, 0.88);
-  border-top: 1px solid #E2E8F0;
-  border-bottom: 1px solid #E2E8F0;
+  border-top: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
 }
 
 /* Global dark immersive background with ambient lighting and vertical grid */
 .global-background {
   background-color: #020202; /* deep immersive canvas */
-  background-image: radial-gradient(circle at 20% 40%, rgba(20,60,170,0.12), transparent 35%),
-                    radial-gradient(circle at 80% 70%, rgba(200,60,150,0.06), transparent 35%);
+  background-image:
+    radial-gradient(
+      circle at 20% 40%,
+      rgba(20, 60, 170, 0.12),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 80% 70%,
+      rgba(200, 60, 150, 0.06),
+      transparent 35%
+    );
   background-repeat: no-repeat;
-  background-size: 60% 60%, 50% 50%;
+  background-size:
+    60% 60%,
+    50% 50%;
   will-change: background-position;
   transition: opacity 240ms ease;
   /* keep element non-interactive; positioning handled via utilities */
@@ -100,8 +118,8 @@ body {
   inset: 0;
   background-image: repeating-linear-gradient(
     to right,
-    rgba(255,255,255,0.04) 0px,
-    rgba(255,255,255,0.04) 1px,
+    rgba(255, 255, 255, 0.04) 0px,
+    rgba(255, 255, 255, 0.04) 1px,
     transparent 1px,
     transparent 120px
   );
@@ -111,12 +129,25 @@ body {
 }
 
 @keyframes ambientFloat {
-  0% { background-position: 0% 0%, 100% 100%; }
-  50% { background-position: 8% 6%, 92% 94%; }
-  100% { background-position: 0% 0%, 100% 100%; }
+  0% {
+    background-position:
+      0% 0%,
+      100% 100%;
+  }
+  50% {
+    background-position:
+      8% 6%,
+      92% 94%;
+  }
+  100% {
+    background-position:
+      0% 0%,
+      100% 100%;
+  }
 }
 
 .global-background {
   animation: ambientFloat 22s linear infinite;
 }
 
+/* trigger HMR */

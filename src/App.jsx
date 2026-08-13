@@ -6,20 +6,21 @@ import GlobalBackground from "./components/GlobalBackground";
 
 const App = () => {
   return (
-    <div className="min-h-screen w-full flex flex-col bg-page text-ink antialiased overflow-x-hidden relative">
-      <GlobalBackground />
-      <ScrollToTop />
-      {/* Navbar */}
-      <Navbar />
+    <GlobalBackground>
+      <div className="min-h-screen w-full flex flex-col bg-transparent text-[#1A1714] antialiased overflow-x-hidden relative">
+        <ScrollToTop />
+        {/* Navbar */}
+        <Navbar />
 
-      {/* Main Content */}
-      <main className="flex-1 w-full">
-        <MainContent />
-      </main>
+        {/* Main Content */}
+        <main className="flex-1 w-full">
+          <MainContent />
+        </main>
 
-      {/* Footer */}
-      <Footer />
-    </div>
+        {/* Footer */}
+        <Footer />
+      </div>
+    </GlobalBackground>
   );
 };
 

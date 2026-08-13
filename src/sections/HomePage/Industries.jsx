@@ -80,7 +80,7 @@ export default function Industries() {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  const springConfig = { damping: 25, stiffness: 300, mass: 0.1 };
+  const springConfig = { damping: 30, stiffness: 350, mass: 0.1 };
   const cursorX = useSpring(mouseX, springConfig);
   const cursorY = useSpring(mouseY, springConfig);
 
@@ -88,8 +88,8 @@ export default function Industries() {
     if (prefersReducedMotion) return;
 
     const handleMouseMove = (e) => {
-      mouseX.set(e.clientX + 20);
-      mouseY.set(e.clientY - 75);
+      mouseX.set(e.clientX + 24);
+      mouseY.set(e.clientY - 85);
     };
 
     window.addEventListener("mousemove", handleMouseMove);
@@ -97,23 +97,12 @@ export default function Industries() {
   }, [mouseX, mouseY, prefersReducedMotion]);
 
   return (
-    <section className="relative flex min-h-[100svh] w-full flex-col items-center justify-center overflow-hidden bg-[#020202] py-24 font-sans selection:bg-[#EAB308]/20 selection:text-white md:py-32">
-      {/* Background ambient lighting */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(20,60,170,0.15),transparent_65%)]" />
-
-      {/* Vertical background grid lines */}
-      <div className="pointer-events-none absolute inset-0 flex justify-evenly opacity-30">
-        <div className="h-full w-px bg-white/10" />
-        <div className="h-full w-px bg-white/10" />
-        <div className="h-full w-px bg-white/10" />
-        <div className="h-full w-px bg-white/10" />
-      </div>
-
+    <section className="relative flex min-h-[100svh] w-full flex-col items-center justify-center overflow-hidden bg-transparent py-24 font-sans selection:bg-[#8C6A1E]/20 selection:text-[#1A1714] md:py-32">
       <div className="relative z-10 mx-auto w-full max-w-[1400px] px-[5vw]">
-        <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:gap-14">
+        <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-12 lg:gap-14">
           
           {/* LEFT COLUMN: Sticky Editorial Section Intro */}
-          <div className="lg:col-span-5 lg:sticky lg:top-[120px]">
+          <div className="lg:col-span-5 lg:sticky lg:top-[140px]">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -121,9 +110,9 @@ export default function Industries() {
               transition={{ duration: 0.7, ease: EASE }}
             >
               {/* Pill Badge */}
-              <div className="mb-8 inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/5 px-5 py-2 backdrop-blur-md">
-                <span className="h-2 w-2 rounded-full bg-[#10B981] shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
-                <span className="font-mono text-[11px] font-bold uppercase tracking-[0.25em] text-[#EAB308]">
+              <div className="mb-8 inline-flex items-center gap-2.5 rounded-full border border-[#8C6A1E]/30 bg-[#8C6A1E]/5 px-5 py-2 backdrop-blur-md shadow-[0_2px_10px_rgba(140,106,30,0.05)]">
+                <span className="h-2 w-2 rounded-full bg-[#8C6A1E] shadow-[0_0_10px_rgba(140,106,30,0.8)]" />
+                <span className="font-mono text-[11px] font-bold uppercase tracking-[0.25em] text-[#8C6A1E]">
                   09 / INDUSTRIES
                 </span>
               </div>
@@ -135,11 +124,11 @@ export default function Industries() {
               viewport={{ once: true, margin: "-5% 0px" }}
               transition={{ duration: 0.7, delay: 0.08, ease: EASE }}
             >
-              <h2 className="mb-5 text-[clamp(2.4rem,5vw,4.5rem)] font-light leading-[0.96] tracking-tight text-white drop-shadow-md">
+              <h2 className="mb-6 text-[clamp(2.4rem,4.8vw,4.2rem)] font-light leading-[1.02] tracking-tight text-[#1A1714] drop-shadow-sm">
                 Different industries.
                 <br />
                 <span
-                  className="font-normal text-[#A1A1AA]"
+                  className="font-normal text-[#8C6A1E]"
                   style={{ fontFamily: SERIF, fontStyle: "italic" }}
                 >
                   One way of thinking.
@@ -153,8 +142,8 @@ export default function Industries() {
               viewport={{ once: true, margin: "-5% 0px" }}
               transition={{ duration: 0.7, delay: 0.16, ease: EASE }}
             >
-              <p className="max-w-[34ch] text-[14px] md:text-[15px] font-light leading-relaxed text-[#D4D4D8]">
-                We bring creative, digital and growth thinking to businesses across industries.
+              <p className="max-w-[34ch] text-[15px] md:text-[16px] font-light leading-relaxed text-[#57534E]">
+                We bring creative, digital and growth thinking to businesses across diverse market landscapes.
               </p>
             </motion.div>
           </div>
@@ -165,9 +154,9 @@ export default function Industries() {
               const isActive = activeHoverIndex === index;
               const isAnyHovered = activeHoverIndex !== null;
 
-              let opacityClass = "opacity-85";
+              let opacityClass = "opacity-90";
               if (isAnyHovered) {
-                opacityClass = isActive ? "opacity-100" : "opacity-30";
+                opacityClass = isActive ? "opacity-100" : "opacity-35";
               }
 
               return (
@@ -177,38 +166,38 @@ export default function Industries() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-5% 0px" }}
                   transition={{ duration: 0.5, delay: index * 0.04, ease: EASE }}
-                  className={`group relative border-t border-white/10 transition-opacity duration-300 ${opacityClass}`}
+                  className={`group relative border-t border-[#8C6A1E]/20 transition-all duration-300 ${opacityClass}`}
                   onMouseEnter={() => setActiveHoverIndex(index)}
                   onMouseLeave={() => setActiveHoverIndex(null)}
                 >
-                  <div className="flex cursor-pointer flex-col justify-between py-4 md:py-6">
+                  <div className="flex cursor-pointer flex-col justify-between py-5 md:py-7">
                     
                     {/* Top Row: Number, Title, and Arrow */}
                     <div className="flex items-center justify-between gap-4">
-                      <div className="flex items-baseline gap-4 md:gap-8">
-                        <span className="font-mono text-[10px] md:text-[11px] uppercase tracking-[0.2em] text-[#71717A] transition-colors duration-300 group-hover:text-white">
+                      <div className="flex items-baseline gap-5 md:gap-9">
+                        <span className="font-mono text-[10px] md:text-[11px] uppercase tracking-[0.2em] text-[#78716C] transition-colors duration-300 group-hover:text-[#1A1714]">
                           {item.number}
                         </span>
 
-                        <h3 className="text-[clamp(1.7rem,3.1vw,3rem)] font-light tracking-[-0.04em] text-white transition-transform duration-300 ease-out group-hover:translate-x-1.5">
+                        <h3 className="text-[clamp(1.6rem,2.8vw,2.75rem)] font-light tracking-[-0.03em] text-[#1A1714] transition-transform duration-300 ease-out group-hover:translate-x-2">
                           {item.title}
                         </h3>
                       </div>
 
                       {/* Interactive Reveal Arrow */}
-                      <span className="-translate-x-2 text-[#EAB308] opacity-0 transition-all duration-300 ease-out group-hover:translate-x-0 group-hover:opacity-100">
-                        <ArrowUpRight size={18} />
+                      <span className="-translate-x-3 text-[#8C6A1E] opacity-0 transition-all duration-300 ease-out group-hover:translate-x-0 group-hover:opacity-100">
+                        <ArrowUpRight size={20} />
                       </span>
                     </div>
 
                     {/* Bottom Row / Accordion Description */}
                     <div 
                       className={`grid overflow-hidden transition-all duration-300 ease-out ${
-                        isActive ? "grid-rows-[1fr] opacity-100 mt-2" : "grid-rows-[0fr] opacity-0 mt-0"
-                      } lg:grid-rows-[1fr] lg:opacity-100 lg:mt-2`}
+                        isActive ? "grid-rows-[1fr] opacity-100 mt-2.5" : "grid-rows-[0fr] opacity-0 mt-0"
+                      } lg:grid-rows-[1fr] lg:opacity-100 lg:mt-2.5`}
                     >
                       <div className="overflow-hidden">
-                        <p className="max-w-[44ch] pl-[calc(10px+2rem)] text-[13px] md:text-[14px] font-light text-[#A1A1AA] md:pl-[calc(11px+2.8rem)]">
+                        <p className="max-w-[44ch] pl-[calc(11px+2.25rem)] text-[13px] md:text-[14px] font-light leading-relaxed text-[#57534E] md:pl-[calc(11px+2.75rem)]">
                           {item.description}
                         </p>
                       </div>
@@ -219,7 +208,7 @@ export default function Industries() {
               );
             })}
             
-            <div className="border-t border-white/10" />
+            <div className="border-t border-[#8C6A1E]/20" />
           </div>
 
         </div>
@@ -229,7 +218,7 @@ export default function Industries() {
       {!prefersReducedMotion && (
         <motion.div
           style={{ x: cursorX, y: cursorY }}
-          className="pointer-events-none fixed left-0 top-0 z-50 hidden h-[140px] w-[210px] overflow-hidden rounded-xs border border-white/15 bg-black/80 p-1.5 shadow-2xl backdrop-blur-md lg:block"
+          className="pointer-events-none fixed left-0 top-0 z-50 hidden h-[150px] w-[220px] overflow-hidden rounded-sm border border-[#8C6A1E]/30 bg-[#FAF8F5]/90 p-1.5 shadow-[0_12px_30px_rgba(26,23,20,0.12)] backdrop-blur-md lg:block"
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{
             opacity: activeHoverIndex !== null ? 1 : 0,
@@ -247,7 +236,7 @@ export default function Industries() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.98 }}
                 transition={{ duration: 0.3, ease: EASE }}
-                className="absolute inset-1.5 h-[calc(100%-12px)] w-[calc(100%-12px)] rounded-xs object-cover object-center filter brightness-90 contrast-110"
+                className="absolute inset-1.5 h-[calc(100%-12px)] w-[calc(100%-12px)] rounded-[2px] object-cover object-center filter contrast-105"
                 loading="lazy"
               />
             )}
