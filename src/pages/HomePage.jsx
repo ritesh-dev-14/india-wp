@@ -7,14 +7,16 @@ import HowWeWork from "../sections/HomePage/HowWeWork";
 import Testimonials from "../sections/HomePage/Testimonials";
 import Industries from "../sections/HomePage/Industries";
 import FinalCTA from "../sections/HomePage/FinalCTA";
+import WhoWeAre from "../sections/HomePage/WhoWeAre";
 
 export default function HomePage() {
   return (
     <main className="relative w-full overflow-hidden">
       {/* Cinematic Hero */}
       <Hero />
+      <WhoWeAre />
       <WhatWeCreate />
-      {/* <SelectedWork /> */}
+      <SelectedWork />
       <TheDifference />
       <Results />
       <HowWeWork />
