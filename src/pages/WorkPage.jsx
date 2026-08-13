@@ -1,20 +1,21 @@
+"use client";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, ArrowDown } from "lucide-react";
+import { ArrowRight, ArrowDown, Building2, Globe2, Sparkles, TrendingUp, ShieldCheck } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 // ==========================================
-// DATA STRUCTURES
+// DATA STRUCTURES (CASE STUDIES & CAPABILITIES)
 // ==========================================
 const CAPABILITIES = [
   {
     num: "01",
     title: "STRATEGY",
     services: [
-      "Brand Strategy",
-      "Digital Strategy",
-      "Market Positioning",
-      "Creative Direction",
+      "Brand Positioning",
+      "Legacy Translation",
+      "Digital Roadmap",
+      "B2B Authority Architecture",
     ],
     image:
       "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=1600&auto=format&fit=crop",
@@ -23,10 +24,10 @@ const CAPABILITIES = [
     num: "02",
     title: "CREATIVE",
     services: [
-      "Brand Identity",
+      "Editorial Brand Identity",
+      "Grand Launch Campaigns",
       "UI / UX Design",
-      "Campaign Creative",
-      "Content Direction",
+      "Visual Stature Systems",
     ],
     image:
       "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1600&auto=format&fit=crop",
@@ -35,74 +36,118 @@ const CAPABILITIES = [
     num: "03",
     title: "TECHNOLOGY",
     services: [
-      "Web Design & Dev",
-      "Web Applications",
-      "Interactive Experiences",
-      "Digital Products",
+      "High-Performance Web Dev",
+      "Immersive Showcases",
+      "Scalable Digital Platforms",
+      "Secure Infrastructure",
     ],
     image:
       "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1600&auto=format&fit=crop",
   },
   {
     num: "04",
-    title: "GROWTH",
+    title: "GROWTH & HYPE",
     services: [
-      "Digital Marketing",
-      "Social Media",
-      "Performance Marketing",
-      "SEO",
+      "Pan-India Channel Scaling",
+      "Distributor Acquisition",
+      "Architectural Meet Systems",
+      "Digital Hype & Authority",
     ],
     image:
       "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1600&auto=format&fit=crop",
   },
 ];
 
-const FLOW = ["DISCOVER", "DEFINE", "CREATE", "BUILD", "LAUNCH", "GROW"];
-
-const DELIVERABLES = [
-  "Brand Identities",
-  "Websites",
-  "E-Commerce Experiences",
-  "Landing Pages",
-  "Web Applications",
-  "Campaigns",
-  "Social Content",
-  "Digital Products",
-  "Interactive Experiences",
-  "Marketing Systems",
+const CASE_STUDIES = [
+  {
+    client: "Triveni — The Granite Studio",
+    category: "Granite Architecture & Global Stone Showcase",
+    scope: "Website Architecture & Complete Digital Presence",
+    impact: "Elevated a premier offline stone legacy into a sleek, international digital destination reflecting timeless luxury.",
+    desc: "Triveni possessed decades of physical mastery in natural stone, but their digital footprint lacked the architectural sophistication of their materials. We engineered a high-performance website and orchestrated their ongoing digital presence to mirror elite stone curation.",
+    metrics: "Pan-India Architect Recognition • Global Digital Stature",
+    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600&auto=format&fit=crop",
+  },
+  {
+    client: "Inne Lifts",
+    category: "Vertical Mobility & Engineering Excellence",
+    scope: "Website Architecture & Digital Brand Authority",
+    impact: "Positioned precision elevator engineering with a digital experience defined by safety, elegance, and reliability.",
+    desc: "For Inne Lifts, trust and technical precision are paramount. We built an immersive digital ecosystem that communicates high-grade engineering authority while seamlessly capturing high-intent builder and architect inquiries.",
+    metrics: "Enhanced B2B Conversion • Premium Brand Equity",
+    image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=1600&auto=format&fit=crop",
+  },
+  {
+    client: "Handa Bangles",
+    category: "Heritage Retail & Cultural Prestige",
+    scope: "Grand Launch Campaigns, New City Hype & Digital Management",
+    impact: "Engineered massive multi-city launch hypes that transformed traditional retail openings into cultural celebrations.",
+    desc: "When Handa Bangles expanded into new cities, ordinary marketing wouldn't suffice. We designed explosive grand-launch campaigns, hype loops, and digital campaigns that drove record physical footfalls from day one.",
+    metrics: "Record Opening Footfalls • Multi-City Brand Hype",
+    image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=1600&auto=format&fit=crop",
+  },
+  {
+    client: "Aesthetic Homez",
+    category: "Home Furnishings & Pan-India Distribution",
+    scope: "Manufacturer-to-Distributor Scaling & Digital Expansion",
+    impact: "Built a robust pan-India distributor network for a premier sofa cover and bedsheet manufacturer.",
+    desc: "Aesthetic Homez had exceptional manufacturing capabilities for sofa covers and bedsheets but needed scale. We built the digital acquisition funnel that connected them with tier-1 and tier-2 distributors across the entire country.",
+    metrics: "Pan-India Distributor Network • Scalable B2B Funnels",
+    image: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=1600&auto=format&fit=crop",
+  },
+  {
+    client: "Precision Metallurgy",
+    category: "Industrial Rolling Mills & Heavy Manufacturing",
+    scope: "Pan-India Authority, Digital Presence & B2B Credibility",
+    impact: "Crafting unassailable industrial prestige for a leading supplier of TC Rings, HSS Rolls, and Composite Rolls.",
+    desc: "As leading suppliers of Tungsten Carbide (TC) Rings, High Speed Steel (HSS) Rolls, and Composite Rolls for hot rolling mills, Precision Metallurgy operates at an elite industrial scale. Our mandate is simple yet vital: build absolute industrial respect and digital authority among heavy manufacturing giants.",
+    metrics: "Pan-India B2B Reach • Elite Industrial Respect",
+    image: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?q=80&w=1600&auto=format&fit=crop",
+  },
+  {
+    client: "HCS Home Luxury Surfaces & Bath Studio",
+    category: "Designer Tiles & Premium Sanitaryware",
+    scope: "Architect Meets, Luxury Presence & Curated Digital Engagement",
+    impact: "Cemented HCS as the definitive luxury surface partner for elite interior architects and designers.",
+    desc: "HCS deals in exquisite designer tiles and premium sanitaryware. To capture the high-end design market, we manage their luxury digital presence and curate exclusive architect meet systems that bridge physical product appreciation with elite specifiers.",
+    metrics: "Exclusive Architect Partnerships • High-End Surface Stature",
+    image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=1600&auto=format&fit=crop",
+  },
 ];
 
+const FLOW = ["DISCOVER", "DEFINE", "CREATE", "BUILD", "LAUNCH", "GROW"];
+
 const INDUSTRIES = [
-  "Healthcare",
-  "Real Estate",
-  "Hospitality",
-  "Education",
-  "Professional Services",
-  "Lifestyle",
-  "Technology",
-  "Emerging Brands",
+  "Granite & Stone Architecture",
+  "Vertical Mobility & Engineering",
+  "Heritage Retail & Lifestyle",
+  "Home Furnishings & Manufacturing",
+  "Industrial Metallurgy & B2B",
+  "Luxury Tiles & Sanitaryware",
+  "Real Estate & Hospitality",
+  "Emerging Market Leaders",
 ];
 
 const PRINCIPLES = [
   {
     num: "01",
-    title: "THINK BEFORE WE BUILD",
-    desc: "Strategy dictates every creative and technical decision.",
+    title: "TRANSLATING OFFLINE LEGACY",
+    desc: "We take decades of physical market dominance and give it the digital stature it commands.",
   },
   {
     num: "02",
     title: "DESIGN WITH PURPOSE",
-    desc: "Aesthetics must serve function, clarity, and brand recall.",
+    desc: "Aesthetics must serve function, credibility, and immediate brand recall for elite buyers.",
   },
   {
     num: "03",
     title: "TECHNOLOGY THAT PERFORMS",
-    desc: "Fast, scalable, and responsive systems built for the modern web.",
+    desc: "Fast, scalable, and responsive digital infrastructure built for modern enterprises.",
   },
   {
     num: "04",
-    title: "CREATE FOR THE LONG TERM",
-    desc: "We build digital foundations that evolve as your business grows.",
+    title: "BUILDING REAL MOMENTUM",
+    desc: "From pan-India distributor acquisition to grand city launches, we engineer measurable business growth.",
   },
 ];
 
@@ -130,14 +175,12 @@ export default function ServicesPage() {
   const [hoveredCapability, setHoveredCapability] = useState(null);
 
   return (
-    <div className="bg-[#FAF8F5] text-[#1E1B18] min-h-screen selection:bg-[#E05A47] selection:text-white font-sans overflow-x-hidden">
-      {/* Background ambient lighting */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_40%_30%_at_50%_20%,rgba(224,90,71,0.02),transparent_70%)]" />
-
+    <div className="bg-transparent text-[#1A1714] min-h-screen selection:bg-[#8C6A1E]/20 selection:text-[#1A1714] font-sans overflow-x-hidden">
+      
       {/* =========================================
           SECTION 01: HERO
       ========================================= */}
-      <section className="relative min-h-[85vh] flex flex-col justify-end px-[5vw] pb-20 pt-32 border-b border-[#E8E2D9]">
+      <section className="relative min-h-[85vh] flex flex-col justify-end px-[5vw] pb-20 pt-32 border-b border-[#8C6A1E]/20">
         <motion.div
           variants={staggerContainer}
           initial="hidden"
@@ -148,40 +191,40 @@ export default function ServicesPage() {
             variants={fadeUp}
             className="mb-6 flex items-center gap-2.5"
           >
-            <span className="inline-flex items-center justify-center w-2 h-2 rounded-full bg-[#E05A47] animate-pulse" />
-            <span className="font-mono text-[10px] sm:text-[11px] tracking-[0.2em] uppercase text-[#E05A47] font-semibold">
-              01 / Work // We Promote
+            <span className="inline-flex items-center justify-center w-2 h-2 rounded-full bg-[#8C6A1E] animate-pulse" />
+            <span className="font-mono text-[10px] sm:text-[11px] tracking-[0.25em] uppercase text-[#8C6A1E] font-bold">
+              01 / Mandates & Capabilities // We Promote India
             </span>
           </motion.div>
 
           <motion.h1
             variants={fadeUp}
-            className="text-[clamp(48px,9vw,130px)] leading-[1.05] tracking-[-0.03em] font-extrabold mb-8 max-w-[1200px]"
+            className="text-[clamp(42px,8vw,120px)] leading-[1.05] tracking-[-0.02em] font-light mb-8 max-w-[1250px]"
+            style={{ fontFamily: "var(--font-display, 'Fraunces'), serif" }}
           >
-            We build brands <br className="hidden md:block" />
-            <span className="text-[#8C8375] font-normal">people remember.</span>
+            You have a legendary offline empire. <br className="hidden md:block" />
+            <span className="font-normal italic text-[#8C6A1E]">We make your online audience see it.</span>
           </motion.h1>
 
           <motion.div
             variants={fadeUp}
-            className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-t border-[#E8E2D9] pt-8"
+            className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-t border-[#8C6A1E]/20 pt-8"
           >
-            <p className="text-[#5C5346] text-lg md:text-xl max-w-md font-light leading-relaxed">
-              Strategy, creativity, technology and growth — brought together
-              under one roof.
+            <p className="text-[#57534E] text-lg md:text-xl max-w-xl font-light leading-relaxed">
+              For 40-year industrial powerhouses, luxury surface studios, and multi-city retail titans — we engineer digital authority, pan-India distribution, and unassailable market stature.
             </p>
 
-            <div className="flex items-center gap-3 text-[#8C8375] font-mono text-[10px] tracking-[0.2em] uppercase animate-pulse font-semibold">
-              Explore Services <ArrowDown className="w-3 h-3 text-[#E05A47]" />
+            <div className="flex items-center gap-3 text-[#78716C] font-mono text-[10px] tracking-[0.2em] uppercase animate-pulse font-semibold">
+              Explore Case Studies <ArrowDown className="w-3 h-3 text-[#8C6A1E]" />
             </div>
           </motion.div>
         </motion.div>
       </section>
 
-            {/* =========================================
+      {/* =========================================
           SECTION 02: CORE CAPABILITIES (HOVER ROWS)
       ========================================= */}
-      <section className="px-[5vw] py-24 border-b border-[#E8E2D9]">
+      <section className="px-[5vw] py-24 border-b border-[#8C6A1E]/20">
         <div className="max-w-[1400px] mx-auto">
           <motion.div
             initial="hidden"
@@ -192,19 +235,21 @@ export default function ServicesPage() {
           >
             <motion.span
               variants={fadeUp}
-              className="block font-mono text-[11px] tracking-[0.2em] uppercase text-[#E05A47] mb-4 font-semibold"
+              className="block font-mono text-[11px] tracking-[0.25em] uppercase text-[#8C6A1E] mb-4 font-bold"
             >
               What We Do
             </motion.span>
             <motion.h2
               variants={fadeUp}
-              className="text-[clamp(32px,4vw,64px)] leading-[1.1] font-extrabold tracking-tight"
+              className="text-[clamp(32px,4vw,64px)] leading-[1.1] font-light tracking-tight"
+              style={{ fontFamily: "var(--font-display, 'Fraunces'), serif" }}
             >
-              From the first idea <br /> to the final interaction.
+              Translating real-world mastery <br />
+              <span className="italic text-[#8C6A1E]">into digital dominance.</span>
             </motion.h2>
           </motion.div>
 
-          <div className="relative border-t border-[#E8E2D9]">
+          <div className="relative border-t border-[#8C6A1E]/20">
             {CAPABILITIES.map((cap, i) => (
               <motion.div
                 key={cap.num}
@@ -214,22 +259,25 @@ export default function ServicesPage() {
                 variants={fadeUp}
                 onMouseEnter={() => setHoveredCapability(i)}
                 onMouseLeave={() => setHoveredCapability(null)}
-                className="group relative flex flex-col lg:flex-row lg:items-center justify-between border-b border-[#E8E2D9] py-8 lg:py-10 cursor-pointer transition-colors duration-500 hover:bg-white gap-6 lg:gap-0"
+                className="group relative flex flex-col lg:flex-row lg:items-center justify-between border-b border-[#8C6A1E]/20 py-8 lg:py-10 cursor-pointer transition-colors duration-500 hover:bg-[#FAF8F5]/60 gap-6 lg:gap-0 px-2"
               >
-                <div className="flex items-baseline gap-6 lg:gap-10 lg:w-[38%] z-10 px-4 lg:px-0">
-                  <span className="font-mono text-sm text-[#3B6A62] group-hover:text-[#E05A47] transition-colors font-bold shrink-0">
+                <div className="flex items-baseline gap-6 lg:gap-10 lg:w-[38%] z-10">
+                  <span className="font-mono text-xs text-[#8C6A1E] font-bold shrink-0">
                     {cap.num}
                   </span>
-                  <h3 className="text-[clamp(28px,3.8vw,64px)] font-extrabold tracking-tight group-hover:translate-x-3 transition-transform duration-500 ease-out text-[#1E1B18] break-words">
+                  <h3 
+                    className="text-[clamp(26px,3.5vw,56px)] font-light tracking-tight group-hover:translate-x-3 transition-transform duration-500 ease-out text-[#1A1714]"
+                    style={{ fontFamily: "var(--font-display, 'Fraunces'), serif" }}
+                  >
                     {cap.title}
                   </h3>
                 </div>
 
-                <div className="hidden lg:flex flex-col gap-1.5 lg:w-[32%] z-10 opacity-60 group-hover:opacity-100 transition-opacity duration-500 px-4 lg:px-0">
+                <div className="hidden lg:flex flex-col gap-1.5 lg:w-[32%] z-10 opacity-70 group-hover:opacity-100 transition-opacity duration-500">
                   {cap.services.map((service) => (
                     <span
                       key={service}
-                      className="font-mono text-[11px] tracking-[0.1em] uppercase text-[#5C5346]"
+                      className="font-mono text-[11px] tracking-[0.12em] uppercase text-[#57534E]"
                     >
                       {service}
                     </span>
@@ -238,7 +286,7 @@ export default function ServicesPage() {
 
                 <div className="hidden lg:flex items-center justify-end lg:w-[15%] z-10 pr-8">
                   <ArrowRight
-                    className="w-8 h-8 text-transparent -translate-x-8 group-hover:text-[#E05A47] group-hover:translate-x-0 transition-all duration-500 ease-out"
+                    className="w-7 h-7 text-transparent -translate-x-6 group-hover:text-[#8C6A1E] group-hover:translate-x-0 transition-all duration-500 ease-out"
                     strokeWidth={1.5}
                   />
                 </div>
@@ -251,7 +299,7 @@ export default function ServicesPage() {
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.95 }}
                       transition={{ duration: 0.3, ease: "easeOut" }}
-                      className="hidden lg:block absolute right-[10%] top-1/2 -translate-y-1/2 w-[300px] h-[200px] overflow-hidden pointer-events-none z-0 rounded-xl border border-[#E8E2D9] shadow-xl"
+                      className="hidden lg:block absolute right-[10%] top-1/2 -translate-y-1/2 w-[320px] h-[210px] overflow-hidden pointer-events-none z-20 rounded-sm border border-[#8C6A1E]/30 shadow-2xl"
                     >
                       <img
                         src={cap.image}
@@ -267,202 +315,103 @@ export default function ServicesPage() {
         </div>
       </section>
 
-
       {/* =========================================
-          SECTION 03: SERVICE DETAIL (EDITORIAL)
+          SECTION 03: FEATURED CASE STUDIES & CLIENTS
       ========================================= */}
-      <section className="px-[5vw] py-24 flex flex-col gap-28 border-b border-[#E8E2D9]">
-        {/* 01: STRATEGY */}
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={staggerContainer}
-          className="max-w-[1400px] mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-8 items-center"
-        >
-          <div className="flex flex-col gap-6">
-            <span className="font-mono text-[11px] tracking-[0.2em] uppercase text-[#E05A47] font-semibold">
-              01 / Strategy
-            </span>
-            <h2 className="text-[clamp(40px,5vw,80px)] leading-[1.05] tracking-tight font-extrabold text-[#1E1B18]">
-              Start with
-              <br />
-              the right direction.
-            </h2>
-          </div>
-          <div className="flex flex-col justify-end gap-8 md:pl-16">
-            <p className="text-[#5C5346] text-lg md:text-xl font-light leading-relaxed">
-              We turn business goals, audience insights and market opportunities
-              into clear digital and creative direction.
-            </p>
-            <ul className="flex flex-col gap-3 font-mono text-[11px] tracking-[0.15em] uppercase text-[#5C5346] border-l-2 border-[#E05A47]/40 pl-6 font-medium">
-              <li>Brand Strategy</li>
-              <li>Digital Strategy</li>
-              <li>Market Research</li>
-              <li>Positioning</li>
-              <li>Creative Direction</li>
-            </ul>
-            <Link
-              to="/contact"
-              className="inline-flex items-center gap-3 font-mono text-[11px] tracking-[0.2em] uppercase text-[#E05A47] hover:text-[#1E1B18] transition-colors font-bold mt-2"
-            >
-              Explore Strategy <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </motion.div>
-
-        {/* 02: CREATIVE */}
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={staggerContainer}
-          className="max-w-[1400px] mx-auto w-full flex flex-col md:flex-row-reverse gap-12 md:gap-20 items-center"
-        >
-          <div className="w-full md:w-1/2 flex flex-col gap-6">
-            <span className="font-mono text-[11px] tracking-[0.2em] uppercase text-[#E05A47] font-semibold">
-              02 / Creative
-            </span>
-            <h2 className="text-[clamp(40px,5vw,80px)] leading-[1.05] tracking-tight font-extrabold text-[#1E1B18]">
-              Make people
-              <br />
-              stop scrolling.
-            </h2>
-            <p className="text-[#5C5346] text-lg md:text-xl font-light leading-relaxed max-w-md">
-              We create identities, campaigns and visual systems designed to
-              make brands recognizable and impossible to overlook.
-            </p>
-            <div className="flex flex-wrap gap-x-6 gap-y-3 font-mono text-[11px] tracking-[0.15em] uppercase text-[#5C5346] font-medium pt-2">
-              <span className="bg-white px-3 py-1 rounded-md border border-[#E8E2D9]">
-                Brand Identity
+      <section className="px-[5vw] py-28 border-b border-[#8C6A1E]/20">
+        <div className="max-w-[1400px] mx-auto">
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            variants={staggerContainer}
+            className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6"
+          >
+            <div>
+              <span className="block font-mono text-[11px] tracking-[0.25em] uppercase text-[#8C6A1E] mb-3 font-bold">
+                Proven Track Record // Case Studies
               </span>
-              <span className="bg-white px-3 py-1 rounded-md border border-[#E8E2D9]">
-                Art Direction
-              </span>
-              <span className="bg-white px-3 py-1 rounded-md border border-[#E8E2D9]">
-                UI / UX
-              </span>
-              <span className="bg-white px-3 py-1 rounded-md border border-[#E8E2D9]">
-                Campaign Design
-              </span>
-            </div>
-            <Link
-              to="/contact"
-              className="inline-flex items-center gap-3 font-mono text-[11px] tracking-[0.2em] uppercase text-[#E05A47] hover:text-[#1E1B18] transition-colors font-bold mt-2"
-            >
-              Explore Creative <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-          <div className="w-full md:w-1/2 aspect-[4/3] overflow-hidden rounded-2xl border border-[#E8E2D9] shadow-sm">
-            <img
-              src="https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=1200&auto=format&fit=crop"
-              alt="Creative Design"
-              className="w-full h-full object-cover filter contrast-105"
-            />
-          </div>
-        </motion.div>
-
-        {/* 03: TECHNOLOGY */}
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={staggerContainer}
-          className="max-w-[1400px] mx-auto w-full bg-white p-8 md:p-16 border border-[#E8E2D9] rounded-2xl shadow-sm"
-        >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div className="flex flex-col gap-6">
-              <span className="font-mono text-[11px] tracking-[0.2em] uppercase text-[#E05A47] font-semibold">
-                03 / Technology
-              </span>
-              <h2 className="text-[clamp(40px,5vw,80px)] leading-[1.05] tracking-tight font-extrabold text-[#1E1B18]">
-                Turn ideas into
-                <br />
-                experiences.
+              <h2 
+                className="text-[clamp(34px,4.5vw,68px)] font-light leading-[1.08] tracking-tight text-[#1A1714]"
+                style={{ fontFamily: "var(--font-display, 'Fraunces'), serif" }}
+              >
+                How we elevate <br />
+                <span className="italic text-[#8C6A1E]">industry leaders online.</span>
               </h2>
             </div>
-            <div className="flex flex-col justify-end gap-8">
-              <p className="text-[#5C5346] text-lg md:text-xl font-light leading-relaxed">
-                We design and build fast, responsive and memorable digital
-                experiences that connect creativity with technology.
-              </p>
-              <div className="grid grid-cols-2 gap-4 font-mono text-[11px] tracking-[0.15em] uppercase text-[#5C5346] font-medium">
-                <span className="border border-[#E8E2D9] bg-[#FAF8F5] p-4 rounded-xl">
-                  Website Development
-                </span>
-                <span className="border border-[#E8E2D9] bg-[#FAF8F5] p-4 rounded-xl">
-                  Web Applications
-                </span>
-                <span className="border border-[#E8E2D9] bg-[#FAF8F5] p-4 rounded-xl">
-                  Interactive Experiences
-                </span>
-                <span className="border border-[#E8E2D9] bg-[#FAF8F5] p-4 rounded-xl">
-                  Digital Products
-                </span>
-              </div>
-              <Link
-                to="/contact"
-                className="inline-flex items-center gap-3 font-mono text-[11px] tracking-[0.2em] uppercase text-[#E05A47] hover:text-[#1E1B18] transition-colors font-bold mt-2"
-              >
-                Explore Technology <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-          </div>
-        </motion.div>
+            <p className="text-[#57534E] text-sm md:text-base font-light max-w-md leading-relaxed">
+              Explore how we transformed traditional manufacturing titans, luxury surface studios, and heritage retail giants into digital icons.
+            </p>
+          </motion.div>
 
-        {/* 04: GROWTH */}
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={staggerContainer}
-          className="max-w-[1400px] mx-auto w-full text-center flex flex-col items-center justify-center gap-8"
-        >
-          <span className="font-mono text-[11px] tracking-[0.2em] uppercase text-[#E05A47] font-semibold">
-            04 / Growth
-          </span>
-          <h2 className="text-[clamp(40px,7vw,100px)] leading-[0.95] tracking-tight font-extrabold max-w-5xl uppercase text-[#1E1B18]">
-            Create attention.
-            <br />
-            <span
-              className="text-[#E05A47] italic font-serif lowercase font-normal"
-              style={{ fontFamily: "'Instrument Serif', serif" }}
-            >
-              Then create
-            </span>{" "}
-            momentum.
-          </h2>
-          <p className="text-[#5C5346] text-lg md:text-xl font-light leading-relaxed max-w-2xl mx-auto">
-            We help brands turn digital presence into consistent visibility,
-            engagement and growth.
-          </p>
-          <div className="flex flex-wrap justify-center gap-6 font-mono text-[11px] tracking-[0.15em] uppercase text-[#5C5346] font-medium">
-            <span className="bg-white px-4 py-2 rounded-md border border-[#E8E2D9]">
-              Social Media
-            </span>
-            <span className="bg-white px-4 py-2 rounded-md border border-[#E8E2D9]">
-              Digital Marketing
-            </span>
-            <span className="bg-white px-4 py-2 rounded-md border border-[#E8E2D9]">
-              Performance
-            </span>
-            <span className="bg-white px-4 py-2 rounded-md border border-[#E8E2D9]">
-              SEO
-            </span>
+          {/* CASE STUDIES GRID */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            {CASE_STUDIES.map((item, index) => (
+              <motion.div
+                key={item.client}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, margin: "-50px" }}
+                variants={fadeUp}
+                className="group flex flex-col bg-[#FAF8F5]/80 border border-[#8C6A1E]/20 rounded-sm overflow-hidden shadow-[0_4px_25px_rgba(26,23,20,0.03)] backdrop-blur-md transition-all duration-500 hover:border-[#8C6A1E]/50"
+              >
+                <div className="relative aspect-[16/9] overflow-hidden bg-[#1A1714]">
+                  <img
+                    src={item.image}
+                    alt={item.client}
+                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 filter contrast-105 opacity-90"
+                  />
+                  <div className="absolute top-4 left-4 bg-[#1A1714]/80 backdrop-blur-md px-3 py-1 border border-[#8C6A1E]/30 rounded-xs">
+                    <span className="font-mono text-[10px] tracking-[0.18em] uppercase text-[#FAF8F5] font-medium">
+                      {item.category}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="p-8 flex flex-col flex-grow justify-between gap-6">
+                  <div className="flex flex-col gap-3">
+                    <span className="font-mono text-[10.5px] tracking-[0.2em] uppercase text-[#8C6A1E] font-bold">
+                      Mandate // {item.scope}
+                    </span>
+                    <h3 
+                      className="text-2xl md:text-3xl font-light text-[#1A1714] tracking-tight"
+                      style={{ fontFamily: "var(--font-display, 'Fraunces'), serif" }}
+                    >
+                      {item.client}
+                    </h3>
+                    <p className="text-[#57534E] text-sm md:text-base font-light leading-relaxed pt-2">
+                      {item.desc}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col gap-4 pt-6 border-t border-[#8C6A1E]/15">
+                    <div className="flex items-center gap-2 text-xs font-mono text-[#8C6A1E] font-semibold tracking-wider uppercase">
+                      <Sparkles size={13} /> {item.impact}
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono text-[10.5px] uppercase tracking-wider text-[#78716C]">
+                        {item.metrics}
+                      </span>
+                      <Link
+                        to="/contact"
+                        className="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.15em] text-[#1A1714] group-hover:text-[#8C6A1E] font-bold transition-colors"
+                      >
+                        <span>Discuss Similar Project</span>
+                        <ArrowRight size={13} className="transition-transform duration-300 group-hover:translate-x-1" />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
           </div>
-          <Link
-            to="/contact"
-            className="inline-flex items-center gap-3 font-mono text-[11px] tracking-[0.2em] uppercase mt-4 text-[#E05A47] hover:text-[#1E1B18] font-bold transition-colors"
-          >
-            Explore Growth <ArrowRight className="w-4 h-4" />
-          </Link>
-        </motion.div>
+        </div>
       </section>
 
       {/* =========================================
           SECTION 04: THE SYSTEM FLOW
       ========================================= */}
-      <section className="px-[5vw] py-24 bg-[#F3EFEA] border-b border-[#E8E2D9] overflow-hidden">
+      <section className="px-[5vw] py-24 bg-[#FAF8F5]/40 border-b border-[#8C6A1E]/20 overflow-hidden">
         <motion.div
           initial="hidden"
           whileInView="show"
@@ -470,11 +419,14 @@ export default function ServicesPage() {
           variants={staggerContainer}
           className="max-w-[1400px] mx-auto flex flex-col items-center text-center"
         >
-          <span className="font-mono text-[11px] tracking-[0.2em] uppercase text-[#E05A47] mb-6 font-semibold">
-            The We Promote System
+          <span className="font-mono text-[11px] tracking-[0.25em] uppercase text-[#8C6A1E] mb-6 font-bold">
+            The We Promote India System
           </span>
-          <h2 className="text-[clamp(28px,4vw,52px)] leading-[1.1] font-extrabold tracking-tight mb-16 text-[#5C5346]">
-            Strategy. Creativity. Technology. Growth.
+          <h2 
+            className="text-[clamp(28px,3.8vw,52px)] leading-[1.1] font-light tracking-tight mb-16 text-[#57534E]"
+            style={{ fontFamily: "var(--font-display, 'Fraunces'), serif" }}
+          >
+            Strategy. Authority. Technology. Growth.
           </h2>
 
           <div className="flex flex-col md:flex-row items-center justify-center w-full max-w-5xl gap-4 md:gap-0">
@@ -482,17 +434,17 @@ export default function ServicesPage() {
               <React.Fragment key={step}>
                 <motion.div
                   variants={fadeUp}
-                  className="flex flex-col items-center justify-center bg-white px-6 py-4 rounded-xl border border-[#E8E2D9] shadow-xs w-full md:w-auto"
+                  className="flex flex-col items-center justify-center bg-[#FAF8F5] px-6 py-4 rounded-xs border border-[#8C6A1E]/25 shadow-xs w-full md:w-auto backdrop-blur-md"
                 >
-                  <div className="w-2 h-2 rounded-full bg-[#E05A47] mb-2" />
-                  <span className="font-mono text-[11px] tracking-[0.2em] uppercase text-[#1E1B18] font-bold">
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#8C6A1E] mb-2" />
+                  <span className="font-mono text-[11px] tracking-[0.2em] uppercase text-[#1A1714] font-bold">
                     {step}
                   </span>
                 </motion.div>
                 {i !== FLOW.length - 1 && (
                   <motion.div
                     variants={fadeUp}
-                    className="w-0.5 h-6 md:w-full md:h-0.5 bg-[#E8E2D9] md:flex-1 mx-2"
+                    className="w-0.5 h-6 md:w-full md:h-0.5 bg-[#8C6A1E]/30 md:flex-1 mx-2"
                   />
                 )}
               </React.Fragment>
@@ -502,50 +454,9 @@ export default function ServicesPage() {
       </section>
 
       {/* =========================================
-          SECTION 05: DELIVERABLES
+          SECTION 05: WHO WE WORK WITH (INDUSTRIES)
       ========================================= */}
-      <section className="px-[5vw] py-28 border-b border-[#E8E2D9]">
-        <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8">
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            variants={fadeUp}
-            className="md:col-span-4"
-          >
-            <span className="font-mono text-[11px] tracking-[0.2em] uppercase text-[#E05A47] sticky top-32 font-semibold">
-              Built for modern brands
-            </span>
-          </motion.div>
-          <div className="md:col-span-8 flex flex-col">
-            {DELIVERABLES.map((item, index) => (
-              <motion.div
-                key={item}
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.03, duration: 0.4 }}
-                className="group flex items-center justify-between border-b border-[#E8E2D9] py-5 md:py-6 cursor-pointer"
-              >
-                <div className="flex items-center gap-8">
-                  <span className="font-mono text-xs text-[#3B6A62] font-bold">
-                    {(index + 1).toString().padStart(2, "0")}
-                  </span>
-                  <span className="text-[clamp(22px,2.5vw,40px)] font-extrabold tracking-tight text-[#1E1B18] group-hover:translate-x-4 transition-transform duration-300">
-                    {item}
-                  </span>
-                </div>
-                <ArrowRight className="w-5 h-5 text-transparent -translate-x-4 group-hover:text-[#E05A47] group-hover:translate-x-0 transition-all duration-300" />
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* =========================================
-          SECTION 06: WHO WE WORK WITH
-      ========================================= */}
-      <section className="px-[5vw] py-24 bg-[#F3EFEA] border-b border-[#E8E2D9]">
+      <section className="px-[5vw] py-24 border-b border-[#8C6A1E]/20">
         <motion.div
           initial="hidden"
           whileInView="show"
@@ -555,26 +466,28 @@ export default function ServicesPage() {
         >
           <motion.span
             variants={fadeUp}
-            className="block font-mono text-[11px] tracking-[0.2em] uppercase text-[#E05A47] mb-4 font-semibold"
+            className="block font-mono text-[11px] tracking-[0.25em] uppercase text-[#8C6A1E] mb-4 font-bold"
           >
-            Industries
+            Industries We Elevate
           </motion.span>
           <motion.h2
             variants={fadeUp}
-            className="text-[clamp(32px,4vw,64px)] leading-[1.1] font-extrabold tracking-tight mb-12"
+            className="text-[clamp(32px,4vw,64px)] leading-[1.1] font-light tracking-tight mb-12"
+            style={{ fontFamily: "var(--font-display, 'Fraunces'), serif" }}
           >
-            Different industries. <br />
-            <span className="text-[#5C5346] font-normal">Same ambition.</span>
+            Traditional giants. <br />
+            <span className="italic text-[#8C6A1E]">Modern digital authority.</span>
           </motion.h2>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 border-t border-[#E8E2D9] pt-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 border-t border-[#8C6A1E]/20 pt-12">
             {INDUSTRIES.map((industry) => (
               <motion.div
                 key={industry}
                 variants={fadeUp}
-                className="flex flex-col bg-white p-6 rounded-xl border border-[#E8E2D9] shadow-xs"
+                className="flex flex-col bg-[#FAF8F5]/80 p-6 rounded-xs border border-[#8C6A1E]/20 shadow-xs backdrop-blur-md"
               >
-                <span className="text-lg md:text-xl font-bold tracking-tight text-[#1E1B18]">
+                <Building2 size={18} className="text-[#8C6A1E] mb-3" />
+                <span className="text-base md:text-lg font-light tracking-tight text-[#1A1714]">
                   {industry}
                 </span>
               </motion.div>
@@ -584,9 +497,9 @@ export default function ServicesPage() {
       </section>
 
       {/* =========================================
-          SECTION 07: PRINCIPLES
+          SECTION 06: PRINCIPLES
       ========================================= */}
-      <section className="px-[5vw] py-28 border-b border-[#E8E2D9]">
+      <section className="px-[5vw] py-28 border-b border-[#8C6A1E]/20">
         <motion.div
           initial="hidden"
           whileInView="show"
@@ -595,16 +508,19 @@ export default function ServicesPage() {
           className="max-w-[1400px] mx-auto"
         >
           <motion.div variants={fadeUp} className="mb-16">
-            <span className="block font-mono text-[11px] tracking-[0.2em] uppercase text-[#E05A47] mb-4 font-semibold">
-              Why We Promote
+            <span className="block font-mono text-[11px] tracking-[0.25em] uppercase text-[#8C6A1E] mb-4 font-bold">
+              The We Promote Standard
             </span>
-            <h2 className="text-[clamp(36px,4vw,72px)] leading-[1.05] tracking-tight font-extrabold max-w-3xl">
+            <h2 
+              className="text-[clamp(34px,4.5vw,72px)] leading-[1.05] tracking-tight font-light max-w-3xl"
+              style={{ fontFamily: "var(--font-display, 'Fraunces'), serif" }}
+            >
               One team.
               <br />
-              One direction.
+              Uncompromising rigor.
               <br />
-              <span className="text-[#5C5346] font-normal">
-                One digital experience.
+              <span className="italic text-[#8C6A1E]">
+                A legacy that commands respect online.
               </span>
             </h2>
           </motion.div>
@@ -614,15 +530,18 @@ export default function ServicesPage() {
               <motion.div
                 key={principle.num}
                 variants={fadeUp}
-                className="flex flex-col gap-4 bg-white p-8 rounded-2xl border border-[#E8E2D9] shadow-sm"
+                className="flex flex-col gap-4 bg-[#FAF8F5]/80 p-8 rounded-xs border border-[#8C6A1E]/20 shadow-sm backdrop-blur-md"
               >
-                <span className="font-mono text-xs text-[#3B6A62] font-bold">
+                <span className="font-mono text-xs text-[#8C6A1E] font-bold">
                   {principle.num}
                 </span>
-                <h3 className="text-xl md:text-2xl font-extrabold tracking-tight text-[#1E1B18]">
+                <h3 
+                  className="text-xl md:text-2xl font-light tracking-tight text-[#1A1714]"
+                  style={{ fontFamily: "var(--font-display, 'Fraunces'), serif" }}
+                >
                   {principle.title}
                 </h3>
-                <p className="text-[#5C5346] text-base font-light leading-relaxed">
+                <p className="text-[#57534E] text-sm md:text-base font-light leading-relaxed">
                   {principle.desc}
                 </p>
               </motion.div>
@@ -632,9 +551,9 @@ export default function ServicesPage() {
       </section>
 
       {/* =========================================
-          SECTION 08: FINAL CTA
+          SECTION 07: FINAL CTA
       ========================================= */}
-      <section className="px-[5vw] py-32 bg-white text-center flex flex-col items-center justify-center relative">
+      <section className="px-[5vw] py-32 text-center flex flex-col items-center justify-center relative">
         <motion.div
           initial="hidden"
           whileInView="show"
@@ -644,43 +563,36 @@ export default function ServicesPage() {
         >
           <motion.span
             variants={fadeUp}
-            className="font-mono text-[11px] tracking-[0.2em] uppercase text-[#E05A47] mb-6 font-semibold"
+            className="font-mono text-[11px] tracking-[0.25em] uppercase text-[#8C6A1E] mb-6 font-bold"
           >
-            Have a project in mind?
+            Ready to establish your digital authority?
           </motion.span>
 
           <motion.h2
             variants={fadeUp}
-            className="text-[clamp(40px,7vw,100px)] leading-[1.05] font-extrabold tracking-tight mb-12 text-[#1E1B18]"
+            className="text-[clamp(38px,6.5vw,96px)] leading-[1.05] font-light tracking-tight mb-12 text-[#1A1714]"
+            style={{ fontFamily: "var(--font-display, 'Fraunces'), serif" }}
           >
-            Let's build <br />
-            <span
-              className="text-[#E05A47] italic font-serif font-normal"
-              style={{ fontFamily: "'Instrument Serif', serif" }}
-            >
-              something impossible
-            </span>{" "}
-            <br />
-            to ignore.
+            Let&apos;s make your offline legacy <br />
+            <span className="italic text-[#8C6A1E]">impossible to ignore online.</span>
           </motion.h2>
 
           <motion.div variants={fadeUp}>
             <Link
               to="/contact"
-              className="group relative inline-flex items-center justify-center bg-[#E05A47] text-white px-12 py-5 rounded-xl font-mono text-[13px] tracking-[0.15em] uppercase overflow-hidden shadow-xl shadow-[#E05A47]/20 font-bold"
+              className="group relative inline-flex items-center justify-center bg-[#8C6A1E] text-white px-10 py-4 rounded-xs font-mono text-[11px] tracking-[0.2em] uppercase overflow-hidden shadow-xl shadow-[#8C6A1E]/25 font-semibold transition-colors duration-300 hover:bg-[#1A1714]"
             >
               <span className="relative z-10 flex items-center gap-3">
                 Start a Project{" "}
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </span>
-              <div className="absolute inset-0 bg-[#C94735] translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300 ease-out" />
             </Link>
           </motion.div>
 
           <motion.a
             variants={fadeUp}
             href="mailto:hello@wepromoteindia.com"
-            className="mt-8 font-mono text-sm tracking-widest text-[#5C5346] hover:text-[#1E1B18] transition-colors pb-1 border-b border-transparent hover:border-[#1E1B18] font-semibold"
+            className="mt-8 font-mono text-xs tracking-widest text-[#78716C] hover:text-[#1A1714] transition-colors pb-1 border-b border-transparent hover:border-[#1A1714] font-semibold uppercase"
           >
             hello@wepromoteindia.com
           </motion.a>
