@@ -18,15 +18,30 @@ export default function GlobalBackground({ children }) {
       <div
         aria-hidden
         className="pointer-events-none absolute left-1/2 top-[24%] z-0 h-[520px] w-[520px] -translate-x-1/2 rounded-full blur-[120px]"
-        style={{ background: "radial-gradient(circle, rgba(140,106,30,0.18), transparent 72%)" }}
+        style={{
+          background:
+            "radial-gradient(circle, rgba(140,106,30,0.18), transparent 72%)",
+        }}
       />
       {!prefersReducedMotion && (
         <motion.div
           aria-hidden
-          animate={{ x: ["-6%", "6%", "-6%"], y: ["-3%", "5%", "-3%"], opacity: [0.6, 0.9, 0.6] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", repeatType: "loop" }}
+          animate={{
+            x: ["-6%", "6%", "-6%"],
+            y: ["-3%", "5%", "-3%"],
+            opacity: [0.6, 0.9, 0.6],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "easeInOut",
+            repeatType: "loop",
+          }}
           className="pointer-events-none absolute left-1/2 top-[24%] z-0 h-[520px] w-[520px] -translate-x-1/2 rounded-full blur-[120px]"
-          style={{ background: "radial-gradient(circle, rgba(140,106,30,0.18), transparent 72%)" }}
+          style={{
+            background:
+              "radial-gradient(circle, rgba(140,106,30,0.18), transparent 72%)",
+          }}
         />
       )}
 
@@ -43,9 +58,22 @@ export default function GlobalBackground({ children }) {
 
       <div className="pointer-events-none absolute inset-0 z-0 flex justify-between px-6 md:px-16">
         <BeamColumn duration={2.8} reverse reduced={prefersReducedMotion} />
-        <BeamColumn duration={3.5} className="hidden sm:block" reduced={prefersReducedMotion} />
-        <BeamColumn duration={2.2} reverse reduced={prefersReducedMotion} dense />
-        <BeamColumn duration={3.8} className="hidden md:block" reduced={prefersReducedMotion} />
+        <BeamColumn
+          duration={3.5}
+          className="hidden sm:block"
+          reduced={prefersReducedMotion}
+        />
+        <BeamColumn
+          duration={2.2}
+          reverse
+          reduced={prefersReducedMotion}
+          dense
+        />
+        <BeamColumn
+          duration={3.8}
+          className="hidden md:block"
+          reduced={prefersReducedMotion}
+        />
         <BeamColumn duration={2.6} reverse reduced={prefersReducedMotion} />
       </div>
 
@@ -70,7 +98,9 @@ function BeamColumn({ duration, reverse, dense, className = "", reduced }) {
           `repeating-linear-gradient(180deg, transparent 0px, transparent ${tileHeight * 0.35}px, rgba(190,154,76,0.8) ${tileHeight * 0.5}px, rgba(190,154,76,0.8) ${tileHeight * 0.62}px, transparent ${tileHeight * 0.85}px, transparent ${tileHeight}px)`,
         backgroundSize: `100% 100%, 100% ${tileHeight}px`,
         filter: "drop-shadow(0 0 4px rgba(190,154,76,0.4))",
-        animation: reduced ? "none" : `${reverse ? "flowGoldUp" : "flowGoldDown"} ${duration}s linear infinite`,
+        animation: reduced
+          ? "none"
+          : `${reverse ? "flowGoldUp" : "flowGoldDown"} ${duration}s linear infinite`,
       }}
     />
   );
