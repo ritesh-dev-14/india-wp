@@ -73,8 +73,8 @@ export default function WhoWeAre() {
                 href="/about"
                 className="group inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#8C6A1E] transition-colors duration-300 hover:text-[#1A1714]"
               >
-                <span>Read our manifesto</span>
-                <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+             
+               
               </a>
             </div>
           </motion.div>
