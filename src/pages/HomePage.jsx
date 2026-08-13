@@ -16,7 +16,7 @@ export default function HomePage() {
       <Hero />
       <WhoWeAre />
       <WhatWeCreate />
-      <SelectedWork />
+      {/* <SelectedWork /> */}
       <TheDifference />
       <Results />
       <HowWeWork />
