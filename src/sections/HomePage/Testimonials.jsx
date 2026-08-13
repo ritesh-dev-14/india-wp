@@ -58,10 +58,10 @@ function Corner({ className = "" }) {
   return (
     <svg
       viewBox="0 0 16 16"
-      className={`absolute h-3 w-3 pointer-events-none ${className}`}
+      className={`absolute h-3 w-3 text-white/20 pointer-events-none ${className}`}
       aria-hidden="true"
     >
-      <path d="M1 1 H8 M1 1 V8" stroke="currentColor" strokeWidth="1" fill="none" />
+      <path d="M1 1 H8 M1 1 V8" stroke="currentColor" strokeWidth="1.5" fill="none" />
     </svg>
   );
 }
@@ -90,167 +90,171 @@ export default function Testimonials() {
   };
 
   return (
-    <section className="relative bg-white text-ink py-12 md:py-16 px-[6vw] overflow-hidden selection:bg-indigo-100/20">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_50%_35%_at_50%_40%,rgba(38,58,120,0.1),transparent_70%)]" />
+    <section className="relative flex min-h-[100svh] w-full flex-col items-center justify-center overflow-hidden bg-[#020202] py-24 font-sans selection:bg-[#EAB308]/20 selection:text-white md:py-32">
+      {/* Background ambient lighting */}
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(20,60,170,0.15),transparent_65%)]" />
 
-      <div className="relative z-10 mx-auto max-w-[1400px] w-full">
+      {/* Vertical background grid lines (matching layout) */}
+      <div className="pointer-events-none absolute inset-0 flex justify-evenly opacity-30">
+        <div className="h-full w-px bg-white/10" />
+        <div className="h-full w-px bg-white/10" />
+        <div className="h-full w-px bg-white/10" />
+        <div className="h-full w-px bg-white/10" />
+      </div>
+
+      <div className="relative z-10 mx-auto w-full max-w-[1400px] px-[5vw]">
         
-        {/* SECTION INTRO */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 mb-8 md:mb-10 items-end border-b border-border/80 pb-8">
+        {/* Centered Header Layout */}
+        <div className="mx-auto mb-16 flex max-w-4xl flex-col items-center text-center md:mb-20">
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-5% 0px" }}
+            viewport={{ once: true }}
             transition={{ duration: 0.75, ease: EASE }}
-            className="lg:col-span-7"
+            className="flex flex-col items-center"
           >
-            <span className="inline-flex items-center gap-2.5 font-mono text-[10px] tracking-[0.3em] uppercase text-ink-secondary mb-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-ink/70 animate-pulse"></span>
-              08 / CLIENT STORIES
-            </span>
+            {/* Pill Badge */}
+            <div className="mb-8 inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/5 px-5 py-2 backdrop-blur-md">
+              <span className="h-2 w-2 rounded-full bg-[#10B981] shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
+              <span className="font-mono text-[11px] font-bold uppercase tracking-[0.25em] text-[#EAB308]">
+                08 / CLIENT STORIES
+              </span>
+            </div>
 
-            <h2 className="font-semibold leading-[0.94] tracking-tight text-[clamp(2.4rem,5vw,4.5rem)] text-ink">
-              Don&apos;t take
-              <br />
+            <h2 className="mb-6 text-[clamp(2.5rem,5vw,4.5rem)] font-light leading-[1.05] tracking-tight text-white drop-shadow-md">
+              Don&apos;t take{" "}
               <span
-                className="text-ink/80 font-normal"
+                className="block md:inline font-normal text-[#A1A1AA]"
                 style={{ fontFamily: SERIF, fontStyle: "italic" }}
               >
                 our word for it.
               </span>
             </h2>
-          </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 16 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.65, delay: 0.1, ease: EASE }}
-            className="lg:col-span-5 pb-1"
-          >
-            <p className="text-[14px] md:text-[15px] font-light leading-relaxed text-ink-secondary max-w-[38ch]">
-              &ldquo;The best part of the work is hearing what it changed for the people we built it with.&rdquo;
+            <p className="max-w-2xl text-[15px] font-light leading-relaxed text-[#D4D4D8] sm:text-lg">
+              “The best part of the work is hearing what it changed for the people we built it with.”
             </p>
           </motion.div>
         </div>
 
-        {/* DYNAMIC EDITORIAL STAGE */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          
-          {/* LEFT: Editorial Visual Frame */}
-          <div className="lg:col-span-6 relative min-h-[300px] md:min-h-[380px] bg-surface-muted border border-border/80 rounded-xs overflow-hidden group shadow-sm p-4">
-            <Corner className="left-3 top-3 z-20 text-ink/25" />
-            <Corner className="right-3 top-3 rotate-90 z-20 text-ink/25" />
-            <Corner className="bottom-3 left-3 -rotate-90 z-20 text-ink/25" />
-            <Corner className="bottom-3 right-3 rotate-180 z-20 text-ink/25" />
+        {/* DYNAMIC EDITORIAL STAGE (Dark Theme Glassmorphic Card) */}
+        <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-sm md:p-12">
+          <Corner className="left-5 top-5 z-20" />
+          <Corner className="right-5 top-5 z-20 rotate-90" />
+          <Corner className="bottom-5 left-5 z-20 -rotate-90" />
+          <Corner className="bottom-5 right-5 z-20 rotate-180" />
 
-            <div className="relative w-full h-[260px] md:h-[330px] overflow-hidden rounded-xs">
-              <AnimatePresence mode="wait">
-                <motion.img
-                  key={activeTestimonial.id}
-                  src={activeTestimonial.image}
-                  alt={activeTestimonial.imageAlt}
-                  loading="lazy"
-                  initial={prefersReducedMotion ? false : { opacity: 0, scale: 1.04 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={prefersReducedMotion ? undefined : { opacity: 0, scale: 0.98 }}
-                  transition={{ duration: 0.5, ease: EASE }}
-                  className="absolute inset-0 w-full h-full object-cover object-center filter brightness-90"
-                />
-              </AnimatePresence>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
-            </div>
-
-            <div className="absolute bottom-4 left-4 font-mono text-[9px] uppercase tracking-[0.25em] text-ink-secondary bg-surface/80 px-3 py-1 backdrop-blur-md rounded-xs border border-border z-25">
-              // CASE 0{currentIndex + 1} — {activeTestimonial.company}
-            </div>
-          </div>
-
-          {/* RIGHT: Testimonial Quote & Interactive Controls */}
-          <div className="lg:col-span-6 flex flex-col justify-between py-1">
+          <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-14">
             
-            <div className="mb-6 min-h-[140px] md:min-h-[160px]">
-              <span className="block font-serif text-[50px] leading-none text-ink/10 mb-[-20px] select-none" aria-hidden="true">
-                &ldquo;
-              </span>
+            {/* LEFT: Editorial Visual Frame */}
+            <div className="relative min-h-[300px] overflow-hidden rounded-xl border border-white/10 bg-black/40 p-4 lg:col-span-6 md:min-h-[380px]">
+              <div className="relative h-[260px] w-full overflow-hidden rounded-lg md:h-[330px]">
+                <AnimatePresence mode="wait">
+                  <motion.img
+                    key={activeTestimonial.id}
+                    src={activeTestimonial.image}
+                    alt={activeTestimonial.imageAlt}
+                    loading="lazy"
+                    initial={prefersReducedMotion ? false : { opacity: 0, scale: 1.04 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={prefersReducedMotion ? undefined : { opacity: 0, scale: 0.98 }}
+                    transition={{ duration: 0.5, ease: EASE }}
+                    className="absolute inset-0 h-full w-full object-cover object-center filter brightness-90 contrast-110"
+                  />
+                </AnimatePresence>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
+              </div>
 
-              <AnimatePresence mode="wait">
-                <motion.blockquote
-                  key={activeTestimonial.id}
-                  initial={prefersReducedMotion ? false : { opacity: 0, y: direction * 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={prefersReducedMotion ? undefined : { opacity: 0, y: direction * -12 }}
-                  transition={{ duration: 0.4, ease: EASE }}
-                  className="font-light tracking-[-0.02em] leading-[1.15] text-[clamp(1.25rem,2.1vw,1.9rem)] text-ink max-w-[21ch]"
-                >
-                  {activeTestimonial.quote}
-                </motion.blockquote>
-              </AnimatePresence>
+              <div className="absolute bottom-6 left-6 z-25 rounded-md border border-white/10 bg-black/60 px-3.5 py-1.5 font-mono text-[9px] uppercase tracking-[0.25em] text-[#A1A1AA] backdrop-blur-md">
+                // CASE 0{currentIndex + 1} — {activeTestimonial.company}
+              </div>
             </div>
 
-            {/* Client Metadata & Navigation Hub */}
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 pt-5 border-t border-border/80">
+            {/* RIGHT: Testimonial Quote & Interactive Controls */}
+            <div className="flex flex-col justify-between py-1 lg:col-span-6">
               
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeTestimonial.id}
-                  initial={prefersReducedMotion ? false : { opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={prefersReducedMotion ? undefined : { opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <cite className="not-italic block font-semibold text-[15px] md:text-[16px] tracking-tight text-ink mb-0.5">
-                    {activeTestimonial.name}
-                  </cite>
-                  <p className="font-mono text-[10px] md:text-[11px] tracking-[0.15em] text-ink-secondary uppercase mb-0.5">
-                    {activeTestimonial.role}, <span className="text-ink/90">{activeTestimonial.company}</span>
-                  </p>
-                  <p className="font-mono text-[9px] md:text-[10px] tracking-[0.2em] text-ink-secondary uppercase">
-                    {activeTestimonial.project}
-                  </p>
-                </motion.div>
-              </AnimatePresence>
+              <div className="mb-8 min-h-[140px] md:min-h-[160px]">
+                <span className="block font-serif text-[60px] leading-none text-white/10 mb-[-25px] select-none" aria-hidden="true">
+                  &ldquo;
+                </span>
 
-              {/* Progress Line & Navigation Controls */}
-              <div className="flex items-center gap-5">
+                <AnimatePresence mode="wait">
+                  <motion.blockquote
+                    key={activeTestimonial.id}
+                    initial={prefersReducedMotion ? false : { opacity: 0, y: direction * 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={prefersReducedMotion ? undefined : { opacity: 0, y: direction * -12 }}
+                    transition={{ duration: 0.4, ease: EASE }}
+                    className="max-w-[24ch] text-[clamp(1.25rem,2.1vw,1.9rem)] font-light leading-[1.2] tracking-tight text-white"
+                  >
+                    {activeTestimonial.quote}
+                  </motion.blockquote>
+                </AnimatePresence>
+              </div>
+
+              {/* Client Metadata & Navigation Hub */}
+              <div className="flex flex-col gap-6 border-t border-white/10 pt-6 sm:flex-row sm:items-end sm:justify-between">
                 
-                <div className="flex flex-col items-end gap-1.5">
-                  <span className="font-mono text-[10px] tracking-widest text-ink">
-                    0{currentIndex + 1}
-                  </span>
-                  <div className="w-16 h-[2px] bg-ink/10 relative overflow-hidden rounded-full">
-                    <motion.div
-                      className="absolute top-0 left-0 h-full bg-ink"
-                      animate={{
-                        width: `${((currentIndex + 1) / TESTIMONIALS.length) * 100}%`,
-                      }}
-                      transition={{ duration: 0.4, ease: EASE }}
-                    />
-                  </div>
-                  <span className="font-mono text-[10px] tracking-widest text-ink-secondary">
-                    0{TESTIMONIALS.length}
-                  </span>
-                </div>
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeTestimonial.id}
+                    initial={prefersReducedMotion ? false : { opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={prefersReducedMotion ? undefined : { opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <cite className="mb-1 block text-[16px] font-semibold tracking-tight not-italic text-white">
+                      {activeTestimonial.name}
+                    </cite>
+                    <p className="mb-0.5 font-mono text-[10px] uppercase tracking-[0.15em] text-[#A1A1AA] md:text-[11px]">
+                      {activeTestimonial.role}, <span className="text-white">{activeTestimonial.company}</span>
+                    </p>
+                    <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#71717A] md:text-[10px]">
+                      {activeTestimonial.project}
+                    </p>
+                  </motion.div>
+                </AnimatePresence>
 
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={prevTestimonial}
-                    aria-label="Previous testimonial"
-                    className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-ink hover:border-ink hover:bg-ink hover:text-white transition-all duration-300 group cursor-pointer shadow-sm"
-                  >
-                    <span className="transform group-hover:-translate-x-0.5 transition-transform duration-300">
-                      <ArrowLeft size={15} />
+                {/* Progress Line & Navigation Controls */}
+                <div className="flex items-center gap-5">
+                  <div className="flex flex-col items-end gap-1.5">
+                    <span className="font-mono text-[10px] tracking-widest text-white">
+                      0{currentIndex + 1}
                     </span>
-                  </button>
-                  <button
-                    onClick={nextTestimonial}
-                    aria-label="Next testimonial"
-                    className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-ink hover:border-ink hover:bg-ink hover:text-white transition-all duration-300 group cursor-pointer shadow-sm"
-                  >
-                    <span className="transform group-hover:translate-x-0.5 transition-transform duration-300">
-                      <ArrowRight size={15} />
+                    <div className="relative h-[2px] w-16 overflow-hidden rounded-full bg-white/10">
+                      <motion.div
+                        className="absolute left-0 top-0 h-full bg-[#EAB308]"
+                        animate={{
+                          width: `${((currentIndex + 1) / TESTIMONIALS.length) * 100}%`,
+                        }}
+                        transition={{ duration: 0.4, ease: EASE }}
+                      />
+                    </div>
+                    <span className="font-mono text-[10px] tracking-widest text-[#71717A]">
+                      0{TESTIMONIALS.length}
                     </span>
-                  </button>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={prevTestimonial}
+                      aria-label="Previous testimonial"
+                      className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition-all duration-300 hover:border-[#EAB308] hover:bg-[#EAB308] hover:text-black group shadow-sm"
+                    >
+                      <span className="transform transition-transform duration-300 group-hover:-translate-x-0.5">
+                        <ArrowLeft size={15} />
+                      </span>
+                    </button>
+                    <button
+                      onClick={nextTestimonial}
+                      aria-label="Next testimonial"
+                      className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition-all duration-300 hover:border-[#EAB308] hover:bg-[#EAB308] hover:text-black group shadow-sm"
+                    >
+                      <span className="transform transition-transform duration-300 group-hover:translate-x-0.5">
+                        <ArrowRight size={15} />
+                      </span>
+                    </button>
+                  </div>
                 </div>
 
               </div>
@@ -258,23 +262,22 @@ export default function Testimonials() {
             </div>
 
           </div>
-
         </div>
 
-        {/* SECTION CLOSING */}
+        {/* Footer info bar */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, ease: EASE }}
-          className="mt-10 md:mt-14 pt-6 border-t border-border/80 flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
+          className="mt-12 flex flex-col items-start justify-between gap-4 py-8 md:flex-row md:items-center"
         >
-          <span className="font-mono text-[10px] tracking-[0.22em] text-ink-secondary uppercase">
-            WE PROMOTE  — CLIENT STORIES
+          <span className="font-mono text-[10px] font-bold uppercase tracking-[0.25em] text-[#71717A]">
+            WE PROMOTE INDIA — CLIENT STORIES
           </span>
-          <p className="text-[13px] md:text-[14px] font-light text-ink-secondary">
+          <span className="font-mono text-[10px] font-bold uppercase tracking-[0.24em] text-white">
             Built together. Remembered together.
-          </p>
+          </span>
         </motion.div>
 
       </div>

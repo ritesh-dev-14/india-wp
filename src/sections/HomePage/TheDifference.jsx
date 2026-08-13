@@ -10,28 +10,28 @@ const STEPS = [
     tag: "Blueprint",
     title: "Discovery & Strategy",
     text: "We audit your current positioning, dissect competitor landscapes, map precise user journeys, and lock down exact KPI metrics before writing a single line of code.",
-    accent: "bg-[#E05A47]",
+    accent: "bg-[#EAB308]",
   },
   {
     step: "02",
     tag: "Aesthetic",
     title: "Identity & Visuals",
     text: "We craft an arresting visual language—merging bespoke typography, strict grid alignment, and micro-interactions that command immediate authority and trust.",
-    accent: "bg-[#1E1B18]",
+    accent: "bg-[#EAB308]",
   },
   {
     step: "03",
     tag: "Performance",
     title: "Engineering & Speed",
     text: "We build using modern, lightweight full-stack architecture designed for zero-latency loading, fluid navigation, and immaculate multi-device responsiveness.",
-    accent: "bg-[#E05A47]",
+    accent: "bg-[#EAB308]",
   },
   {
     step: "04",
     tag: "Momentum",
     title: "Launch & Scale",
     text: "We deploy rigorous testing systems, configure automated analytics tracking, and establish scalable foundations engineered for high conversion rates.",
-    accent: "bg-[#8C8375]",
+    accent: "bg-[#EAB308]",
   },
 ];
 
@@ -39,35 +39,55 @@ export default function TheDifference() {
   const prefersReducedMotion = useReducedMotion();
 
   return (
-    <section className="relative bg-[#FAF8F5] text-[#1E1B18] py-28 md:py-36 border-b border-[#E8E2D9] overflow-hidden selection:bg-[#E05A47]/20">
+    <section className="relative w-full overflow-hidden bg-[#020202] py-24 md:py-32 font-sans selection:bg-[#EAB308]/20 selection:text-white">
       {/* Background ambient lighting */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_10%,rgba(224,90,71,0.05),transparent_70%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_10%,rgba(20,60,170,0.15),transparent_70%)]" />
 
-      <div className="relative mx-auto max-w-[1300px] px-6 md:px-8">
+      {/* Vertical background grid lines (matching the layout) */}
+      <div className="pointer-events-none absolute inset-0 flex justify-evenly opacity-30">
+        <div className="h-full w-px bg-white/10" />
+        <div className="h-full w-px bg-white/10" />
+        <div className="h-full w-px bg-white/10" />
+        <div className="h-full w-px bg-white/10" />
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-[1400px] px-[5vw]">
         
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-20">
-          <div className="max-w-2xl">
-            <span className="mb-4 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.3em] text-[#E05A47] font-bold">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#E05A47]" />
-              05 / THE FRAMEWORK
-            </span>
-            <h2 className="text-[clamp(2.4rem,4.5vw,4rem)] font-extrabold tracking-tight leading-[1.05] text-[#1E1B18]">
+        {/* Centered Header Layout */}
+        <div className="mx-auto mb-20 flex max-w-4xl flex-col items-center text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.75, ease: [0.76, 0, 0.24, 1] }}
+            className="flex flex-col items-center"
+          >
+            {/* Pill Badge */}
+            <div className="mb-8 inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/5 px-5 py-2 backdrop-blur-md">
+              <span className="h-2 w-2 rounded-full bg-[#10B981] shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
+              <span className="font-mono text-[11px] font-bold uppercase tracking-[0.25em] text-[#EAB308]">
+                05 / THE FRAMEWORK
+              </span>
+            </div>
+
+            <h2 className="mb-6 text-[clamp(2.5rem,5vw,4.5rem)] font-light leading-[1.05] tracking-tight text-white drop-shadow-md">
               How we turn vision into{" "}
               <span
-                className="font-normal text-[#8C8375]"
+                className="font-normal text-[#A1A1AA]"
                 style={{ fontFamily: SERIF, fontStyle: "italic" }}
               >
                 measurable reality.
               </span>
             </h2>
-          </div>
-          <p className="text-[15px] font-light text-[#5C5346] leading-relaxed max-w-md mt-6 md:mt-0">
-            A transparent, four-phase execution engine built to completely eliminate guesswork and ship elite-grade digital experiences.
-          </p>
+
+            <p className="max-w-2xl text-[15px] font-light leading-relaxed text-[#D4D4D8] sm:text-lg">
+              A transparent, four-phase execution engine built to completely
+              eliminate guesswork and ship elite-grade digital experiences.
+            </p>
+          </motion.div>
         </div>
 
-        {/* Beautiful, Elevated Cards Grid */}
+        {/* Dark Glassmorphic Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
           {STEPS.map((item, index) => (
             <motion.div
@@ -76,39 +96,39 @@ export default function TheDifference() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.6, delay: index * 0.12, ease: [0.25, 1, 0.5, 1] }}
-              className="relative bg-white rounded-2xl p-8 flex flex-col justify-between border border-[#E8E2D9] shadow-[0_4px_20px_rgba(30,27,24,0.03)] hover:shadow-[0_12px_32px_rgba(30,27,24,0.08)] hover:border-[#E05A47]/30 transition-all duration-500 group overflow-hidden"
+              className="relative flex flex-col justify-between overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm transition-all duration-500 hover:border-white/20 hover:bg-white/[0.08] hover:shadow-[0_12px_32px_rgba(0,0,0,0.5)] group"
             >
               {/* Subtle top indicator border highlight on hover */}
-              <div className="absolute top-0 left-0 right-0 h-[3px] bg-transparent group-hover:bg-[#E05A47] transition-colors duration-300" />
+              <div className="absolute left-0 right-0 top-0 h-[3px] bg-transparent transition-colors duration-300 group-hover:bg-[#EAB308]" />
 
               <div>
                 {/* Header tag and big number */}
-                <div className="flex items-center justify-between mb-8">
-                  <span className="font-mono text-[10px] tracking-[0.2em] uppercase font-bold text-[#8C8375] bg-[#FAF8F5] px-3 py-1 rounded-full border border-[#E8E2D9]">
+                <div className="mb-8 flex items-center justify-between">
+                  <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#A1A1AA] transition-colors duration-300 group-hover:border-white/20 group-hover:text-[#D4D4D8]">
                     {item.tag}
                   </span>
-                  <span className="font-mono text-3xl font-black text-[#1E1B18]/10 group-hover:text-[#E05A47]/20 transition-colors duration-300">
+                  <span className="font-mono text-3xl font-black text-white/5 transition-colors duration-300 group-hover:text-white/20">
                     {item.step}
                   </span>
                 </div>
 
                 {/* Title */}
-                <h3 className="text-xl font-bold tracking-tight text-[#1E1B18] mb-4 group-hover:text-[#E05A47] transition-colors duration-300">
+                <h3 className="mb-4 text-xl font-light tracking-tight text-white transition-colors duration-300 group-hover:text-[#EAB308]">
                   {item.title}
                 </h3>
 
                 {/* Description */}
-                <p className="text-[14px] font-light leading-relaxed text-[#5C5346]">
+                <p className="text-[14px] font-light leading-relaxed text-[#A1A1AA]">
                   {item.text}
                 </p>
               </div>
 
               {/* Card Footer */}
-              <div className="mt-12 pt-6 border-t border-[#FAF8F5] flex items-center justify-between">
-                <span className="font-mono text-[10px] tracking-[0.25em] text-[#8C8375] uppercase">
+              <div className="mt-12 flex items-center justify-between border-t border-white/10 pt-6">
+                <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#71717A]">
                   Phase // {item.step}
                 </span>
-                <div className="w-2 h-2 rounded-full bg-[#E8E2D9] group-hover:bg-[#E05A47] group-hover:scale-125 transition-all duration-300" />
+                <div className="h-2 w-2 rounded-full bg-white/10 transition-all duration-300 group-hover:scale-125 group-hover:bg-[#EAB308]" />
               </div>
             </motion.div>
           ))}

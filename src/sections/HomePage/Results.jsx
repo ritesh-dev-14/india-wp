@@ -11,7 +11,6 @@ import {
 
 const SERIF = "'Instrument Serif', 'Times New Roman', ui-serif, Georgia, serif";
 const EASE = [0.76, 0, 0.24, 1];
-const SPRING = { type: "spring", stiffness: 380, damping: 32 };
 
 const RESULTS = [
   {
@@ -65,7 +64,6 @@ function AnimatedCounter({ value, suffix, prefersReducedMotion }) {
     const update = (now) => {
       const elapsed = now - startTime;
       const progress = Math.min(1, elapsed / duration);
-      // Ease out cubic
       const eased = 1 - Math.pow(1 - progress, 3);
       const current = Math.floor(eased * value);
 
@@ -87,65 +85,44 @@ function AnimatedCounter({ value, suffix, prefersReducedMotion }) {
   );
 }
 
-function ResultItem({ item, index, isHovered, onHover, prefersReducedMotion }) {
-  const isEven = index % 2 === 0;
-
+function ResultItem({ item, index, prefersReducedMotion }) {
   return (
     <motion.div
-      layout
-      onMouseEnter={() => onHover(index)}
-      onMouseLeave={() => onHover(null)}
-      className="group relative border-t border-border/80 py-8 md:py-12 cursor-pointer transition-colors duration-300"
+      initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-10%" }}
+      transition={{ duration: 0.6, delay: index * 0.1, ease: EASE }}
+      className="group relative border-t border-white/10 py-8 transition-colors duration-500 hover:bg-white/[0.03] md:py-12"
     >
-      {isHovered && (
-        <motion.span
-          layoutId="result-active-bg"
-          className="absolute inset-0 bg-ink/[0.03]"
-          transition={SPRING}
-        />
-      )}
-      
-      <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-        <div className={`lg:col-span-7 flex items-baseline gap-4 md:gap-8 ${isEven ? "" : "lg:order-2 lg:justify-end"}`}>
-          <span className="font-mono text-[10px] tracking-[0.2em] text-ink-secondary">
+      <div className="grid grid-cols-1 items-center gap-6 px-4 md:grid-cols-12 md:gap-12 md:px-8">
+        {/* Large Number Section */}
+        <div className="flex items-baseline gap-6 md:col-span-7 lg:col-span-8">
+          <span className="font-mono text-[10px] font-bold tracking-[0.2em] text-[#71717A] transition-colors duration-300 group-hover:text-[#EAB308]">
             0{index + 1}
           </span>
-          
-          <motion.div
-            animate={{ y: isHovered ? -4 : 0 }}
-            transition={SPRING}
-          >
-            <span className="font-bold tracking-[-0.05em] text-[clamp(4.5rem,9vw,9rem)] leading-none text-ink block select-none">
-              <AnimatedCounter
-                value={item.number}
-                suffix={item.suffix}
-                prefersReducedMotion={prefersReducedMotion}
-              />
-            </span>
-          </motion.div>
+
+          <span className="block select-none text-[clamp(4rem,7vw,7.5rem)] font-light leading-none tracking-tight text-white transition-colors duration-500 group-hover:text-[#EAB308]">
+            <AnimatedCounter
+              value={item.number}
+              suffix={item.suffix}
+              prefersReducedMotion={prefersReducedMotion}
+            />
+          </span>
         </div>
 
-        <div className={`lg:col-span-5 flex flex-col justify-center ${isEven ? "" : "lg:order-1"}`}>
-          <div className="flex items-center justify-between mb-2">
-            <motion.span
-              animate={{ color: isHovered ? "#1C1917" : "#A8A29E" }}
-              className="font-mono text-[10px] md:text-[11px] tracking-[0.2em] uppercase"
-            >
+        {/* Info Section */}
+        <div className="flex flex-col justify-center md:col-span-5 lg:col-span-4">
+          <div className="mb-4 flex items-center justify-between">
+            <span className="font-mono text-[11px] font-bold uppercase tracking-[0.25em] text-[#A1A1AA] transition-colors duration-300 group-hover:text-white">
               {item.label}
-            </motion.span>
+            </span>
 
-            <motion.span
-              animate={{
-                opacity: isHovered ? 1 : 0,
-                x: isHovered ? 0 : -6,
-              }}
-              className="font-mono text-xs text-ink"
-            >
-              <ArrowUpRight size={13} />
-            </motion.span>
+            <span className="font-mono text-xs text-[#EAB308] opacity-0 transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:opacity-100">
+              <ArrowUpRight size={18} />
+            </span>
           </div>
 
-          <p className="text-[13px] md:text-[14px] font-light leading-relaxed text-ink-secondary max-w-[34ch]">
+          <p className="max-w-[34ch] text-[14px] font-light leading-relaxed text-[#71717A] transition-colors duration-300 group-hover:text-[#D4D4D8]">
             {item.description}
           </p>
         </div>
@@ -156,77 +133,81 @@ function ResultItem({ item, index, isHovered, onHover, prefersReducedMotion }) {
 
 export default function Results() {
   const prefersReducedMotion = useReducedMotion();
-  const [hoveredIndex, setHoveredIndex] = useState(null);
 
   return (
-    <section className="relative bg-white text-ink py-16 md:py-20 px-[6vw] overflow-hidden selection:bg-indigo-100/20">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_50%_35%_at_15%_80%,rgba(38,58,120,0.1),transparent_70%)]" />
+    <section className="relative flex min-h-[100svh] w-full flex-col items-center justify-center overflow-hidden bg-[#020202] py-24 font-sans selection:bg-[#EAB308]/20 selection:text-white md:py-32">
+      {/* Background ambient lighting */}
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_80%_50%,rgba(20,60,170,0.15),transparent_65%)]" />
 
-      <div className="mx-auto max-w-[1400px] w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 mb-10 md:mb-14 items-end">
+      {/* Vertical background grid lines (matching the layout) */}
+      <div className="pointer-events-none absolute inset-0 flex justify-evenly opacity-30">
+        <div className="h-full w-px bg-white/10" />
+        <div className="h-full w-px bg-white/10" />
+        <div className="h-full w-px bg-white/10" />
+        <div className="h-full w-px bg-white/10" />
+      </div>
+
+      <div className="relative z-10 mx-auto w-full max-w-[1400px] px-[5vw]">
+        
+        {/* Centered Header Layout */}
+        <div className="mx-auto mb-16 flex max-w-4xl flex-col items-center text-center md:mb-24">
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-5% 0px" }}
+            viewport={{ once: true }}
             transition={{ duration: 0.75, ease: EASE }}
-            className="lg:col-span-7"
+            className="flex flex-col items-center"
           >
-            <span className="inline-flex items-center gap-2.5 font-mono text-[10px] tracking-[0.3em] uppercase text-ink-secondary mb-3">
-              <span className="w-1.5 h-1.5 rounded-full bg-ink/70"></span>
-              06 / RESULTS
-            </span>
+            {/* Pill Badge */}
+            <div className="mb-8 inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/5 px-5 py-2 backdrop-blur-md">
+              <span className="h-2 w-2 rounded-full bg-[#10B981] shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
+              <span className="font-mono text-[11px] font-bold uppercase tracking-[0.25em] text-[#EAB308]">
+                06 / RESULTS
+              </span>
+            </div>
 
-            <h2 className="font-semibold leading-[0.94] tracking-tight text-[clamp(2.4rem,5vw,4.5rem)] text-ink">
-              Results,
-              <br />
+            <h2 className="mb-6 text-[clamp(2.5rem,5vw,4.5rem)] font-light leading-[1.05] tracking-tight text-white drop-shadow-md">
+              Results,{" "}
               <span
-                className="text-ink/80 font-normal"
+                className="block md:inline font-normal text-[#A1A1AA]"
                 style={{ fontFamily: SERIF, fontStyle: "italic" }}
               >
                 not just deliverables.
               </span>
             </h2>
-          </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 16 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.65, delay: 0.1, ease: EASE }}
-            className="lg:col-span-5 pb-1"
-          >
-            <p className="text-[14px] md:text-[15px] font-light leading-relaxed text-ink-secondary max-w-[36ch]">
-              &ldquo;We measure success by what happens after the work goes live.&rdquo;
+            <p className="max-w-2xl text-[15px] font-light leading-relaxed text-[#D4D4D8] sm:text-lg">
+              “We measure success by what happens after the work goes live. Numbers tell part of the story. The work tells the rest.”
             </p>
           </motion.div>
         </div>
 
-        <div className="flex flex-col">
+        {/* Stricty Aligned List */}
+        <div className="flex flex-col border-b border-white/10 bg-[#020202]/40 backdrop-blur-sm">
           {RESULTS.map((item, index) => (
             <ResultItem
               key={item.label}
               item={item}
               index={index}
-              isHovered={hoveredIndex === index}
-              onHover={setHoveredIndex}
               prefersReducedMotion={prefersReducedMotion}
             />
           ))}
         </div>
 
+        {/* Footer info bar */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, ease: EASE }}
-          className="mt-14 md:mt-18 pt-8 border-t border-border/80 flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
+          className="mt-12 flex flex-col items-start justify-between gap-4 py-8 md:flex-row md:items-center"
         >
-          <span className="font-mono text-[10px] tracking-[0.22em] text-ink-secondary uppercase">
+          <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#71717A]">
             WE PROMOTE INDIA — PROOF OF IMPACT
           </span>
-          <p className="text-[13px] md:text-[14px] font-light text-ink-secondary">
-            Numbers tell part of the story. The work tells the rest.
-          </p>
+          <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white">
+            End-To-End Systems That Scale
+          </span>
         </motion.div>
       </div>
     </section>

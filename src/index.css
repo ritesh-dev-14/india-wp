@@ -80,3 +80,43 @@ body {
   border-top: 1px solid #E2E8F0;
   border-bottom: 1px solid #E2E8F0;
 }
+
+/* Global dark immersive background with ambient lighting and vertical grid */
+.global-background {
+  background-color: #020202; /* deep immersive canvas */
+  background-image: radial-gradient(circle at 20% 40%, rgba(20,60,170,0.12), transparent 35%),
+                    radial-gradient(circle at 80% 70%, rgba(200,60,150,0.06), transparent 35%);
+  background-repeat: no-repeat;
+  background-size: 60% 60%, 50% 50%;
+  will-change: background-position;
+  transition: opacity 240ms ease;
+  /* keep element non-interactive; positioning handled via utilities */
+}
+
+.global-background::before {
+  /* vertical structural grid lines implemented with a repeating linear gradient */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    to right,
+    rgba(255,255,255,0.04) 0px,
+    rgba(255,255,255,0.04) 1px,
+    transparent 1px,
+    transparent 120px
+  );
+  opacity: 0.32;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+
+@keyframes ambientFloat {
+  0% { background-position: 0% 0%, 100% 100%; }
+  50% { background-position: 8% 6%, 92% 94%; }
+  100% { background-position: 0% 0%, 100% 100%; }
+}
+
+.global-background {
+  animation: ambientFloat 22s linear infinite;
+}
+

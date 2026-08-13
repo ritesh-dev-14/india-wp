@@ -97,11 +97,20 @@ export default function Industries() {
   }, [mouseX, mouseY, prefersReducedMotion]);
 
   return (
-    <section className="relative bg-white text-ink py-12 md:py-16 px-[6vw] overflow-hidden selection:bg-indigo-100/20">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_50%_35%_at_20%_60%,rgba(38,58,120,0.1),transparent_70%)]" />
+    <section className="relative flex min-h-[100svh] w-full flex-col items-center justify-center overflow-hidden bg-[#020202] py-24 font-sans selection:bg-[#EAB308]/20 selection:text-white md:py-32">
+      {/* Background ambient lighting */}
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(20,60,170,0.15),transparent_65%)]" />
 
-      <div className="mx-auto max-w-[1400px] w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-start">
+      {/* Vertical background grid lines */}
+      <div className="pointer-events-none absolute inset-0 flex justify-evenly opacity-30">
+        <div className="h-full w-px bg-white/10" />
+        <div className="h-full w-px bg-white/10" />
+        <div className="h-full w-px bg-white/10" />
+        <div className="h-full w-px bg-white/10" />
+      </div>
+
+      <div className="relative z-10 mx-auto w-full max-w-[1400px] px-[5vw]">
+        <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:gap-14">
           
           {/* LEFT COLUMN: Sticky Editorial Section Intro */}
           <div className="lg:col-span-5 lg:sticky lg:top-[120px]">
@@ -111,10 +120,13 @@ export default function Industries() {
               viewport={{ once: true, margin: "-5% 0px" }}
               transition={{ duration: 0.7, ease: EASE }}
             >
-              <span className="inline-flex items-center gap-2.5 font-mono text-[10px] tracking-[0.3em] uppercase text-ink-secondary mb-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-ink/70"></span>
-                09 / INDUSTRIES
-              </span>
+              {/* Pill Badge */}
+              <div className="mb-8 inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/5 px-5 py-2 backdrop-blur-md">
+                <span className="h-2 w-2 rounded-full bg-[#10B981] shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
+                <span className="font-mono text-[11px] font-bold uppercase tracking-[0.25em] text-[#EAB308]">
+                  09 / INDUSTRIES
+                </span>
+              </div>
             </motion.div>
 
             <motion.div
@@ -123,11 +135,11 @@ export default function Industries() {
               viewport={{ once: true, margin: "-5% 0px" }}
               transition={{ duration: 0.7, delay: 0.08, ease: EASE }}
             >
-              <h2 className="font-semibold leading-[0.96] tracking-tight text-[clamp(2.4rem,5vw,4.5rem)] text-ink mb-5">
+              <h2 className="mb-5 text-[clamp(2.4rem,5vw,4.5rem)] font-light leading-[0.96] tracking-tight text-white drop-shadow-md">
                 Different industries.
                 <br />
                 <span
-                  className="text-ink/80 font-normal"
+                  className="font-normal text-[#A1A1AA]"
                   style={{ fontFamily: SERIF, fontStyle: "italic" }}
                 >
                   One way of thinking.
@@ -141,21 +153,21 @@ export default function Industries() {
               viewport={{ once: true, margin: "-5% 0px" }}
               transition={{ duration: 0.7, delay: 0.16, ease: EASE }}
             >
-              <p className="text-[14px] md:text-[15px] font-light leading-relaxed text-ink-secondary max-w-[34ch]">
+              <p className="max-w-[34ch] text-[14px] md:text-[15px] font-light leading-relaxed text-[#D4D4D8]">
                 We bring creative, digital and growth thinking to businesses across industries.
               </p>
             </motion.div>
           </div>
 
           {/* RIGHT COLUMN: Editorial Industry Index List */}
-          <div className="lg:col-span-7 flex flex-col">
+          <div className="flex flex-col lg:col-span-7">
             {INDUSTRIES.map((item, index) => {
               const isActive = activeHoverIndex === index;
               const isAnyHovered = activeHoverIndex !== null;
 
               let opacityClass = "opacity-85";
               if (isAnyHovered) {
-                opacityClass = isActive ? "opacity-100" : "opacity-35";
+                opacityClass = isActive ? "opacity-100" : "opacity-30";
               }
 
               return (
@@ -165,38 +177,38 @@ export default function Industries() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-5% 0px" }}
                   transition={{ duration: 0.5, delay: index * 0.04, ease: EASE }}
-                  className={`group relative border-t border-border/80 transition-opacity duration-300 ${opacityClass}`}
+                  className={`group relative border-t border-white/10 transition-opacity duration-300 ${opacityClass}`}
                   onMouseEnter={() => setActiveHoverIndex(index)}
                   onMouseLeave={() => setActiveHoverIndex(null)}
                 >
-                  <div className="py-4 md:py-6 flex flex-col justify-between cursor-pointer">
+                  <div className="flex cursor-pointer flex-col justify-between py-4 md:py-6">
                     
                     {/* Top Row: Number, Title, and Arrow */}
                     <div className="flex items-center justify-between gap-4">
                       <div className="flex items-baseline gap-4 md:gap-8">
-                        <span className="font-mono text-[10px] md:text-[11px] tracking-[0.2em] uppercase text-ink-secondary group-hover:text-ink transition-colors duration-300">
+                        <span className="font-mono text-[10px] md:text-[11px] uppercase tracking-[0.2em] text-[#71717A] transition-colors duration-300 group-hover:text-white">
                           {item.number}
                         </span>
 
-                        <h3 className="font-normal tracking-[-0.04em] text-[clamp(1.7rem,3.1vw,3rem)] text-ink group-hover:translate-x-1.5 transition-transform duration-300 ease-out">
+                        <h3 className="text-[clamp(1.7rem,3.1vw,3rem)] font-light tracking-[-0.04em] text-white transition-transform duration-300 ease-out group-hover:translate-x-1.5">
                           {item.title}
                         </h3>
                       </div>
 
                       {/* Interactive Reveal Arrow */}
-                      <span className="text-ink opacity-0 group-hover:opacity-100 group-hover:translate-x-0 -translate-x-2 transition-all duration-300 ease-out">
+                      <span className="-translate-x-2 text-[#EAB308] opacity-0 transition-all duration-300 ease-out group-hover:translate-x-0 group-hover:opacity-100">
                         <ArrowUpRight size={18} />
                       </span>
                     </div>
 
                     {/* Bottom Row / Accordion Description */}
                     <div 
-                      className={`grid transition-all duration-300 ease-out overflow-hidden ${
+                      className={`grid overflow-hidden transition-all duration-300 ease-out ${
                         isActive ? "grid-rows-[1fr] opacity-100 mt-2" : "grid-rows-[0fr] opacity-0 mt-0"
                       } lg:grid-rows-[1fr] lg:opacity-100 lg:mt-2`}
                     >
                       <div className="overflow-hidden">
-                        <p className="text-[13px] md:text-[14px] font-light text-ink-secondary pl-[calc(10px+2rem)] md:pl-[calc(11px+2.8rem)] max-w-[44ch]">
+                        <p className="max-w-[44ch] pl-[calc(10px+2rem)] text-[13px] md:text-[14px] font-light text-[#A1A1AA] md:pl-[calc(11px+2.8rem)]">
                           {item.description}
                         </p>
                       </div>
@@ -207,7 +219,7 @@ export default function Industries() {
               );
             })}
             
-            <div className="border-t border-border/80" />
+            <div className="border-t border-white/10" />
           </div>
 
         </div>
@@ -217,7 +229,7 @@ export default function Industries() {
       {!prefersReducedMotion && (
         <motion.div
           style={{ x: cursorX, y: cursorY }}
-          className="hidden lg:block pointer-events-none fixed top-0 left-0 z-50 w-[210px] h-[140px] rounded-xs overflow-hidden border border-border shadow-2xl bg-surface-muted p-1.5"
+          className="pointer-events-none fixed left-0 top-0 z-50 hidden h-[140px] w-[210px] overflow-hidden rounded-xs border border-white/15 bg-black/80 p-1.5 shadow-2xl backdrop-blur-md lg:block"
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{
             opacity: activeHoverIndex !== null ? 1 : 0,
@@ -235,7 +247,7 @@ export default function Industries() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.98 }}
                 transition={{ duration: 0.3, ease: EASE }}
-                className="absolute inset-1.5 w-[calc(100%-12px)] h-[calc(100%-12px)] object-cover object-center filter brightness-90 rounded-xs"
+                className="absolute inset-1.5 h-[calc(100%-12px)] w-[calc(100%-12px)] rounded-xs object-cover object-center filter brightness-90 contrast-110"
                 loading="lazy"
               />
             )}

@@ -70,41 +70,55 @@ export default function WhatWeCreate() {
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
   return (
-    <section className="relative overflow-hidden bg-[#FAF8F5] text-[#1E1B18] selection:bg-[#E05A47] selection:text-white py-20 md:py-28 border-b border-[#E8E2D9]">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_10%,rgba(224,90,71,0.03),transparent_70%)]" />
+    <section className="relative min-h-[100svh] w-full overflow-hidden bg-[#020202] py-24 md:py-32 font-sans">
+      {/* Background radial gradient */}
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,rgba(20,60,170,0.15),transparent_65%)]" />
 
-      <div className="relative mx-auto max-w-[1400px] px-[6vw]">
-        {/* Header */}
-        <div className="mb-16 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between border-b border-[#E8E2D9] pb-8">
+      {/* Vertical background grid lines (matching the Hero layout) */}
+      <div className="pointer-events-none absolute inset-0 flex justify-evenly opacity-30">
+        <div className="h-full w-px bg-white/10" />
+        <div className="h-full w-px bg-white/10" />
+        <div className="h-full w-px bg-white/10" />
+        <div className="h-full w-px bg-white/10" />
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-[1400px] px-[5vw]">
+        {/* Centered Header Layout */}
+        <div className="mx-auto mb-20 flex max-w-4xl flex-col items-center text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.75, ease: EASE }}
+            className="flex flex-col items-center"
           >
-            <span className="mb-3 inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-[#E05A47] font-semibold">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#E05A47]" />
-              02 / What We Create
-            </span>
+            {/* Pill Badge */}
+            <div className="mb-8 inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/5 px-5 py-2 backdrop-blur-md">
+              <span className="h-2 w-2 rounded-full bg-[#10B981] shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
+              <span className="font-mono text-[11px] font-bold uppercase tracking-[0.25em] text-[#EAB308]">
+                02 / What We Create
+              </span>
+            </div>
 
-            <h2 className="text-[clamp(2.5rem,5vw,4.5rem)] font-extrabold leading-[0.95] tracking-[-0.04em] text-[#1E1B18]">
+            <h2 className="mb-6 text-[clamp(2.5rem,5vw,4.5rem)] font-light leading-[1.05] tracking-tight text-white drop-shadow-md">
               Six disciplines.{" "}
               <span
-                className="text-[#5C5346] font-normal"
+                className="font-normal text-[#A1A1AA]"
                 style={{ fontFamily: SERIF, fontStyle: "italic" }}
               >
                 One standard.
               </span>
             </h2>
-          </motion.div>
 
-          <p className="text-[14px] md:text-[15px] font-light leading-relaxed text-[#5C5346] max-w-[36ch]">
-            Strategy, design, engineering, and distribution — unified under one roof to build systems that scale.
-          </p>
+            <p className="max-w-2xl text-[15px] font-light leading-relaxed text-[#D4D4D8] sm:text-lg">
+              Strategy, design, engineering, and distribution — unified under one
+              roof to build systems that scale and convert effortlessly.
+            </p>
+          </motion.div>
         </div>
 
-        {/* Clean Minimalist Editorial Accordion / List Layout */}
-        <div className="divide-y divide-[#E8E2D9] border-t border-[#E8E2D9]">
+        {/* Clean Minimalist Editorial Accordion / List Layout (Dark Theme) */}
+        <div className="divide-y divide-white/10 border-y border-white/10 bg-[#020202]/40 backdrop-blur-sm">
           {CAPABILITIES.map((item, index) => {
             const isHovered = hoveredIndex === index;
             return (
@@ -112,30 +126,29 @@ export default function WhatWeCreate() {
                 key={item.id}
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
-                className="group relative transition-colors duration-300 hover:bg-white/50"
+                className="group relative transition-colors duration-500 hover:bg-white/[0.03]"
               >
-                <div className="py-8 md:py-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-                  
+                <div className="grid grid-cols-1 items-center gap-6 py-8 md:grid-cols-12 md:py-10 lg:gap-12 px-4 md:px-8">
                   {/* Number & Title */}
-                  <div className="lg:col-span-5 flex items-center gap-6">
-                    <span className="font-mono text-xs tracking-[0.2em] text-[#5C5346] group-hover:text-[#E05A47] transition-colors font-bold">
+                  <div className="flex items-center gap-6 md:col-span-5">
+                    <span className="font-mono text-xs font-bold tracking-[0.2em] text-[#71717A] transition-colors group-hover:text-[#EAB308]">
                       {item.number}
                     </span>
-                    <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-[#1E1B18] group-hover:translate-x-2 transition-transform duration-300">
+                    <h3 className="text-2xl font-light tracking-tight text-white transition-transform duration-500 group-hover:translate-x-2 md:text-3xl">
                       {item.title}
                     </h3>
                   </div>
 
                   {/* Subtitle / Description Preview */}
-                  <div className="lg:col-span-5">
-                    <p className="text-sm md:text-base font-light text-[#5C5346] leading-relaxed">
+                  <div className="md:col-span-5">
+                    <p className="text-sm font-light leading-relaxed text-[#A1A1AA] md:text-base">
                       {item.description}
                     </p>
-                    <div className="flex flex-wrap gap-1.5 mt-3">
+                    <div className="mt-4 flex flex-wrap gap-2">
                       {item.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="rounded-sm border border-[#E8E2D9] bg-white px-2 py-0.5 font-mono text-[8px] uppercase tracking-[0.18em] text-[#5C5346]"
+                          className="rounded border border-white/10 bg-white/5 px-2.5 py-1 font-mono text-[9px] font-semibold uppercase tracking-[0.2em] text-[#A1A1AA] transition-colors group-hover:border-white/20 group-hover:text-[#D4D4D8]"
                         >
                           {tag}
                         </span>
@@ -144,53 +157,59 @@ export default function WhatWeCreate() {
                   </div>
 
                   {/* Action Link / Arrow */}
-                  <div className="lg:col-span-2 flex lg:justify-end">
+                  <div className="flex md:col-span-2 md:justify-end">
                     <Link
                       to="/contact"
-                      className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.2em] text-[#1E1B18] group-hover:text-[#E05A47] transition-colors font-bold"
+                      className="inline-flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-white transition-colors group-hover:text-[#EAB308]"
                     >
                       <span>Explore</span>
-                      <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+                      <ArrowRight
+                        size={14}
+                        className="transition-transform group-hover:translate-x-1"
+                      />
                     </Link>
                   </div>
-
                 </div>
 
                 {/* Floating Preview Image on Hover (Desktop) */}
-                {!prefersReducedMotion && isHovered && (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.95, y: 10 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.95, y: 10 }}
-                    transition={{ duration: 0.25, ease: EASE }}
-                    className="hidden lg:block absolute right-12 top-1/2 -translate-y-1/2 z-20 w-[240px] h-[150px] rounded-lg overflow-hidden border border-[#E8E2D9] shadow-2xl pointer-events-none"
-                  >
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="w-full h-full object-cover"
-                    />
-                  </motion.div>
-                )}
+                <AnimatePresence>
+                  {!prefersReducedMotion && isHovered && (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                      transition={{ duration: 0.25, ease: EASE }}
+                      className="pointer-events-none absolute right-16 top-1/2 z-20 hidden h-[160px] w-[260px] -translate-y-1/2 overflow-hidden rounded-lg border border-white/10 shadow-2xl lg:block"
+                    >
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="h-full w-full object-cover opacity-80 brightness-75 contrast-125 transition-all duration-500 group-hover:opacity-100 group-hover:brightness-100"
+                      />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             );
           })}
         </div>
 
         {/* Footer info bar */}
-        <div className="mt-16 pt-8 border-t border-[#E8E2D9] flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <span className="font-mono text-[10px] tracking-[0.22em] text-[#5C5346] uppercase">
+        <div className="mt-12 flex flex-col items-start justify-between gap-4 py-8 md:flex-row md:items-center">
+          <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#71717A]">
             END-TO-END SYSTEMS THAT TURN ATTENTION INTO GROWTH
           </span>
           <Link
             to="/services"
-            className="group inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.24em] text-[#1E1B18] transition-colors hover:text-[#E05A47] font-bold"
+            className="group inline-flex items-center gap-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.24em] text-white transition-colors hover:text-[#EAB308]"
           >
             View all services
-            <ArrowUpRight size={12} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            <ArrowUpRight
+              size={12}
+              className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+            />
           </Link>
         </div>
-
       </div>
     </section>
   );
